@@ -28,5 +28,6 @@ HELP.md
 ### VS Code ###
 .vscode/
 /python/venv/
-#/src/main/resources/application-sms.yml
-#/src/main/resources/application-user.yml
+/src/main/resources/application-sms.yml
+/src/main/resources/application-user.yml
+/temp/
