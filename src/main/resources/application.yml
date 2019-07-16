@@ -1,0 +1,45 @@
+server:
+  port: 9998
+cookies:
+  rail_expiration: "1563480808558"
+  rail_deviceid: "jKpDPxpEjZEdAo2WhoZmv6hj2ZF4nNwODjuuBQnAARiuBA2W3gdKmJGofPzqfWB_1nsaMKUEGnPKL8FxTl8QacQt77z8Hrj1K6uR9FtBqkz2Pw7bqVXoMO2hMtDI-o57bvUKROXjXoD3QiXZ_SotU2fy_XsaM2zC"
+config:
+  host: "kyfw.12306.cn"
+  base_url: "https://kyfw.12306.cn"
+  queryTicketSellpTime: 1
+  pythonPath: "python"
+
+api:
+  station: "${config.base_url}/otn/resources/js/framework/station_name.js?station_version=1.9098"
+  getJs: "${config.base_url}/otn/HttpZF/GetJS"
+  logdevice: "${config.base_url}/otn/HttpZF/logdevice?algID=%s&timestamp=%s"
+  init: "${config.base_url}/otn/leftTicket/init"
+  leftTicket: "${config.base_url}/otn/leftTicket/query?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
+  loginConfig: "${config.base_url}/otn/login/conf"
+  captchaImage: "${config.base_url}/passport/captcha/captcha-image64?login_site=E&module=login&rand=sjrand&_=%s"
+  uamtkStatic: "${config.base_url}/passport/web/auth/uamtk-static?appid=otn"
+  login: "${config.base_url}/passport/web/login"
+  captchaCheck: "${config.base_url}/passport/captcha/captcha-check?answer=%s&rand=sjrand&login_site=E&_=%s"
+  uamtk: "${config.base_url}/passport/web/auth/uamtk"
+  uamauthclient: "${config.base_url}/otn/uamauthclient"
+  checkUser: "${config.base_url}/otn/login/checkUser"
+  submitOrderRequest: "${config.base_url}/otn/leftTicket/submitOrderRequest"
+  initDc: "${config.base_url}/otn/confirmPassenger/initDc"
+  getPassengerDTOs: "${config.base_url}/otn/confirmPassenger/getPassengerDTOs"
+  checkOrderInfo: "${config.base_url}/otn/confirmPassenger/checkOrderInfo"
+  checkRandCodeAnsyn: "${config.base_url}/otn/passcodeNew/checkRandCodeAnsy"
+  getQueueCount: "${config.base_url}/otn/confirmPassenger/getQueueCount"
+  confirmSingleForQueue: "${config.base_url}/otn/confirmPassenger/confirmSingleForQueue"
+  queryOrderWaitTime: "${config.base_url}/otn/confirmPassenger/queryOrderWaitTime?random=%s&tourFlag=dc&_json_att=&REPEAT_SUBMIT_TOKEN=%s"
+  notice: "dysmsapi.aliyuncs.com"
+
+logging:
+  level:
+    com.qianxunclub: info
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr([%50t]){faint} %clr(:){faint} %m%n%wEx"
+spring:
+  profiles:
+    include:
+      - user
+      - sms

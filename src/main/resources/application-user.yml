@@ -1,0 +1,31 @@
+user:
+  #  身份证购票
+  passengerIdTypeCode: 1
+  #  12306用户名
+  username: XXXX
+  #  12306密码
+  password: XXXX
+  #  出发日期
+  date: 2019-08-14
+  #  出发站点
+  from: 深圳
+  #  到达站点
+  to: 三门峡南
+  #  车次
+  trainNumber: G818
+  #  乘车人姓名
+  name: XXXX
+  #  乘车人手机号码
+  mobile: XXXX
+  #  座位选择：从上往下，优先购买上面
+  #  YINGWO：硬卧
+  #  RUANWO：软卧
+  #  TWO：二等座
+  #  RUANZUO：软座
+  #  YINGZUO：硬座
+  #  ONE：一等座
+  #  SHANGWUZUO：商务座
+  #  GAOJIRUANWO：高级软卧
+  #  WUZUO：无座
+  seat:
+    - ONE
