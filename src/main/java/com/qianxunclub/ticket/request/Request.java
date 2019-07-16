@@ -436,7 +436,7 @@ public class Request {
     public boolean confirmSingleForQueue(MyTicketInfoModel myTicketInfoModel, TicketModel ticketModel) {
         httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
         try {
-            Thread.sleep(1500);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -496,13 +496,19 @@ public class Request {
                 String waitTime = rsmap.get("waitTime").toString();
                 String waitCount = rsmap.get("waitCount").toString();
                 String msg = rsmap.getOrDefault("msg", "").toString();
+                int sleepTime = Double.valueOf(waitTime).intValue();
                 String orderId = rsmap.get("orderId") == null ? null : rsmap.get("orderId").toString();
-                log.info("等待获取订单号：前面" + waitCount + "人，需等待：" + waitTime + ",msg:" + msg);
-                if (StringUtils.isEmpty(orderId)) {
-                    int sleepTime = Double.valueOf(waitTime).intValue();
-                    if (sleepTime < 0) {
-                        return null;
+                if (sleepTime < 0) {
+                    if (sleepTime == -100) {
+                        log.error("获取订单出现-100错误，解决办法：confirmSingleForQueue 确认订单等待时间稍微长一些。");
+                    } else {
+                        log.error(msg);
                     }
+
+                    return null;
+                }
+                if (StringUtils.isEmpty(orderId)) {
+                    log.info("等待获取订单号：前面" + waitCount + "人，需等待：" + waitTime);
                     try {
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
