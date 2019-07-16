@@ -436,7 +436,7 @@ public class Request {
     public boolean confirmSingleForQueue(MyTicketInfoModel myTicketInfoModel, TicketModel ticketModel) {
         httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
         try {
-            Thread.sleep(2000);
+            Thread.sleep(1500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
