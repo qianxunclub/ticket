@@ -46,12 +46,15 @@ public class CaptchaImageForPy {
             byte[] data = decoder.decodeBuffer(base64String);
             IOUtils.copy(new ByteArrayInputStream(data), new FileOutputStream(file));
             Runtime runtime = Runtime.getRuntime();
-            String[] bash = {config.getPythonPath() + "/run.sh ../temp/" + filename};
             String os = System.getProperty("os.name");
+            Process process;
             if (os.toLowerCase().startsWith("win")) {
-                bash = new String[]{"cmd", "/k", " cd python  &  set PYTHONIOENCODING=utf-8 & python main.py " + "..\\temp\\" + filename};
+                String[] cmd = new String[]{"cmd", "/k", " cd python  &  set PYTHONIOENCODING=utf-8 & python main.py " + "..\\temp\\" + filename};
+                process = runtime.exec(cmd);
+            } else {
+                String bash = config.getPythonPath() + "/run.sh ../temp/" + filename;
+                process = runtime.exec(bash);
             }
-            Process process = runtime.exec(bash);
             InputStream inputStream = process.getInputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
