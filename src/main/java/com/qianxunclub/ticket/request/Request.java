@@ -372,6 +372,12 @@ public class Request {
         if (rsmap.getOrDefault("status", "").toString().equals("true")) {
             rsmap = (Map<String, Object>) rsmap.get("data");
             String isShowPassCode = rsmap.get("ifShowPassCode").toString();
+            long ifShowPassCodeTime = Long.parseLong(rsmap.get("ifShowPassCodeTime").toString());
+            try {
+                Thread.sleep(ifShowPassCodeTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             log.info("开始提交订单");
             return isShowPassCode;
         }
@@ -435,11 +441,6 @@ public class Request {
 
     public boolean confirmSingleForQueue(MyTicketInfoModel myTicketInfoModel, TicketModel ticketModel) {
         httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         HttpPost httpPost = new HttpPost(api.getConfirmSingleForQueue());
 
         List<NameValuePair> formparams = new ArrayList<>();
