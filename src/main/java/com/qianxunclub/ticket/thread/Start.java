@@ -7,7 +7,7 @@ import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.MyTicketInfoModel;
 import com.qianxunclub.ticket.request.Request;
 import com.qianxunclub.ticket.util.CookieUtil;
-import com.qianxunclub.ticket.util.InitUtil;
+import com.qianxunclub.ticket.util.CommonUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -70,7 +70,7 @@ public class Start {
 
         @Override
         public void run() {
-            Thread.currentThread().setName(InitUtil.getThreadName(myTicketInfoModel));
+            Thread.currentThread().setName(CommonUtil.getThreadName(myTicketInfoModel));
             myTicketInfoModel.setStatus(StatusEnum.ING);
             while (true) {
                 HandleThread handleThread = new HandleThread(myTicketInfoModel);

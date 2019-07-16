@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description: TODO
  */
 @Slf4j
-public class InitUtil {
+public class CommonUtil {
 
     public static String getThreadName(MyTicketInfoModel myTicketInfoModel) {
         String name = "" +

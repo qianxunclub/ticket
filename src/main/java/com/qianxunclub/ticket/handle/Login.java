@@ -1,8 +1,8 @@
 package com.qianxunclub.ticket.handle;
 
 import com.qianxunclub.ticket.model.UserModel;
-import com.qianxunclub.ticket.request.CheckCaptcha;
 import com.qianxunclub.ticket.request.Request;
+import com.qianxunclub.ticket.util.CaptchaImageForPy;
 
 import org.springframework.stereotype.Component;
 
@@ -20,14 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 public class Login {
 
     private Request request;
-    private CheckCaptcha checkCaptcha;
+    private CaptchaImageForPy captchaImageForPy;
 
     public boolean login(UserModel userModel) {
         if (!request.isLogin(userModel)) {
             log.info("正在登陆：" + userModel.getUsername());
             if (request.isLoginPassCode()) {
                 String captchaImage = request.captchaImage();
-                String position = checkCaptcha.check(captchaImage);
+                String position = captchaImageForPy.check(captchaImage);
                 userModel.setAnswer(position);
             }
             if (request.captchaCheck(userModel.getAnswer())) {

@@ -4,9 +4,9 @@ import com.qianxunclub.ticket.model.NoticeModel;
 import com.qianxunclub.ticket.model.PassengerModel;
 import com.qianxunclub.ticket.model.MyTicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
-import com.qianxunclub.ticket.request.CheckCaptcha;
 import com.qianxunclub.ticket.request.Notice;
 import com.qianxunclub.ticket.request.Request;
+import com.qianxunclub.ticket.util.CaptchaImageForPy;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Buy {
 
     private Request request;
-    private CheckCaptcha checkCaptcha;
+    private CaptchaImageForPy captchaImageForPy;
     private Notice notice;
 
     public boolean buy(MyTicketInfoModel myTicketInfoModel, TicketModel ticketModel) {
@@ -53,7 +53,7 @@ public class Buy {
         }
         if (isShowPassCode.equals("Y")) {
             String captchaImage = request.captchaImage();
-            String position = checkCaptcha.check(captchaImage);
+            String position = captchaImageForPy.check(captchaImage);
             if (!request.checkRandCodeAnsyn(position, myTicketInfoModel.getGlobalRepeatSubmitToken())) {
                 return false;
             }

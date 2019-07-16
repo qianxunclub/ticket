@@ -49,7 +49,7 @@ public class CaptchaImageForPy {
             String bash = config.getPythonPath() + "/run.sh ../temp/" + filename;
             String os = System.getProperty("os.name");
             if (os.toLowerCase().startsWith("win")) {
-                bash = config.getPythonPath() + "\\run.bat ..\\temp\\" + filename;
+                bash = "cmd /c start " + config.getPythonPath() + "\\run.bat ..\\temp\\" + filename;
             }
             Process process = runtime.exec(bash);
             InputStream inputStream = process.getInputStream();
