@@ -61,6 +61,9 @@ public class CaptchaImageForPy {
             String line;
             PredictVO predictVO = new PredictVO();
             while ((line = bufferedReader.readLine()) != null) {
+                if (StringUtils.isEmpty(line.trim())) {
+                    continue;
+                }
                 String[] parts = line.split("\\s");
                 if (parts.length == 1) {
                     predictVO.getQuestions().add(parts[0]);

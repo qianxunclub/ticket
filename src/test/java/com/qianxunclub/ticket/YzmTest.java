@@ -2,6 +2,7 @@ package com.qianxunclub.ticket;
 
 import com.qianxunclub.ticket.util.CaptchaImageForPy;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -24,18 +25,24 @@ public class YzmTest {
     @Test
     public void yz() throws Exception{
         Runtime runtime = Runtime.getRuntime();
-        String bash = "python/run.sh ../temp/index.jpg";
         String os = System.getProperty("os.name");
+        Process process;
         if (os.toLowerCase().startsWith("win")) {
-            bash = "python\\run.bat ..\\temp\\index.jpg";
+            String[] cmd = new String[]{"cmd", "/k", " cd python  &  set PYTHONIOENCODING=utf-8 & python main.py " + "..\\temp\\index.jpg"};
+            process = runtime.exec(cmd);
+        } else {
+            String bash = "python/run.sh ../temp/index.jpg";
+            process = runtime.exec(bash);
         }
-        Process process = runtime.exec(bash);
         InputStream inputStream = process.getInputStream();
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         String line;
         CaptchaImageForPy.PredictVO predictVO = new CaptchaImageForPy.PredictVO();
         while ((line = bufferedReader.readLine()) != null) {
+            if (StringUtils.isEmpty(line.trim())) {
+                continue;
+            }
             String[] parts = line.split("\\s");
             if (parts.length == 1) {
                 predictVO.getQuestions().add(parts[0]);
