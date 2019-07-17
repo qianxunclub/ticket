@@ -1,5 +1,7 @@
 package com.qianxunclub.ticket.util;
 
+import com.qianxunclub.ticket.model.MyTicketInfoModel;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,6 +16,15 @@ import java.util.TimeZone;
  * @description: TODO
  */
 public class CommonUtils {
+
+    public static String getThreadName(MyTicketInfoModel myTicketInfoModel) {
+        String name = "" +
+                "👤" + myTicketInfoModel.getUsername() +
+                "[" + myTicketInfoModel.getRealName() +
+                "-" + myTicketInfoModel.getTrainNumber() + "]" +
+                "-" + myTicketInfoModel.getMobile();
+        return name;
+    }
 
     public static String getGMT(String date) {
         String str = "";

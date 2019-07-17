@@ -493,22 +493,29 @@ public class Request {
                 String msg = rsmap.getOrDefault("msg", "").toString();
                 int sleepTime = Double.valueOf(waitTime).intValue();
                 String orderId = rsmap.get("orderId") == null ? null : rsmap.get("orderId").toString();
+
                 if (msg != null) {
                     log.error(msg);
                 }
                 if (sleepTime == -100) {
                     log.error("获取订单出现-100错误，解决办法：confirmSingleForQueue 确认订单等待时间稍微长一些。");
                 }
-                if (StringUtils.isEmpty(orderId)) {
+                if (sleepTime == -2) {
+                    return null;
+                }
+
+                if (sleepTime >= 0 && StringUtils.isEmpty(orderId)) {
                     log.info("等待获取订单号：前面" + waitCount + "人，需等待：" + waitTime);
                     try {
                         Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                } else {
+                } else if (!StringUtils.isEmpty(orderId)) {
                     log.info("下单成功，订单号：" + orderId + "，请尽快支付！！！");
                     return orderId;
+                } else {
+                    log.error("无法等待获取订单号，正在尝试继续获取:{}", response);
                 }
             }
         }

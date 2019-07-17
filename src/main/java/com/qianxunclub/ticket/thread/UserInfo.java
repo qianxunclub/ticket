@@ -23,11 +23,11 @@ public class UserInfo {
         myTicketInfoModelList.add(myTicketInfoModel);
     }
 
-    public static void remove(String idCard) {
+    public static void remove(MyTicketInfoModel myTicketInfo) {
         Integer index = null;
         for (int i = 0; i < myTicketInfoModelList.size(); i++) {
             MyTicketInfoModel myTicketInfoModel = myTicketInfoModelList.get(i);
-            if (myTicketInfoModel.getPassengerIdTypeCode().equals(idCard)) {
+            if (myTicketInfoModel.getPassengerIdTypeCode().equals(myTicketInfo.getPassengerIdTypeCode()) && myTicketInfoModel.getRealName().equals(myTicketInfo.getRealName())) {
                 index = i;
             }
         }

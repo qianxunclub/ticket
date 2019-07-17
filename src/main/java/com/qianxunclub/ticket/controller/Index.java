@@ -17,14 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class Index {
 
     @ResponseBody
-    @RequestMapping(value = "user",method = RequestMethod.GET)
+    @RequestMapping(value = "user/buying",method = RequestMethod.GET)
     public Object user(){
-        return UserInfo.myTicketInfoModelList;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "init",method = RequestMethod.POST)
-    public Object init(){
         return UserInfo.myTicketInfoModelList;
     }
 

@@ -4,7 +4,7 @@ import com.qianxunclub.ticket.handle.Handle;
 import com.qianxunclub.ticket.model.MyTicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.util.ApplicationContextHelper;
-import com.qianxunclub.ticket.util.CommonUtil;
+import com.qianxunclub.ticket.util.CommonUtils;
 
 
 import org.springframework.util.CollectionUtils;
@@ -31,7 +31,7 @@ public class HandleThread implements Callable {
 
     @Override
     public Boolean call() {
-        Thread.currentThread().setName(CommonUtil.getThreadName(myTicketInfoModel));
+        Thread.currentThread().setName(CommonUtils.getThreadName(myTicketInfoModel));
         while (true) {
             myTicketInfoModel.setQueryNum(myTicketInfoModel.getQueryNum() + 1);
             try {
