@@ -2,9 +2,9 @@ user:
   #  身份证购票
   passengerIdTypeCode: 1
   #  12306用户名
-  username: XXXX
+  username: 960339491@qq.com
   #  12306密码
-  password: XXXX
+  password: aiwoyijia1990ZB
   #  出发日期
   date: 2019-08-14
   #  出发站点
@@ -14,9 +14,9 @@ user:
   #  车次
   trainNumber: G818
   #  乘车人姓名
-  name: XXXX
+  name: 张斌
   #  乘车人手机号码
-  mobile: XXXX
+  mobile: 18613887898
   #  座位选择：从上往下，优先购买上面
   #  YINGWO：硬卧
   #  RUANWO：软卧

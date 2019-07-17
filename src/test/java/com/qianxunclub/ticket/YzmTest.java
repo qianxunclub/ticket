@@ -28,7 +28,7 @@ public class YzmTest {
         String os = System.getProperty("os.name");
         Process process;
         if (os.toLowerCase().startsWith("win")) {
-            String[] cmd = new String[]{"cmd", "/k", " cd python  &  set PYTHONIOENCODING=utf-8 & python main.py " + "..\\temp\\index.jpg"};
+            String[] cmd = new String[]{"cmd", "/c", " cd python  &  set PYTHONIOENCODING=utf-8 & python main.py " + "..\\temp\\index.jpg"};
             process = runtime.exec(cmd);
         } else {
             String bash = "python/run.sh ../temp/index.jpg";
@@ -43,6 +43,7 @@ public class YzmTest {
             if (StringUtils.isEmpty(line.trim())) {
                 continue;
             }
+            System.out.println(line);
             String[] parts = line.split("\\s");
             if (parts.length == 1) {
                 predictVO.getQuestions().add(parts[0]);
