@@ -68,7 +68,7 @@ public class Buy {
         String orderid = request.queryOrderWaitTime(myTicketInfoModel);
         if (!StringUtils.isEmpty(orderid)) {
             NoticeModel noticeModel = new NoticeModel();
-            noticeModel.setName(myTicketInfoModel.getName());
+            noticeModel.setName(myTicketInfoModel.getRealName());
             noticeModel.setUserName(myTicketInfoModel.getUsername());
             noticeModel.setPassword(myTicketInfoModel.getPassword());
             noticeModel.setPhoneNumber(myTicketInfoModel.getMobile());
@@ -84,10 +84,10 @@ public class Buy {
     public PassengerModel getPassenger(MyTicketInfoModel myTicketInfoModel) {
         List<PassengerModel> passengerModelList = request.getPassengerDTOs(myTicketInfoModel.getGlobalRepeatSubmitToken());
         PassengerModel passengerModel = passengerModelList.stream().filter(model -> (
-                model.getPassengerIdTypeCode().equals(myTicketInfoModel.getPassengerIdTypeCode()) && model.getPassengerName().equals(myTicketInfoModel.getName())
+                model.getPassengerIdTypeCode().equals(myTicketInfoModel.getPassengerIdTypeCode()) && model.getPassengerName().equals(myTicketInfoModel.getRealName())
         )).findFirst().orElse(null);
         if (passengerModel == null) {
-            log.error("乘客不存在：" + myTicketInfoModel.getUsername() + ",passengerIdTypeCode:" + myTicketInfoModel.getPassengerIdTypeCode());
+            log.error("没有找到对应的乘客信息：" + myTicketInfoModel.getRealName() + ",passengerIdTypeCode:" + myTicketInfoModel.getPassengerIdTypeCode());
         }
         return passengerModel;
     }

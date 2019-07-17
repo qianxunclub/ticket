@@ -295,13 +295,7 @@ public class Request {
         } else if (null != rsmap.get("status") && rsmap.get("status").toString().equals("false")) {
             String errMsg = rsmap.get("messages") + "";
             log.error(errMsg);
-            if (errMsg.contains("未处理的订单")) {
-                log.error("您有未完成订单，请处理");
-            } else if (errMsg.contains("当前时间不可以订票")) {
-                log.error("系统维护时间不能订票");
-            }
         }
-        log.error("预定时候出错了：" + response);
         return false;
     }
 
@@ -499,14 +493,11 @@ public class Request {
                 String msg = rsmap.getOrDefault("msg", "").toString();
                 int sleepTime = Double.valueOf(waitTime).intValue();
                 String orderId = rsmap.get("orderId") == null ? null : rsmap.get("orderId").toString();
-                if (sleepTime < 0) {
-                    if (sleepTime == -100) {
-                        log.error("获取订单出现-100错误，解决办法：confirmSingleForQueue 确认订单等待时间稍微长一些。");
-                    } else {
-                        log.error(msg);
-                    }
-
-                    return null;
+                if (msg != null) {
+                    log.error(msg);
+                }
+                if (sleepTime == -100) {
+                    log.error("获取订单出现-100错误，解决办法：confirmSingleForQueue 确认订单等待时间稍微长一些。");
                 }
                 if (StringUtils.isEmpty(orderId)) {
                     log.info("等待获取订单号：前面" + waitCount + "人，需等待：" + waitTime);

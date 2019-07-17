@@ -28,7 +28,7 @@ public class MyTicketInfoModel extends UserModel{
 
     private String mobile;
 
-    private String name;
+    private String realName;
 
     private PassengerModel passengerModel;
 

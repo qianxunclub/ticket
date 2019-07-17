@@ -15,7 +15,7 @@ public class CommonUtil {
     public static String getThreadName(MyTicketInfoModel myTicketInfoModel) {
         String name = "" +
                 myTicketInfoModel.getUsername() +
-                "~" + myTicketInfoModel.getName() +
+                "~" + myTicketInfoModel.getRealName() +
                 "~" + myTicketInfoModel.getMobile();
         return name;
     }
