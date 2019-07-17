@@ -83,7 +83,9 @@ public class Buy {
 
     public PassengerModel getPassenger(MyTicketInfoModel myTicketInfoModel) {
         List<PassengerModel> passengerModelList = request.getPassengerDTOs(myTicketInfoModel.getGlobalRepeatSubmitToken());
-        PassengerModel passengerModel = passengerModelList.stream().filter(model -> model.getPassengerIdTypeCode().equals(myTicketInfoModel.getPassengerIdTypeCode())).findFirst().orElse(null);
+        PassengerModel passengerModel = passengerModelList.stream().filter(model -> (
+                model.getPassengerIdTypeCode().equals(myTicketInfoModel.getPassengerIdTypeCode()) && model.getPassengerName().equals(myTicketInfoModel.getName())
+        )).findFirst().orElse(null);
         if (passengerModel == null) {
             log.error("乘客不存在：" + myTicketInfoModel.getUsername() + ",passengerIdTypeCode:" + myTicketInfoModel.getPassengerIdTypeCode());
         }
