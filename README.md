@@ -27,9 +27,20 @@ sudo pip install -r requirements.txt
 ```
 
 # 验证码识别测试
-测试验证码是否能正确的识别，一般服务提示验证码错误，都是因为依赖没有安装全导致的：  
+如果使用的是虚拟环境，需要先执行：
 ```
-python/run.sh ../temp/index.jpg
+cd ticket/python
+
+source venv/bin/activate
+```
+
+测试验证码是否能正确的识别，一般服务提示验证码错误，都是因为依赖没有安装全导致的：  
+
+```
+cd ticket/python
+
+
+python3 main.py ../temp/index.jpg
 ```
 
 # 配置说明
