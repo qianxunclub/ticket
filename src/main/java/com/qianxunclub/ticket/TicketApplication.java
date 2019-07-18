@@ -9,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
+import java.util.List;
+
 
 /**
  * @author zhangbin
@@ -20,10 +22,13 @@ public class TicketApplication {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(TicketApplication.class);
         ApplicationContext applicationContext = builder.run(args);
 
-        TicketInfoModel ticketInfoModel = applicationContext.getBean(UserConfig.class);
-        if(ticketInfoModel != null){
-            UserTicketStore.add(ticketInfoModel);
-        }
+        List<TicketInfoModel> ticketInfoModelList = applicationContext.getBean(UserConfig.class).getTicketInfo();
+        ticketInfoModelList.forEach((ticketInfoModel)->{
+            if(ticketInfoModel != null){
+                UserTicketStore.add(ticketInfoModel);
+            }
+        });
+
 
         DoHandle doHandle = applicationContext.getBean(DoHandle.class);
         doHandle.go();
