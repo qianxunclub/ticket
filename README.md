@@ -16,31 +16,42 @@
 - python3
 
 # python 依赖安装
-我这里使用的是虚拟环境：
+Mac 或者 Linux 用户使用虚拟环境：
 ```
 cd ticket/python
 
 python3 -m venv venv
+
+source venv/bin/activate
+
+sudo pip install -r requirements.txt
+
+```
+Windows 用户使用本地当前环境：
+```
+cd ticket/python
 
 sudo pip install -r requirements.txt
 
 ```
 
 # 验证码识别测试
-如果使用的是虚拟环境，需要先执行：
+Mac 或者 Linux 用户使用虚拟环境：
 ```
 cd ticket/python
 
 source venv/bin/activate
+
+python3 main.py ../temp/index.jpg
 ```
 
-测试验证码是否能正确的识别，一般服务提示验证码错误，都是因为依赖没有安装全导致的：  
+Windows 用户使用本地当前环境： 
 
 ```
 cd ticket/python
 
 
-python3 main.py ../temp/index.jpg
+python main.py ../temp/index.jpg
 ```
 
 # 配置说明
