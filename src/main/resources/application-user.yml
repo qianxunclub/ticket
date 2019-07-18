@@ -1,5 +1,5 @@
 user:
-  #  身份证购票
+  #  购票身份类型，1：身份证
   passengerIdTypeCode: 1
   #  12306用户名
   username: XXXX
@@ -12,7 +12,7 @@ user:
   #  到达站点
   to: 三门峡南
   #  车次
-  trainNumber: G818
+  trainNumber: XXXX
   #  乘车人姓名
   realName: XXXX
   #  乘车人手机号码

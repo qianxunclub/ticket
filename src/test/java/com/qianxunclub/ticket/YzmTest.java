@@ -23,7 +23,7 @@ public class YzmTest {
 
 
     @Test
-    public void yz() throws Exception{
+    public void yz() throws Exception {
         Runtime runtime = Runtime.getRuntime();
         String os = System.getProperty("os.name");
         Process process;

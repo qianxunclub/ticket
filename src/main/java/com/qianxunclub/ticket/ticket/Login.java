@@ -1,7 +1,7 @@
-package com.qianxunclub.ticket.handle;
+package com.qianxunclub.ticket.ticket;
 
 import com.qianxunclub.ticket.model.UserModel;
-import com.qianxunclub.ticket.request.Request;
+import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.util.CaptchaImageForPy;
 
 import org.springframework.stereotype.Component;
@@ -19,19 +19,19 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class Login {
 
-    private Request request;
+    private ApiRequestService apiRequestService;
     private CaptchaImageForPy captchaImageForPy;
 
     public boolean login(UserModel userModel) {
-        if (!request.isLogin(userModel)) {
+        if (!apiRequestService.isLogin(userModel)) {
             log.info("正在登陆：" + userModel.getUsername());
-            if (request.isLoginPassCode()) {
-                String captchaImage = request.captchaImage();
+            if (apiRequestService.isLoginPassCode()) {
+                String captchaImage = apiRequestService.captchaImage();
                 String position = captchaImageForPy.check(captchaImage);
                 userModel.setAnswer(position);
             }
-            if (request.captchaCheck(userModel.getAnswer())) {
-                if (request.login(userModel)) {
+            if (apiRequestService.captchaCheck(userModel.getAnswer())) {
+                if (apiRequestService.login(userModel)) {
                     log.info("登录成功：" + userModel.getUsername());
                 } else {
                     return false;
@@ -41,8 +41,8 @@ public class Login {
                 return false;
             }
         }
-        userModel.setUamtk(request.uamtk(userModel.getUsername()));
-        userModel.setUamtk(request.uamauthclient(userModel.getUsername(), userModel.getUamtk()));
+        userModel.setUamtk(apiRequestService.uamtk(userModel.getUsername()));
+        userModel.setUamtk(apiRequestService.uamauthclient(userModel.getUsername(), userModel.getUamtk()));
         return true;
     }
 }

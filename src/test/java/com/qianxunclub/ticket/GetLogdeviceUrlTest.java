@@ -16,14 +16,14 @@ import javax.script.ScriptEngineManager;
  * @date 2019-07-15 17:23
  * @description: TODO
  */
-public class CallJsTest {
+public class GetLogdeviceUrlTest {
 
     @Test
     public void callJs() throws Exception {
 
         StringBuffer sb = new StringBuffer();
 
-        FileReader reader = new FileReader(ResourceUtils.getFile("classpath:common.js"));
+        FileReader reader = new FileReader(ResourceUtils.getFile("classpath:logdevice.js"));
         BufferedReader br = new BufferedReader(reader);
 
         String line;

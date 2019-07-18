@@ -1,6 +1,6 @@
 package com.qianxunclub.ticket.util;
 
-import com.qianxunclub.ticket.model.MyTicketInfoModel;
+import com.qianxunclub.ticket.model.TicketInfoModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,12 +17,12 @@ import java.util.TimeZone;
  */
 public class CommonUtils {
 
-    public static String getThreadName(MyTicketInfoModel myTicketInfoModel) {
+    public static String getThreadName(TicketInfoModel ticketInfoModel) {
         String name = "" +
-                "👤" + myTicketInfoModel.getUsername() +
-                "[" + myTicketInfoModel.getRealName() +
-                "-" + myTicketInfoModel.getTrainNumber() + "]" +
-                "-" + myTicketInfoModel.getMobile();
+                "👤" + ticketInfoModel.getUsername() +
+                "[" + ticketInfoModel.getRealName() +
+                "-" + ticketInfoModel.getTrainNumber() + "]" +
+                "-" + ticketInfoModel.getMobile();
         return name;
     }
 

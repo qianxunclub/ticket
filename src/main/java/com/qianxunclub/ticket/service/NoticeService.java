@@ -1,4 +1,4 @@
-package com.qianxunclub.ticket.request;
+package com.qianxunclub.ticket.service;
 
 import com.google.gson.Gson;
 
@@ -9,7 +9,7 @@ import com.aliyuncs.IAcsClient;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.http.ProtocolType;
 import com.aliyuncs.profile.DefaultProfile;
-import com.qianxunclub.ticket.config.Api;
+import com.qianxunclub.ticket.config.ApiConfig;
 import com.qianxunclub.ticket.config.NoticeConfig;
 import com.qianxunclub.ticket.model.NoticeModel;
 import org.springframework.stereotype.Component;
@@ -28,10 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class Notice {
+public class NoticeService {
 
     private NoticeConfig noticeConfig;
-    private Api api;
+    private ApiConfig apiConfig;
 
     public void send(NoticeModel noticeModel){
 
@@ -50,7 +50,7 @@ public class Notice {
             CommonRequest request = new CommonRequest();
             request.setProtocol(ProtocolType.HTTPS);
             request.setMethod(MethodType.GET);
-            request.setDomain(api.getNotice());
+            request.setDomain(apiConfig.getNotice());
             request.setVersion("2017-05-25");
             request.setAction("SendSms");
             request.putQueryParameter("PhoneNumbers", noticeModel.getPhoneNumber());

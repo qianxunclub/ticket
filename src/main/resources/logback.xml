@@ -9,7 +9,7 @@
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <charset>utf8</charset>
         </encoder>
-        <filter class="com.qianxunclub.ticket.handle.LogFilter"></filter>
+        <filter class="com.qianxunclub.ticket.filter.LogFilter"></filter>
     </appender>
     <root level="INFO">
         <appender-ref ref="FILE"/>

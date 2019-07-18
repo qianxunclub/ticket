@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.model;
 
-import com.qianxunclub.ticket.config.SeatLevelEnum;
-import com.qianxunclub.ticket.config.Station;
+import com.qianxunclub.ticket.constant.SeatLevelEnum;
+import com.qianxunclub.ticket.ticket.Station;
 
 import java.net.URLDecoder;
 import java.util.ArrayList;

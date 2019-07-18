@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.model;
 
-import com.qianxunclub.ticket.config.SeatLevelEnum;
-import com.qianxunclub.ticket.config.StatusEnum;
+import com.qianxunclub.ticket.constant.SeatLevelEnum;
+import com.qianxunclub.ticket.constant.StatusEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import lombok.Data;
  * @description: TODO
  */
 @Data
-public class MyTicketInfoModel extends UserModel {
+public class TicketInfoModel extends UserModel {
 
     private String date;
 

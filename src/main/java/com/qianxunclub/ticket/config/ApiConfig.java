@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 @Component
 @ConfigurationProperties(prefix = "api")
-public class Api {
+public class ApiConfig {
 
     private String station;
 

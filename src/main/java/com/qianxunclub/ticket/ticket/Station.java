@@ -1,7 +1,7 @@
-package com.qianxunclub.ticket.config;
+package com.qianxunclub.ticket.ticket;
 
 
-import com.qianxunclub.ticket.request.Request;
+import com.qianxunclub.ticket.service.ApiRequestService;
 
 import org.springframework.stereotype.Component;
 
@@ -19,8 +19,8 @@ public class Station {
 
     private static Map<String, String> stations;
 
-    public Station(Request request){
-        stations = request.station();
+    public Station(ApiRequestService apiRequestService){
+        stations = apiRequestService.station();
     }
 
 

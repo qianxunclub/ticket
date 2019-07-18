@@ -1,9 +1,9 @@
 package com.qianxunclub.ticket;
 
 import com.qianxunclub.ticket.config.UserConfig;
-import com.qianxunclub.ticket.model.MyTicketInfoModel;
-import com.qianxunclub.ticket.thread.Start;
-import com.qianxunclub.ticket.thread.UserInfo;
+import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.ticket.DoHandle;
+import com.qianxunclub.ticket.model.UserTicketStore;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -20,13 +20,13 @@ public class TicketApplication {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(TicketApplication.class);
         ApplicationContext applicationContext = builder.run(args);
 
-        MyTicketInfoModel myTicketInfoModel = applicationContext.getBean(UserConfig.class);
-        if(myTicketInfoModel != null){
-            UserInfo.add(myTicketInfoModel);
+        TicketInfoModel ticketInfoModel = applicationContext.getBean(UserConfig.class);
+        if(ticketInfoModel != null){
+            UserTicketStore.add(ticketInfoModel);
         }
 
-        Start start = applicationContext.getBean(Start.class);
-        start.go();
+        DoHandle doHandle = applicationContext.getBean(DoHandle.class);
+        doHandle.go();
 
     }
 

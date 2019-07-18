@@ -1,11 +1,11 @@
-package com.qianxunclub.ticket.thread;
+package com.qianxunclub.ticket.ticket;
 
 import com.qianxunclub.ticket.config.CookiesConfig;
-import com.qianxunclub.ticket.config.StatusEnum;
-import com.qianxunclub.ticket.handle.Login;
+import com.qianxunclub.ticket.constant.StatusEnum;
 import com.qianxunclub.ticket.model.LogdeviceModel;
-import com.qianxunclub.ticket.model.MyTicketInfoModel;
-import com.qianxunclub.ticket.request.Request;
+import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.service.ApiRequestService;
+import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.util.CommonUtils;
 import com.qianxunclub.ticket.util.CookieUtil;
 
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-public class Start {
+public class DoHandle {
 
     @Autowired
     private CookieUtil cookieUtil;
@@ -34,53 +34,53 @@ public class Start {
     @Autowired
     private Login login;
     @Autowired
-    private Request request;
+    private ApiRequestService apiRequestService;
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
 
     public void go() {
-        UserInfo.myTicketInfoModelList.forEach(myTicketInfoModel -> {
+        UserTicketStore.ticketInfoModelList.forEach(myTicketInfoModel -> {
             this.add(myTicketInfoModel);
         });
     }
 
-    public void add(MyTicketInfoModel myTicketInfoModel) {
+    public void add(TicketInfoModel ticketInfoModel) {
 
         LogdeviceModel logdeviceModel = null;
         // logdeviceModel = request.getDeviceId();
         logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
-        myTicketInfoModel.setLogdeviceModel(logdeviceModel);
+        ticketInfoModel.setLogdeviceModel(logdeviceModel);
 
-        UserInfo.userBasicCookieStore.put(myTicketInfoModel.getUsername(), cookieUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()), myTicketInfoModel.getLogdeviceModel()));
-        if (!login.login(myTicketInfoModel)) {
-            UserInfo.remove(myTicketInfoModel);
+        UserTicketStore.userBasicCookieStore.put(ticketInfoModel.getUsername(), cookieUtil.init(UserTicketStore.userBasicCookieStore.get(ticketInfoModel.getUsername()), ticketInfoModel.getLogdeviceModel()));
+        if (!login.login(ticketInfoModel)) {
+            UserTicketStore.remove(ticketInfoModel);
             return;
         }
 
-        Main main = new Main(myTicketInfoModel);
+        Main main = new Main(ticketInfoModel);
         Thread thread = new Thread(main);
         thread.start();
     }
 
     class Main implements Runnable {
-        private MyTicketInfoModel myTicketInfoModel;
+        private TicketInfoModel ticketInfoModel;
 
-        public Main(MyTicketInfoModel myTicketInfoModel) {
-            this.myTicketInfoModel = myTicketInfoModel;
+        public Main(TicketInfoModel ticketInfoModel) {
+            this.ticketInfoModel = ticketInfoModel;
         }
 
         @Override
         public void run() {
-            Thread.currentThread().setName(CommonUtils.getThreadName(myTicketInfoModel));
-            myTicketInfoModel.setStatus(StatusEnum.ING);
+            Thread.currentThread().setName(CommonUtils.getThreadName(ticketInfoModel));
+            ticketInfoModel.setStatus(StatusEnum.ING);
             while (true) {
-                HandleThread handleThread = new HandleThread(myTicketInfoModel);
-                Future<Boolean> booleanFuture = handleCachedThreadPool.submit(handleThread);
+                Task task = new Task(ticketInfoModel);
+                Future<Boolean> booleanFuture = handleCachedThreadPool.submit(task);
                 try {
                     Boolean flag = booleanFuture.get();
                     if (flag) {
                         log.info("完成!!!!");
-                        myTicketInfoModel.setStatus(StatusEnum.SUCCESS);
+                        ticketInfoModel.setStatus(StatusEnum.SUCCESS);
                         return;
                     }
                     try {

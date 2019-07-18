@@ -23,4 +23,6 @@ public class Config {
 
     private String pythonPath;
 
+    private String logdevicePath;
+
 }

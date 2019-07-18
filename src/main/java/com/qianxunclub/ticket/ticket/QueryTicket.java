@@ -1,10 +1,9 @@
-package com.qianxunclub.ticket.handle;
+package com.qianxunclub.ticket.ticket;
 
-import com.qianxunclub.ticket.config.Station;
-import com.qianxunclub.ticket.model.MyTicketInfoModel;
+import com.qianxunclub.ticket.model.TicketInfoModel;
 import com.qianxunclub.ticket.model.SeatModel;
 import com.qianxunclub.ticket.model.TicketModel;
-import com.qianxunclub.ticket.request.Request;
+import com.qianxunclub.ticket.service.ApiRequestService;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
@@ -25,15 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Component
 @Slf4j
-public class Ticket {
+public class QueryTicket {
 
 
-    private Request request;
+    private ApiRequestService apiRequestService;
 
-    public TicketModel getMyTicket(MyTicketInfoModel myTicketInfoModel) {
-        TicketModel ticketModel = this.getTicket(myTicketInfoModel);
+    public TicketModel getMyTicket(TicketInfoModel ticketInfoModel) {
+        TicketModel ticketModel = this.getTicket(ticketInfoModel);
         List<SeatModel> seat = new ArrayList<>();
-        myTicketInfoModel.getSeat().forEach(seatLevelEnum -> {
+        ticketInfoModel.getSeat().forEach(seatLevelEnum -> {
             ticketModel.getSeat().forEach(seatModel -> {
                 if (seatModel.getSeatLevel().equals(seatLevelEnum)) {
                     seat.add(seatModel);
@@ -45,15 +44,15 @@ public class Ticket {
     }
 
 
-    public TicketModel getTicket(MyTicketInfoModel myTicketInfoModel) {
+    public TicketModel getTicket(TicketInfoModel ticketInfoModel) {
         AtomicReference<TicketModel> ticketModel = new AtomicReference<>(new TicketModel());
-        List<TicketModel> ticketModelList = this.getCanBuyTicket(myTicketInfoModel);
+        List<TicketModel> ticketModelList = this.getCanBuyTicket(ticketInfoModel);
         ticketModelList.forEach(ticket -> {
-            ticket.setTrainDate(myTicketInfoModel.getDate());
-            if (ticket.getTrainNumber().equals(myTicketInfoModel.getTrainNumber())) {
+            ticket.setTrainDate(ticketInfoModel.getDate());
+            if (ticket.getTrainNumber().equals(ticketInfoModel.getTrainNumber())) {
                 List<SeatModel> seat = new ArrayList<>();
                 ticket.getSeat().forEach(seatModel -> {
-                    if (myTicketInfoModel.getSeat().contains(seatModel.getSeatLevel())) {
+                    if (ticketInfoModel.getSeat().contains(seatModel.getSeatLevel())) {
                         seat.add(seatModel);
                         ticket.setSeat(seat);
                     }
@@ -64,8 +63,8 @@ public class Ticket {
         return ticketModel.get();
     }
 
-    private List<TicketModel> getCanBuyTicket(MyTicketInfoModel myTicketInfoModel) {
-        List<TicketModel> ticketModelList = request.queryTicket(myTicketInfoModel);
+    private List<TicketModel> getCanBuyTicket(TicketInfoModel ticketInfoModel) {
+        List<TicketModel> ticketModelList = apiRequestService.queryTicket(ticketInfoModel);
         List<TicketModel> canBuy = new ArrayList<>();
         ticketModelList.forEach(ticketModel -> {
             if (StringUtils.isNotBlank(ticketModel.getSecret())) {

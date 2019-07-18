@@ -1,8 +1,6 @@
 package com.qianxunclub.ticket.model;
 
-import com.qianxunclub.ticket.config.SeatLevelEnum;
-
-import org.apache.commons.lang.StringUtils;
+import com.qianxunclub.ticket.constant.SeatLevelEnum;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

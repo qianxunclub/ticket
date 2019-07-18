@@ -8,6 +8,7 @@ config:
   base_url: "https://kyfw.12306.cn"
   queryTicketSellpTime: 1
   pythonPath: "python"
+  logdevicePath: "classpath:logdevice.js"
 
 api:
   station: "${config.base_url}/otn/resources/js/framework/station_name.js?station_version=1.9098"

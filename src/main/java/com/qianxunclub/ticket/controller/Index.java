@@ -1,8 +1,8 @@
 package com.qianxunclub.ticket.controller;
 
-import com.qianxunclub.ticket.model.MyTicketInfoModel;
-import com.qianxunclub.ticket.thread.Start;
-import com.qianxunclub.ticket.thread.UserInfo;
+import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.ticket.DoHandle;
+import com.qianxunclub.ticket.model.UserTicketStore;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +22,18 @@ import lombok.AllArgsConstructor;
 @RequestMapping(value = "/api", produces = "application/json")
 public class Index {
 
-    private Start start;
+    private DoHandle doHandle;
 
     @ResponseBody
     @RequestMapping(value = "user",method = RequestMethod.GET)
     public Object buying(){
-        return UserInfo.myTicketInfoModelList;
+        return UserTicketStore.ticketInfoModelList;
     }
 
     @ResponseBody
     @RequestMapping(value = "user",method = RequestMethod.POST)
-    public void user(@RequestBody MyTicketInfoModel myTicketInfoModel){
-        start.add(myTicketInfoModel);
+    public void user(@RequestBody TicketInfoModel ticketInfoModel){
+        doHandle.add(ticketInfoModel);
     }
 
 }

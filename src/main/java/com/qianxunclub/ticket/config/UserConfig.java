@@ -1,6 +1,6 @@
 package com.qianxunclub.ticket.config;
 
-import com.qianxunclub.ticket.model.MyTicketInfoModel;
+import com.qianxunclub.ticket.model.TicketInfoModel;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -15,6 +15,6 @@ import lombok.Data;
 @Data
 @Component
 @ConfigurationProperties(prefix = "user")
-public class UserConfig extends MyTicketInfoModel {
+public class UserConfig extends TicketInfoModel {
 
 }

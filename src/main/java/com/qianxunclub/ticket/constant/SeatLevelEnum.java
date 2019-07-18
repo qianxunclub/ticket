@@ -1,4 +1,4 @@
-package com.qianxunclub.ticket.config;
+package com.qianxunclub.ticket.constant;
 
 import lombok.Getter;
 

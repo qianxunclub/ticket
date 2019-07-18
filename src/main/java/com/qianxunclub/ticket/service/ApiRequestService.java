@@ -1,16 +1,16 @@
-package com.qianxunclub.ticket.request;
+package com.qianxunclub.ticket.service;
 
 import com.google.gson.Gson;
 
-import com.qianxunclub.ticket.config.Api;
+import com.qianxunclub.ticket.config.ApiConfig;
 import com.qianxunclub.ticket.config.Config;
-import com.qianxunclub.ticket.config.Station;
+import com.qianxunclub.ticket.ticket.Station;
 import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.PassengerModel;
-import com.qianxunclub.ticket.model.MyTicketInfoModel;
+import com.qianxunclub.ticket.model.TicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.model.UserModel;
-import com.qianxunclub.ticket.thread.UserInfo;
+import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.util.CommonUtils;
 import com.qianxunclub.ticket.util.HttpUtil;
 
@@ -53,15 +53,15 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class Request {
+public class ApiRequestService {
 
-    private Api api;
+    private ApiConfig apiConfig;
     private HttpUtil httpUtil;
     private Config config;
 
     public Map<String, String> station() {
         Map<String, String> stationMap = new HashMap<>();
-        HttpGet httpGet = new HttpGet(api.getStation());
+        HttpGet httpGet = new HttpGet(apiConfig.getStation());
         String response = httpUtil.get(httpGet);
         String[] all = response.split("@");
         for (int i = 0; i < all.length; i++) {
@@ -74,7 +74,7 @@ public class Request {
     }
 
     public String algID() {
-        HttpGet httpGet = new HttpGet(api.getGetJs());
+        HttpGet httpGet = new HttpGet(apiConfig.getGetJs());
         String response = httpUtil.get(httpGet);
         String regex = "algID\\\\x3d(.*?)\\\\x26";
         Pattern p = Pattern.compile(regex);
@@ -88,7 +88,7 @@ public class Request {
     public String getLogdeviceUrl() {
         try {
             StringBuffer sb = new StringBuffer();
-            FileReader reader = new FileReader(ResourceUtils.getFile("classpath:common.js"));
+            FileReader reader = new FileReader(ResourceUtils.getFile(config.getLogdevicePath()));
             BufferedReader br = new BufferedReader(reader);
             String line;
             while ((line = br.readLine()) != null) {
@@ -114,8 +114,8 @@ public class Request {
         return new LogdeviceModel(rsmap.get("exp"), rsmap.get("dfp"));
     }
 
-    public List<TicketModel> queryTicket(MyTicketInfoModel myTicketInfoModel) {
-        String url = String.format(api.getLeftTicket(), myTicketInfoModel.getDate(), Station.getCodeByName(myTicketInfoModel.getFrom()), Station.getCodeByName(myTicketInfoModel.getTo()));
+    public List<TicketModel> queryTicket(TicketInfoModel ticketInfoModel) {
+        String url = String.format(apiConfig.getLeftTicket(), ticketInfoModel.getDate(), Station.getCodeByName(ticketInfoModel.getFrom()), Station.getCodeByName(ticketInfoModel.getTo()));
         HttpGet httpGet = new HttpGet(url);
         String response = httpUtil.get(httpGet);
         if (StringUtils.isEmpty(response)) {
@@ -137,7 +137,7 @@ public class Request {
     }
 
     public boolean isLoginPassCode() {
-        HttpGet httpGet = new HttpGet(api.getLoginConfig());
+        HttpGet httpGet = new HttpGet(apiConfig.getLoginConfig());
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
         Map rsmap = jsonResult.fromJson(response, Map.class);
@@ -147,7 +147,7 @@ public class Request {
     }
 
     public String captchaImage() {
-        HttpGet httpGet = new HttpGet(String.format(api.getCaptchaImage(), Math.random()));
+        HttpGet httpGet = new HttpGet(String.format(apiConfig.getCaptchaImage(), Math.random()));
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
         Map rsmap = jsonResult.fromJson(response, Map.class);
@@ -155,7 +155,7 @@ public class Request {
     }
 
     public boolean captchaCheck(String answer) {
-        HttpGet httpGet = new HttpGet(String.format(api.getCaptchaCheck(), answer, Math.random()));
+        HttpGet httpGet = new HttpGet(String.format(apiConfig.getCaptchaCheck(), answer, Math.random()));
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
         Map rsmap = jsonResult.fromJson(response, Map.class);
@@ -168,14 +168,14 @@ public class Request {
     }
 
     public boolean isLogin(UserModel userModel) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(userModel.getUsername()));
-        HttpGet httpGet = new HttpGet(api.getUamtkStatic());
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(userModel.getUsername()));
+        HttpGet httpGet = new HttpGet(apiConfig.getUamtkStatic());
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if ("0.0".equals(rsmap.get("result_code").toString())) {
             userModel.setUamtk(rsmap.get("newapptk").toString());
-            UserInfo.userBasicCookieStore.put(userModel.getUsername(), httpUtil.getBasicCookieStore());
+            UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), httpUtil.getBasicCookieStore());
             return true;
         } else {
             return false;
@@ -183,8 +183,8 @@ public class Request {
     }
 
     public boolean login(UserModel userModel) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(userModel.getUsername()));
-        HttpPost httpPost = new HttpPost(api.getLogin());
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(userModel.getUsername()));
+        HttpPost httpPost = new HttpPost(apiConfig.getLogin());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("username", userModel.getUsername()));
         formparams.add(new BasicNameValuePair("password", userModel.getPassword()));
@@ -204,14 +204,14 @@ public class Request {
             log.error("登陆失败：", rsmap);
             return false;
         }
-        UserInfo.userBasicCookieStore.put(userModel.getUsername(), httpUtil.getBasicCookieStore());
+        UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), httpUtil.getBasicCookieStore());
         userModel.setUamtk(rsmap.get("uamtk").toString());
         return true;
     }
 
     public String uamtk(String userName) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(userName));
-        HttpPost httpPost = new HttpPost(api.getUamtk());
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(userName));
+        HttpPost httpPost = new HttpPost(apiConfig.getUamtk());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("appid", "otn"));
         UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
@@ -220,15 +220,15 @@ public class Request {
         String response = httpUtil.post(httpPost);
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if ("0.0".equals(rsmap.getOrDefault("result_code", "").toString())) {
-            UserInfo.userBasicCookieStore.put(userName, httpUtil.getBasicCookieStore());
+            UserTicketStore.userBasicCookieStore.put(userName, httpUtil.getBasicCookieStore());
             return rsmap.get("newapptk").toString();
         }
         return null;
     }
 
     public String uamauthclient(String userName, String tk) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(userName));
-        HttpPost httpPost = new HttpPost(api.getUamauthclient());
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(userName));
+        HttpPost httpPost = new HttpPost(apiConfig.getUamauthclient());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("tk", tk));
         UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
@@ -237,7 +237,7 @@ public class Request {
         String response = httpUtil.post(httpPost);
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if ("0.0".equals(rsmap.getOrDefault("result_code", "").toString())) {
-            UserInfo.userBasicCookieStore.put(userName, httpUtil.getBasicCookieStore());
+            UserTicketStore.userBasicCookieStore.put(userName, httpUtil.getBasicCookieStore());
             return rsmap.get("apptk").toString();
         }
         return null;
@@ -245,8 +245,8 @@ public class Request {
 
 
     public boolean checkUser(String userName) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(userName));
-        HttpPost httpPost = new HttpPost(api.getCheckUser());
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(userName));
+        HttpPost httpPost = new HttpPost(apiConfig.getCheckUser());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("_json_att", ""));
         UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
@@ -268,18 +268,18 @@ public class Request {
     }
 
 
-    public boolean submitOrderRequest(MyTicketInfoModel myTicketInfoModel, TicketModel ticketModel) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
+    public boolean submitOrderRequest(TicketInfoModel ticketInfoModel, TicketModel ticketModel) {
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(ticketInfoModel.getUsername()));
         SimpleDateFormat shortSdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
-        HttpPost httpPost = new HttpPost(api.getSubmitOrderRequest());
+        HttpPost httpPost = new HttpPost(apiConfig.getSubmitOrderRequest());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("back_train_date", shortSdf.format(cal.getTime())));
         formparams.add(new BasicNameValuePair("purpose_codes", "ADULT"));
-        formparams.add(new BasicNameValuePair("query_from_station_name", Station.getNameByCode(myTicketInfoModel.getTo())));
-        formparams.add(new BasicNameValuePair("query_to_station_name", Station.getNameByCode(myTicketInfoModel.getFrom())));
+        formparams.add(new BasicNameValuePair("query_from_station_name", Station.getNameByCode(ticketInfoModel.getTo())));
+        formparams.add(new BasicNameValuePair("query_to_station_name", Station.getNameByCode(ticketInfoModel.getFrom())));
         formparams.add(new BasicNameValuePair("secretStr", ticketModel.getSecret()));
-        formparams.add(new BasicNameValuePair("train_date", myTicketInfoModel.getDate()));
+        formparams.add(new BasicNameValuePair("train_date", ticketInfoModel.getDate()));
         formparams.add(new BasicNameValuePair("tour_flag", "dc"));
         formparams.add(new BasicNameValuePair("undefined", ""));
 
@@ -300,9 +300,9 @@ public class Request {
     }
 
     public String initDc(String userName) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(userName));
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(userName));
         String token = "";
-        HttpGet httpGet = new HttpGet(api.getInitDc());
+        HttpGet httpGet = new HttpGet(apiConfig.getInitDc());
         String response = httpUtil.get(httpGet);
         String regex = "globalRepeatSubmitToken \\= '(.*?)';";
         Pattern p = Pattern.compile(regex);
@@ -321,7 +321,7 @@ public class Request {
 
     public List<PassengerModel> getPassengerDTOs(String token) {
         List<PassengerModel> passengerModelList = new ArrayList<>();
-        HttpPost httpPost = new HttpPost(api.getGetPassengerDTOs());
+        HttpPost httpPost = new HttpPost(apiConfig.getGetPassengerDTOs());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("_json_att", ""));
         formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", token));
@@ -343,9 +343,9 @@ public class Request {
         return passengerModelList;
     }
 
-    public String checkOrderInfo(MyTicketInfoModel myTicketInfoModel) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
-        HttpPost httpPost = new HttpPost(api.getCheckOrderInfo());
+    public String checkOrderInfo(TicketInfoModel ticketInfoModel) {
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(ticketInfoModel.getUsername()));
+        HttpPost httpPost = new HttpPost(apiConfig.getCheckOrderInfo());
         List<NameValuePair> formparams = new ArrayList<>();
 
         formparams.add(new BasicNameValuePair("bed_level_order_num", "000000000000000000000000000000"));
@@ -354,9 +354,9 @@ public class Request {
         formparams.add(new BasicNameValuePair("_json_att", ""));
         formparams.add(new BasicNameValuePair("tour_flag", "dc"));
         formparams.add(new BasicNameValuePair("randCode", ""));
-        formparams.add(new BasicNameValuePair("passengerTicketStr", myTicketInfoModel.getPassengerModel().getPassengerTicketStr(myTicketInfoModel)));
-        formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", myTicketInfoModel.getGlobalRepeatSubmitToken()));
-        formparams.add(new BasicNameValuePair("getOldPassengerStr", myTicketInfoModel.getPassengerModel().getOldPassengerStr(myTicketInfoModel.getPassengerModel())));
+        formparams.add(new BasicNameValuePair("passengerTicketStr", ticketInfoModel.getPassengerModel().getPassengerTicketStr(ticketInfoModel)));
+        formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", ticketInfoModel.getGlobalRepeatSubmitToken()));
+        formparams.add(new BasicNameValuePair("getOldPassengerStr", ticketInfoModel.getPassengerModel().getOldPassengerStr(ticketInfoModel.getPassengerModel())));
 
         UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
         httpPost.setEntity(urlEncodedFormEntity);
@@ -380,7 +380,7 @@ public class Request {
     }
 
     public boolean checkRandCodeAnsyn(String position, String token) {
-        HttpPost httpPost = new HttpPost(api.getCheckRandCodeAnsyn());
+        HttpPost httpPost = new HttpPost(apiConfig.getCheckRandCodeAnsyn());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("randCode", position));
         formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", token));
@@ -398,16 +398,16 @@ public class Request {
         return false;
     }
 
-    public boolean getQueueCount(MyTicketInfoModel myTicketInfoModel, TicketModel ticketModel) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
-        HttpPost httpPost = new HttpPost(api.getGetQueueCount());
+    public boolean getQueueCount(TicketInfoModel ticketInfoModel, TicketModel ticketModel) {
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(ticketInfoModel.getUsername()));
+        HttpPost httpPost = new HttpPost(apiConfig.getGetQueueCount());
         List<NameValuePair> formparams = new ArrayList<>();
 
         formparams.add(new BasicNameValuePair("fromStationTelecode", ticketModel.getFrom()));
         formparams.add(new BasicNameValuePair("toStationTelecode", ticketModel.getTo()));
         formparams.add(new BasicNameValuePair("leftTicket", ticketModel.getLeftTicket()));
         formparams.add(new BasicNameValuePair("purpose_codes", "00"));
-        formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", myTicketInfoModel.getGlobalRepeatSubmitToken()));
+        formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", ticketInfoModel.getGlobalRepeatSubmitToken()));
         formparams.add(new BasicNameValuePair("seatType", ticketModel.getSeat().get(0).getSeatLevel().getCode()));
         formparams.add(new BasicNameValuePair("stationTrainCode", ticketModel.getTrainNumber()));
         formparams.add(new BasicNameValuePair("train_date", CommonUtils.getGMT(ticketModel.getTrainDate())));
@@ -433,14 +433,14 @@ public class Request {
 
     }
 
-    public boolean confirmSingleForQueue(MyTicketInfoModel myTicketInfoModel, TicketModel ticketModel) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
-        HttpPost httpPost = new HttpPost(api.getConfirmSingleForQueue());
+    public boolean confirmSingleForQueue(TicketInfoModel ticketInfoModel, TicketModel ticketModel) {
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(ticketInfoModel.getUsername()));
+        HttpPost httpPost = new HttpPost(apiConfig.getConfirmSingleForQueue());
 
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("dwAll", "N"));
         formparams.add(new BasicNameValuePair("purpose_codes", "00"));
-        formparams.add(new BasicNameValuePair("key_check_isChange", myTicketInfoModel.getKeyCheckIsChange()));
+        formparams.add(new BasicNameValuePair("key_check_isChange", ticketInfoModel.getKeyCheckIsChange()));
         formparams.add(new BasicNameValuePair("_json_att", ""));
         formparams.add(new BasicNameValuePair("leftTicketStr", ticketModel.getLeftTicket()));
         formparams.add(new BasicNameValuePair("train_location", ticketModel.getTrainLocation()));
@@ -449,9 +449,9 @@ public class Request {
         formparams.add(new BasicNameValuePair("roomType", "00"));
         formparams.add(new BasicNameValuePair("seatDetailType", "000"));
         formparams.add(new BasicNameValuePair("randCode", ""));
-        formparams.add(new BasicNameValuePair("passengerTicketStr", myTicketInfoModel.getPassengerModel().getPassengerTicketStr(myTicketInfoModel)));
-        formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", myTicketInfoModel.getGlobalRepeatSubmitToken()));
-        formparams.add(new BasicNameValuePair("getOldPassengerStr", myTicketInfoModel.getPassengerModel().getOldPassengerStr(myTicketInfoModel.getPassengerModel())));
+        formparams.add(new BasicNameValuePair("passengerTicketStr", ticketInfoModel.getPassengerModel().getPassengerTicketStr(ticketInfoModel)));
+        formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN", ticketInfoModel.getGlobalRepeatSubmitToken()));
+        formparams.add(new BasicNameValuePair("getOldPassengerStr", ticketInfoModel.getPassengerModel().getOldPassengerStr(ticketInfoModel.getPassengerModel())));
 
         UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
         httpPost.setEntity(urlEncodedFormEntity);
@@ -472,8 +472,8 @@ public class Request {
         return false;
     }
 
-    public String queryOrderWaitTime(MyTicketInfoModel myTicketInfoModel) {
-        httpUtil.init(UserInfo.userBasicCookieStore.get(myTicketInfoModel.getUsername()));
+    public String queryOrderWaitTime(TicketInfoModel ticketInfoModel) {
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(ticketInfoModel.getUsername()));
         int m = 5;
         int n = 0;
         while (true) {
@@ -481,7 +481,7 @@ public class Request {
                 log.error("排队时间过长，下单失败");
             }
             n++;
-            String url = String.format(api.getQueryOrderWaitTime(), System.currentTimeMillis(), myTicketInfoModel.getGlobalRepeatSubmitToken());
+            String url = String.format(apiConfig.getQueryOrderWaitTime(), System.currentTimeMillis(), ticketInfoModel.getGlobalRepeatSubmitToken());
             HttpGet httpGet = new HttpGet(url);
             String response = httpUtil.get(httpGet);
             Gson jsonResult = new Gson();
@@ -494,7 +494,7 @@ public class Request {
                 int sleepTime = Double.valueOf(waitTime).intValue();
                 String orderId = rsmap.get("orderId") == null ? null : rsmap.get("orderId").toString();
 
-                if (msg != null) {
+                if (!StringUtils.isEmpty(msg)) {
                     log.error(msg);
                 }
                 if (sleepTime == -100) {
