@@ -32,7 +32,7 @@ public class IndexController {
 
     @ApiOperation("登录")
     @ResponseBody
-    @GetMapping("login")
+    @PostMapping("login")
     public Result login(UserModel userModel) {
 
         return ticketService.login(userModel);
