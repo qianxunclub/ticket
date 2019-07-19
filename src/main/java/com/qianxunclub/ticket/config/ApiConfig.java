@@ -30,6 +30,8 @@ public class ApiConfig {
 
     private String login;
 
+    private String passengers;
+
     private String captchaCheck;
 
     private String uamtk;

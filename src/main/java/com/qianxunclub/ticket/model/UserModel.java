@@ -13,4 +13,7 @@ public class UserModel {
     private String password;
     private String answer;
     private String uamtk;
+    private LogdeviceModel logdeviceModel;
+    private String globalRepeatSubmitToken;
+    private String keyCheckIsChange;
 }

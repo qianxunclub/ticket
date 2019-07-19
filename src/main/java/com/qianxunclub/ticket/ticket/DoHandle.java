@@ -1,13 +1,9 @@
 package com.qianxunclub.ticket.ticket;
 
-import com.qianxunclub.ticket.config.CookiesConfig;
 import com.qianxunclub.ticket.constant.StatusEnum;
-import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
-import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.util.CommonUtils;
-import com.qianxunclub.ticket.util.CookieUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,13 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DoHandle {
 
     @Autowired
-    private CookieUtil cookieUtil;
-    @Autowired
-    private CookiesConfig cookiesConfig;
-    @Autowired
     private Login login;
-    @Autowired
-    private ApiRequestService apiRequestService;
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
 
@@ -46,14 +36,8 @@ public class DoHandle {
 
     public void add(BuyTicketInfoModel buyTicketInfoModel) {
         Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
-        LogdeviceModel logdeviceModel = null;
-        // logdeviceModel = request.getDeviceId();
-        logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
-        buyTicketInfoModel.setLogdeviceModel(logdeviceModel);
-
-        UserTicketStore.userBasicCookieStore.put(buyTicketInfoModel.getUsername(), cookieUtil.init(UserTicketStore.userBasicCookieStore.get(buyTicketInfoModel.getUsername()), buyTicketInfoModel.getLogdeviceModel()));
         if (!login.login(buyTicketInfoModel)) {
-            UserTicketStore.remove(buyTicketInfoModel);
+            UserTicketStore.userBasicCookieStore.remove(buyTicketInfoModel.getUsername());
             return;
         }
 

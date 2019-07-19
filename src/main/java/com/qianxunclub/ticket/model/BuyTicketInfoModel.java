@@ -32,16 +32,11 @@ public class BuyTicketInfoModel extends UserModel {
 
     private PassengerModel passengerModel;
 
-    private String globalRepeatSubmitToken;
-
-    private String keyCheckIsChange;
-
     private List<SeatLevelEnum> seat = new ArrayList<>();
 
     private int queryNum;
 
     private StatusEnum status = StatusEnum.START;
 
-    private LogdeviceModel logdeviceModel;
 
 }

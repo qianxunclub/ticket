@@ -23,24 +23,20 @@ public class CookieUtil {
 
     public BasicCookieStore init(BasicCookieStore basicCookieStore, LogdeviceModel logdeviceModel) {
 
-        if (logdeviceModel != null) {
-            BasicClientCookie expCookie = new BasicClientCookie("RAIL_EXPIRATION", logdeviceModel.getExp());
-            expCookie.setDomain(config.getHost());
-            expCookie.setPath("/");
-            basicCookieStore.addCookie(expCookie);
-
-            BasicClientCookie dfCookie = new BasicClientCookie("RAIL_DEVICEID", logdeviceModel.getDfp());
-            dfCookie.setDomain(config.getHost());
-            dfCookie.setPath("/");
-            basicCookieStore.addCookie(dfCookie);
+        if (basicCookieStore == null) {
+            basicCookieStore = new BasicCookieStore();
         }
+        BasicClientCookie expCookie = new BasicClientCookie("RAIL_EXPIRATION", logdeviceModel.getExp());
+        expCookie.setDomain(config.getHost());
+        expCookie.setPath("/");
+        basicCookieStore.addCookie(expCookie);
+
+        BasicClientCookie dfCookie = new BasicClientCookie("RAIL_DEVICEID", logdeviceModel.getDfp());
+        dfCookie.setDomain(config.getHost());
+        dfCookie.setPath("/");
+        basicCookieStore.addCookie(dfCookie);
 
 
-        return basicCookieStore;
-    }
-
-    public BasicCookieStore init() {
-        BasicCookieStore basicCookieStore = new BasicCookieStore();
         return basicCookieStore;
     }
 }

@@ -244,6 +244,30 @@ public class ApiRequestService {
     }
 
 
+    public List<PassengerModel> passengers(String userName) {
+        httpUtil.init(UserTicketStore.userBasicCookieStore.get(userName));
+        HttpPost httpPost = new HttpPost(apiConfig.getPassengers());
+        List<NameValuePair> formparams = new ArrayList<>();
+        formparams.add(new BasicNameValuePair("pageIndex", "1"));
+        formparams.add(new BasicNameValuePair("pageSize", "100"));
+        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
+        httpPost.setEntity(urlEncodedFormEntity);
+        Gson jsonResult = new Gson();
+        String response = httpUtil.post(httpPost);
+        Map rsmap = jsonResult.fromJson(response, Map.class);
+        List<PassengerModel> passengerModelList = new ArrayList<>();
+        if (null != rsmap.get("status") && rsmap.get("status").toString().equals("true")) {
+            List<Map<String, String>> passengers = (List<Map<String, String>>) ((Map) rsmap.get("data")).get("datas");
+            if (!CollectionUtils.isEmpty(passengers)) {
+                passengers.forEach(passenger -> {
+                    PassengerModel passengerModel = new PassengerModel(passenger);
+                    passengerModelList.add(passengerModel);
+                });
+            }
+        }
+        return passengerModelList;
+    }
+
     public boolean checkUser(String userName) {
         httpUtil.init(UserTicketStore.userBasicCookieStore.get(userName));
         HttpPost httpPost = new HttpPost(apiConfig.getCheckUser());

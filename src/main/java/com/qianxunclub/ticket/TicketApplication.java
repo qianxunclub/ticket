@@ -2,7 +2,7 @@ package com.qianxunclub.ticket;
 
 import com.qianxunclub.ticket.config.UserConfig;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
-import com.qianxunclub.ticket.service.UserService;
+import com.qianxunclub.ticket.service.TicketService;
 import com.qianxunclub.ticket.ticket.DoHandle;
 import com.qianxunclub.ticket.model.UserTicketStore;
 
@@ -32,8 +32,8 @@ public class TicketApplication {
         });
 
         // 数据库获取取购票嘻嘻
-        UserService userService = applicationContext.getBean(UserService.class);
-        userService.getBuyTicketInfoModel().forEach(buyTicketInfoModel -> {
+        TicketService ticketService = applicationContext.getBean(TicketService.class);
+        ticketService.getBuyTicketInfoModel().forEach(buyTicketInfoModel -> {
             UserTicketStore.add(buyTicketInfoModel);
         });
 

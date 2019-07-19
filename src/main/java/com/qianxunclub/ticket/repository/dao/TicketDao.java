@@ -24,13 +24,13 @@ public class TicketDao {
         return ticketMapper.selectList(null);
     }
 
-    public Ticket getTicketByUserId(Integer userId) {
+    public Ticket getTicketByUserName(String userName) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("user_id", userId);
+        queryWrapper.eq("username", userName);
         return ticketMapper.selectOne(queryWrapper);
     }
 
-    public void add(Ticket ticket){
+    public void add(Ticket ticket) {
         ticketMapper.insert(ticket);
     }
 }

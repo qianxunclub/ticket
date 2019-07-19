@@ -18,6 +18,7 @@ api:
   init: "${config.base_url}/otn/leftTicket/init"
   leftTicket: "${config.base_url}/otn/leftTicket/query?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
   loginConfig: "${config.base_url}/otn/login/conf"
+  passengers: "${config.base_url}/otn/passengers/query"
   captchaImage: "${config.base_url}/passport/captcha/captcha-image64?login_site=E&module=login&rand=sjrand&_=%s"
   uamtkStatic: "${config.base_url}/passport/web/auth/uamtk-static?appid=otn"
   login: "${config.base_url}/passport/web/login"
