@@ -13,26 +13,26 @@ import java.util.Map;
  * @description: TODO
  */
 public class UserTicketStore {
-    public static List<TicketInfoModel> ticketInfoModelList = new ArrayList<>();
+    public static List<BuyTicketInfoModel> buyTicketInfoModelList = new ArrayList<>();
     public static Map<String, BasicCookieStore> userBasicCookieStore = new HashMap<>();
 
-    public static void add(TicketInfoModel ticketInfoModel) {
-        userBasicCookieStore.put(ticketInfoModel.getUsername(), new BasicCookieStore());
-        ticketInfoModelList.add(ticketInfoModel);
+    public static void add(BuyTicketInfoModel buyTicketInfoModel) {
+        userBasicCookieStore.put(buyTicketInfoModel.getUsername(), new BasicCookieStore());
+        buyTicketInfoModelList.add(buyTicketInfoModel);
     }
 
-    public static void remove(TicketInfoModel myTicketInfo) {
+    public static void remove(BuyTicketInfoModel myTicketInfo) {
         Integer index = null;
-        for (int i = 0; i < ticketInfoModelList.size(); i++) {
-            TicketInfoModel ticketInfoModel = ticketInfoModelList.get(i);
-            if (ticketInfoModel.getPassengerIdTypeCode().equals(myTicketInfo.getPassengerIdTypeCode()) && ticketInfoModel.getRealName().equals(myTicketInfo.getRealName())) {
+        for (int i = 0; i < buyTicketInfoModelList.size(); i++) {
+            BuyTicketInfoModel buyTicketInfoModel = buyTicketInfoModelList.get(i);
+            if (buyTicketInfoModel.getPassengerIdTypeCode().equals(myTicketInfo.getPassengerIdTypeCode()) && buyTicketInfoModel.getRealName().equals(myTicketInfo.getRealName())) {
                 index = i;
             }
         }
         if (index != null) {
-            TicketInfoModel ticketInfoModel = ticketInfoModelList.get(index);
-            userBasicCookieStore.remove(ticketInfoModel.getUsername());
-            ticketInfoModelList.remove(index);
+            BuyTicketInfoModel buyTicketInfoModel = buyTicketInfoModelList.get(index);
+            userBasicCookieStore.remove(buyTicketInfoModel.getUsername());
+            buyTicketInfoModelList.remove(index);
         }
     }
 }

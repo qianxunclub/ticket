@@ -2,7 +2,7 @@ package com.qianxunclub.ticket.ticket;
 
 import com.qianxunclub.ticket.model.NoticeModel;
 import com.qianxunclub.ticket.model.PassengerModel;
-import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.service.NoticeService;
 import com.qianxunclub.ticket.service.ApiRequestService;
@@ -31,56 +31,56 @@ public class BuyTicket {
     private NoticeService noticeService;
     private Login login;
 
-    public boolean buy(TicketInfoModel ticketInfoModel, TicketModel ticketModel) {
+    public boolean buy(BuyTicketInfoModel buyTicketInfoModel, TicketModel ticketModel) {
 
-        if (!login.login(ticketInfoModel)) {
+        if (!login.login(buyTicketInfoModel)) {
             return false;
         }
 
-        if (!apiRequestService.checkUser(ticketInfoModel.getUsername())) {
+        if (!apiRequestService.checkUser(buyTicketInfoModel.getUsername())) {
             return false;
         }
 
-        if (!apiRequestService.submitOrderRequest(ticketInfoModel, ticketModel)) {
+        if (!apiRequestService.submitOrderRequest(buyTicketInfoModel, ticketModel)) {
             return false;
         }
 
-        String token = apiRequestService.initDc(ticketInfoModel.getUsername());
-        ticketInfoModel.setGlobalRepeatSubmitToken(token.split(",")[0]);
-        ticketInfoModel.setKeyCheckIsChange(token.split(",")[1]);
+        String token = apiRequestService.initDc(buyTicketInfoModel.getUsername());
+        buyTicketInfoModel.setGlobalRepeatSubmitToken(token.split(",")[0]);
+        buyTicketInfoModel.setKeyCheckIsChange(token.split(",")[1]);
 
-        PassengerModel passengerModel = this.getPassenger(ticketInfoModel);
+        PassengerModel passengerModel = this.getPassenger(buyTicketInfoModel);
         if (passengerModel == null) {
             return false;
         }
-        ticketInfoModel.setPassengerModel(passengerModel);
+        buyTicketInfoModel.setPassengerModel(passengerModel);
 
 
-        String isShowPassCode = apiRequestService.checkOrderInfo(ticketInfoModel);
+        String isShowPassCode = apiRequestService.checkOrderInfo(buyTicketInfoModel);
         if (StringUtils.isEmpty(isShowPassCode)) {
             return false;
         }
         if (isShowPassCode.equals("Y")) {
             String captchaImage = apiRequestService.captchaImage();
             String position = captchaImageForPy.check(captchaImage);
-            if (!apiRequestService.checkRandCodeAnsyn(position, ticketInfoModel.getGlobalRepeatSubmitToken())) {
+            if (!apiRequestService.checkRandCodeAnsyn(position, buyTicketInfoModel.getGlobalRepeatSubmitToken())) {
                 return false;
             }
         }
-        if (!apiRequestService.getQueueCount(ticketInfoModel, ticketModel)) {
+        if (!apiRequestService.getQueueCount(buyTicketInfoModel, ticketModel)) {
             return false;
         }
-        if (!apiRequestService.confirmSingleForQueue(ticketInfoModel, ticketModel)) {
+        if (!apiRequestService.confirmSingleForQueue(buyTicketInfoModel, ticketModel)) {
             return false;
         }
 
-        String orderid = apiRequestService.queryOrderWaitTime(ticketInfoModel);
+        String orderid = apiRequestService.queryOrderWaitTime(buyTicketInfoModel);
         if (!StringUtils.isEmpty(orderid)) {
             NoticeModel noticeModel = new NoticeModel();
-            noticeModel.setName(ticketInfoModel.getRealName());
-            noticeModel.setUserName(ticketInfoModel.getUsername());
-            noticeModel.setPassword(ticketInfoModel.getPassword());
-            noticeModel.setPhoneNumber(ticketInfoModel.getMobile());
+            noticeModel.setName(buyTicketInfoModel.getRealName());
+            noticeModel.setUserName(buyTicketInfoModel.getUsername());
+            noticeModel.setPassword(buyTicketInfoModel.getPassword());
+            noticeModel.setPhoneNumber(buyTicketInfoModel.getMobile());
             noticeModel.setOrderId(orderid);
             noticeService.send(noticeModel);
             return true;
@@ -90,13 +90,13 @@ public class BuyTicket {
     }
 
 
-    public PassengerModel getPassenger(TicketInfoModel ticketInfoModel) {
-        List<PassengerModel> passengerModelList = apiRequestService.getPassengerDTOs(ticketInfoModel.getGlobalRepeatSubmitToken());
+    public PassengerModel getPassenger(BuyTicketInfoModel buyTicketInfoModel) {
+        List<PassengerModel> passengerModelList = apiRequestService.getPassengerDTOs(buyTicketInfoModel.getGlobalRepeatSubmitToken());
         PassengerModel passengerModel = passengerModelList.stream().filter(model -> (
-                model.getPassengerIdTypeCode().equals(ticketInfoModel.getPassengerIdTypeCode()) && model.getPassengerName().equals(ticketInfoModel.getRealName())
+                model.getPassengerIdTypeCode().equals(buyTicketInfoModel.getPassengerIdTypeCode()) && model.getPassengerName().equals(buyTicketInfoModel.getRealName())
         )).findFirst().orElse(null);
         if (passengerModel == null) {
-            log.error("没有找到对应的乘客信息：" + ticketInfoModel.getRealName() + ",passengerIdTypeCode:" + ticketInfoModel.getPassengerIdTypeCode());
+            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",passengerIdTypeCode:" + buyTicketInfoModel.getPassengerIdTypeCode());
         }
         return passengerModel;
     }

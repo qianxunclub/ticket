@@ -3,7 +3,7 @@ package com.qianxunclub.ticket.ticket;
 import com.qianxunclub.ticket.config.CookiesConfig;
 import com.qianxunclub.ticket.constant.StatusEnum;
 import com.qianxunclub.ticket.model.LogdeviceModel;
-import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.util.CommonUtils;
@@ -39,48 +39,48 @@ public class DoHandle {
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
 
     public void go() {
-        UserTicketStore.ticketInfoModelList.forEach(myTicketInfoModel -> {
+        UserTicketStore.buyTicketInfoModelList.forEach(myTicketInfoModel -> {
             this.add(myTicketInfoModel);
         });
     }
 
-    public void add(TicketInfoModel ticketInfoModel) {
+    public void add(BuyTicketInfoModel buyTicketInfoModel) {
 
         LogdeviceModel logdeviceModel = null;
         // logdeviceModel = request.getDeviceId();
         logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
-        ticketInfoModel.setLogdeviceModel(logdeviceModel);
+        buyTicketInfoModel.setLogdeviceModel(logdeviceModel);
 
-        UserTicketStore.userBasicCookieStore.put(ticketInfoModel.getUsername(), cookieUtil.init(UserTicketStore.userBasicCookieStore.get(ticketInfoModel.getUsername()), ticketInfoModel.getLogdeviceModel()));
-        if (!login.login(ticketInfoModel)) {
-            UserTicketStore.remove(ticketInfoModel);
+        UserTicketStore.userBasicCookieStore.put(buyTicketInfoModel.getUsername(), cookieUtil.init(UserTicketStore.userBasicCookieStore.get(buyTicketInfoModel.getUsername()), buyTicketInfoModel.getLogdeviceModel()));
+        if (!login.login(buyTicketInfoModel)) {
+            UserTicketStore.remove(buyTicketInfoModel);
             return;
         }
 
-        Main main = new Main(ticketInfoModel);
+        Main main = new Main(buyTicketInfoModel);
         Thread thread = new Thread(main);
         thread.start();
     }
 
     class Main implements Runnable {
-        private TicketInfoModel ticketInfoModel;
+        private BuyTicketInfoModel buyTicketInfoModel;
 
-        public Main(TicketInfoModel ticketInfoModel) {
-            this.ticketInfoModel = ticketInfoModel;
+        public Main(BuyTicketInfoModel buyTicketInfoModel) {
+            this.buyTicketInfoModel = buyTicketInfoModel;
         }
 
         @Override
         public void run() {
-            Thread.currentThread().setName(CommonUtils.getThreadName(ticketInfoModel));
-            ticketInfoModel.setStatus(StatusEnum.ING);
+            Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
+            buyTicketInfoModel.setStatus(StatusEnum.ING);
             while (true) {
-                Task task = new Task(ticketInfoModel);
+                Task task = new Task(buyTicketInfoModel);
                 Future<Boolean> booleanFuture = handleCachedThreadPool.submit(task);
                 try {
                     Boolean flag = booleanFuture.get();
                     if (flag) {
                         log.info("完成!!!!");
-                        ticketInfoModel.setStatus(StatusEnum.SUCCESS);
+                        buyTicketInfoModel.setStatus(StatusEnum.SUCCESS);
                         return;
                     }
                     try {

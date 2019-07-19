@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket;
 
 import com.qianxunclub.ticket.config.UserConfig;
-import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.ticket.DoHandle;
 import com.qianxunclub.ticket.model.UserTicketStore;
 
@@ -22,8 +22,8 @@ public class TicketApplication {
         SpringApplicationBuilder builder = new SpringApplicationBuilder(TicketApplication.class);
         ApplicationContext applicationContext = builder.run(args);
 
-        List<TicketInfoModel> ticketInfoModelList = applicationContext.getBean(UserConfig.class).getTicketInfo();
-        ticketInfoModelList.forEach((ticketInfoModel)->{
+        List<BuyTicketInfoModel> buyTicketInfoModelList = applicationContext.getBean(UserConfig.class).getTicketInfo();
+        buyTicketInfoModelList.forEach((ticketInfoModel)->{
             if(ticketInfoModel != null){
                 UserTicketStore.add(ticketInfoModel);
             }

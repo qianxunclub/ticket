@@ -71,9 +71,9 @@ public class PassengerModel {
         this.allEncStr = passengerMap.get("allEncStr");
     }
 
-    public String getPassengerTicketStr(TicketInfoModel ticketInfoModel) {
-        PassengerModel passengerModel = ticketInfoModel.getPassengerModel();
-        return ticketInfoModel.getSeat().get(0).getCode() + "," +
+    public String getPassengerTicketStr(BuyTicketInfoModel buyTicketInfoModel) {
+        PassengerModel passengerModel = buyTicketInfoModel.getPassengerModel();
+        return buyTicketInfoModel.getSeat().get(0).getCode() + "," +
                 "0,1," + passengerModel.getPassengerName() + "," +
                 passengerModel.getPassengerIdTypeCode() + "," +
                 passengerModel.getPassengerIdNo() + "," +

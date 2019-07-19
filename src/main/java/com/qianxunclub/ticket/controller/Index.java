@@ -1,6 +1,6 @@
 package com.qianxunclub.ticket.controller;
 
-import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.ticket.DoHandle;
 import com.qianxunclub.ticket.model.UserTicketStore;
 
@@ -27,13 +27,13 @@ public class Index {
     @ResponseBody
     @RequestMapping(value = "user",method = RequestMethod.GET)
     public Object buying(){
-        return UserTicketStore.ticketInfoModelList;
+        return UserTicketStore.buyTicketInfoModelList;
     }
 
     @ResponseBody
     @RequestMapping(value = "user",method = RequestMethod.POST)
-    public void user(@RequestBody TicketInfoModel ticketInfoModel){
-        doHandle.add(ticketInfoModel);
+    public void user(@RequestBody BuyTicketInfoModel buyTicketInfoModel){
+        doHandle.add(buyTicketInfoModel);
     }
 
 }
