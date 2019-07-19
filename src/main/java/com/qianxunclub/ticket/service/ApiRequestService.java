@@ -20,7 +20,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -51,7 +51,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description: TODO
  */
 @Slf4j
-@Component
+@Service
 @AllArgsConstructor
 public class ApiRequestService {
 

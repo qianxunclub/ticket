@@ -6,6 +6,7 @@ import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.model.UserTicketStore;
+import com.qianxunclub.ticket.service.UserService;
 import com.qianxunclub.ticket.util.CommonUtils;
 import com.qianxunclub.ticket.util.CookieUtil;
 
@@ -35,12 +36,19 @@ public class DoHandle {
     private Login login;
     @Autowired
     private ApiRequestService apiRequestService;
+    @Autowired
+    private UserService userService;
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
 
     public void go() {
-        UserTicketStore.buyTicketInfoModelList.forEach(myTicketInfoModel -> {
-            this.add(myTicketInfoModel);
+        // 配置文件获取用户
+        UserTicketStore.buyTicketInfoModelList.forEach(buyTicketInfoModel -> {
+            this.add(buyTicketInfoModel);
+        });
+        // 数据库获取用户
+        userService.getBuyTicketInfoModel().forEach(buyTicketInfoModel -> {
+            this.add(buyTicketInfoModel);
         });
     }
 

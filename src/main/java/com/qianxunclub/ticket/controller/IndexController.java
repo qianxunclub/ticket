@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 
 /**
@@ -17,10 +18,11 @@ import lombok.AllArgsConstructor;
  * @date 2019-06-08 19:31
  * @description: TODO
  */
+@Api("接口文档")
 @RestController
 @AllArgsConstructor
 @RequestMapping(value = "/api", produces = "application/json")
-public class Index {
+public class IndexController {
 
     private DoHandle doHandle;
 

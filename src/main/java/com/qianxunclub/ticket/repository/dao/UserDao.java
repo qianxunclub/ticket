@@ -19,7 +19,11 @@ import lombok.AllArgsConstructor;
 public class UserDao {
     private UserMapper userMapper;
 
-    public List<User> list(){
+    public List<User> list() {
         return userMapper.selectList(null);
+    }
+
+    public void add(User user) {
+        userMapper.insert(user);
     }
 }

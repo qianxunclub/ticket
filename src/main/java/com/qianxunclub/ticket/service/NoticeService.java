@@ -12,7 +12,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.qianxunclub.ticket.config.ApiConfig;
 import com.qianxunclub.ticket.config.NoticeConfig;
 import com.qianxunclub.ticket.model.NoticeModel;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description: TODO
  */
 @Slf4j
-@Component
+@Service
 @AllArgsConstructor
 public class NoticeService {
 

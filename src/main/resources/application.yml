@@ -46,6 +46,15 @@ spring:
       - user
       - sms
 
+swagger:
+  enabled: true
+  title: 12306抢票系统
+  description: 12306抢票系统
+  webBasePackage: com.qianxunclub.ticket.controller
+  author: 千寻啊千寻
+  url: qianxunclub.com
+  email: qianxunclub@qq.com
+
 logging:
   level:
     com.qianxunclub: info
