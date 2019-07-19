@@ -13,7 +13,7 @@ user.ticket-info:
     #  到达站点
     to: 三门峡南
     #  车次
-    trainNumber: G818
+    trainNumber: XXXX
     #  乘车人姓名
     realName: XXXX
     #  乘车人手机号码
@@ -37,7 +37,7 @@ user.ticket-info:
     date: 2019-08-14
     from: 深圳
     to: 三门峡南
-    trainNumber: G818
+    trainNumber: XXXX
     realName: XXXX
     mobile: XXXX
     seat:

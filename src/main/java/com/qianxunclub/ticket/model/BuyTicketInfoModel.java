@@ -14,7 +14,7 @@ import lombok.Data;
  * @description: TODO
  */
 @Data
-public class TicketInfoModel extends UserModel {
+public class BuyTicketInfoModel extends UserModel {
 
     private String date;
 

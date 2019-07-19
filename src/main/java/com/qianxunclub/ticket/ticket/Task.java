@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.ticket;
 
 import com.qianxunclub.ticket.config.Config;
-import com.qianxunclub.ticket.model.TicketInfoModel;
+import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.util.ApplicationContextHelper;
 import com.qianxunclub.ticket.util.CommonUtils;
@@ -24,10 +24,10 @@ public class Task implements Callable {
     private Config config;
     private BuyTicket buyTicket;
     private QueryTicket queryTicket;
-    private TicketInfoModel ticketInfoModel;
+    private BuyTicketInfoModel buyTicketInfoModel;
 
-    public Task(TicketInfoModel ticketInfoModel) {
-        this.ticketInfoModel = ticketInfoModel;
+    public Task(BuyTicketInfoModel buyTicketInfoModel) {
+        this.buyTicketInfoModel = buyTicketInfoModel;
         this.buyTicket = ApplicationContextHelper.getBean(BuyTicket.class);
         this.queryTicket = ApplicationContextHelper.getBean(QueryTicket.class);
         this.config = ApplicationContextHelper.getBean(Config.class);
@@ -35,11 +35,11 @@ public class Task implements Callable {
 
     @Override
     public Boolean call() {
-        Thread.currentThread().setName(CommonUtils.getThreadName(ticketInfoModel));
+        Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
         while (true) {
-            ticketInfoModel.setQueryNum(ticketInfoModel.getQueryNum() + 1);
+            buyTicketInfoModel.setQueryNum(buyTicketInfoModel.getQueryNum() + 1);
             try {
-                TicketModel ticketModel = queryTicket.getMyTicket(ticketInfoModel);
+                TicketModel ticketModel = queryTicket.getMyTicket(buyTicketInfoModel);
                 if (ticketModel == null || CollectionUtils.isEmpty(ticketModel.getSeat())) {
                     log.warn("没有查询到购买的票");
                     Thread.sleep(config.getQueryTicketSellpTime() * 1000);
@@ -47,7 +47,7 @@ public class Task implements Callable {
                 }
                 log.info("有票啦，开始抢！");
 
-                return buyTicket.buy(ticketInfoModel, ticketModel);
+                return buyTicket.buy(buyTicketInfoModel, ticketModel);
             } catch (Exception e) {
                 log.error("出现错误", e);
                 try {
