@@ -70,6 +70,13 @@ notice:
 默认用户是指在项目启动的时候，直接开始抢购对应的配置购票信息。  
 配置文件：[application-sms.yml](src/main/resources/application-user.yml)  
 
+# 在线接口文档
+项目集成了 `swagger` ，可以在线直接调用接口使用。  
+项目启动成功后，输入地址：
+```
+http://localhost:9998/swagger-ui.html
+```
+
 # 开发者讨论
 有什么好建议或者想法的，可以添加QQ群一起讨论：852214454
 
