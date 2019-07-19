@@ -6,7 +6,6 @@ import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.model.UserTicketStore;
-import com.qianxunclub.ticket.service.UserService;
 import com.qianxunclub.ticket.util.CommonUtils;
 import com.qianxunclub.ticket.util.CookieUtil;
 
@@ -36,24 +35,17 @@ public class DoHandle {
     private Login login;
     @Autowired
     private ApiRequestService apiRequestService;
-    @Autowired
-    private UserService userService;
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
 
     public void go() {
-        // 配置文件获取用户
         UserTicketStore.buyTicketInfoModelList.forEach(buyTicketInfoModel -> {
-            this.add(buyTicketInfoModel);
-        });
-        // 数据库获取用户
-        userService.getBuyTicketInfoModel().forEach(buyTicketInfoModel -> {
             this.add(buyTicketInfoModel);
         });
     }
 
     public void add(BuyTicketInfoModel buyTicketInfoModel) {
-
+        Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
         LogdeviceModel logdeviceModel = null;
         // logdeviceModel = request.getDeviceId();
         logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
@@ -91,13 +83,9 @@ public class DoHandle {
                         buyTicketInfoModel.setStatus(StatusEnum.SUCCESS);
                         return;
                     }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
                 } catch (Exception e) {
-                    log.error("", e);
+                    log.error("未知异常", e);
+                } finally {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {

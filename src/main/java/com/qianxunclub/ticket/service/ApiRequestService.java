@@ -474,11 +474,12 @@ public class ApiRequestService {
 
     public String queryOrderWaitTime(BuyTicketInfoModel buyTicketInfoModel) {
         httpUtil.init(UserTicketStore.userBasicCookieStore.get(buyTicketInfoModel.getUsername()));
-        int m = 5;
+        int m = 50;
         int n = 0;
         while (true) {
             if (n >= m) {
                 log.error("排队时间过长，下单失败");
+                return null;
             }
             n++;
             String url = String.format(apiConfig.getQueryOrderWaitTime(), System.currentTimeMillis(), buyTicketInfoModel.getGlobalRepeatSubmitToken());
@@ -498,24 +499,24 @@ public class ApiRequestService {
                     log.error(msg);
                 }
                 if (sleepTime == -100) {
-                    log.error("获取订单出现-100错误，解决办法：confirmSingleForQueue 确认订单等待时间稍微长一些。");
+                    log.error("获取订单出现-100错误。");
                 }
                 if (sleepTime == -2) {
                     return null;
                 }
 
                 if (sleepTime >= 0 && StringUtils.isEmpty(orderId)) {
-                    log.info("等待获取订单号：前面" + waitCount + "人，需等待：" + waitTime);
-                    try {
-                        Thread.sleep(sleepTime);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    log.info("正在等待获取订单号：预计前面" + waitCount + "人，预计需等待：" + waitTime);
                 } else if (!StringUtils.isEmpty(orderId)) {
                     log.info("下单成功，订单号：" + orderId + "，请尽快支付！！！");
                     return orderId;
                 } else {
                     log.error("无法等待获取订单号，正在尝试继续获取:{}", response);
+                }
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }

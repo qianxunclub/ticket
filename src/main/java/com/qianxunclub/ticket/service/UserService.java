@@ -47,6 +47,7 @@ public class UserService {
             }
             BeanUtils.copyProperties(user, buyTicketInfoModel);
             BeanUtils.copyProperties(ticket, buyTicketInfoModel);
+            buyTicketInfoModel.setSeat(ticket.getSeatList());
             buyTicketInfoModelList.add(buyTicketInfoModel);
         });
         return buyTicketInfoModelList;

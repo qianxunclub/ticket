@@ -1,5 +1,6 @@
 package com.qianxunclub.ticket.repository.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.qianxunclub.ticket.constant.SeatLevelEnum;
 
 import java.util.ArrayList;
@@ -15,10 +16,12 @@ import lombok.Data;
 @Data
 public class Ticket {
 
+    @TableField("`date`")
     private String date;
 
+    @TableField("`from`")
     private String from;
-
+    @TableField("`to`")
     private String to;
 
     private String trainNumber;

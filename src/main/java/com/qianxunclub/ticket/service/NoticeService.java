@@ -12,6 +12,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.qianxunclub.ticket.config.ApiConfig;
 import com.qianxunclub.ticket.config.NoticeConfig;
 import com.qianxunclub.ticket.model.NoticeModel;
+
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -33,16 +34,15 @@ public class NoticeService {
     private NoticeConfig noticeConfig;
     private ApiConfig apiConfig;
 
-    public void send(NoticeModel noticeModel){
-
+    public void send(NoticeModel noticeModel) {
 
         try {
             Gson gson = new Gson();
-            Map<String,String> map = new HashMap<>();
-            map.put("name",noticeModel.getName());
-            map.put("username",noticeModel.getUserName());
-            map.put("password",noticeModel.getPassword());
-            map.put("orderId",noticeModel.getOrderId());
+            Map<String, String> map = new HashMap<>();
+            map.put("name", noticeModel.getName());
+            map.put("username", noticeModel.getUserName());
+            map.put("password", noticeModel.getPassword());
+            map.put("orderId", noticeModel.getOrderId());
 
             DefaultProfile profile = DefaultProfile.getProfile("default", noticeConfig.getAccessKeyId(), noticeConfig.getAccessSecret());
             IAcsClient client = new DefaultAcsClient(profile);
@@ -56,14 +56,16 @@ public class NoticeService {
             request.putQueryParameter("PhoneNumbers", noticeModel.getPhoneNumber());
             request.putQueryParameter("SignName", noticeConfig.getSignName());
             request.putQueryParameter("TemplateCode", noticeConfig.getTemplateCode());
-            request.putQueryParameter("TemplateParam",gson.toJson(map));
+            request.putQueryParameter("TemplateParam", gson.toJson(map));
             CommonResponse response = client.getCommonResponse(request);
-            map = gson.fromJson(response.getData(),Map.class);
-            if(!map.get("Code").equals("OK")){
+            map = gson.fromJson(response.getData(), Map.class);
+            if (!map.get("Code").equals("OK")) {
+                log.debug("短信通知通知完成{}！", noticeModel.getPhoneNumber());
+            } else {
                 log.error("短信通知失败：" + map);
             }
-        } catch (Exception e){
-            log.error("短信通知失败：" + noticeModel,e);
+        } catch (Exception e) {
+            log.error("短信通知失败：" + noticeModel, e);
         }
 
     }
