@@ -2,8 +2,8 @@ server:
   port: 9998
 
 cookies:
-  rail_expiration: "1563556227236"
-  rail_deviceid: "YkU7S5hA_bX2jVsyLjON3VnjEzreUMFU8OC03f8vtvqz_f7jh24Ba9IgLkxQ1AzI0oKZzmgURCuVLt-sGxzmQmcFoyeA1HMEJz1yggpZU_tWCE0EMSJ3rLle_X8mrXqQf7IFKRdBQpjTB6bHWgJu_54zmfwvboQ2"
+  rail_expiration: "1563870985931"
+  rail_deviceid: "G8BwGrxbrEQocgTK-DDPCIPRb96VrMsrQ-ZGw5VJ5gFlUeQi5KmPeMT0GOsIpZENJdpoCirxSQV6T1W8xogCDI79zH2EiTwDQD5iiqmsbLALiftJLOoYTClQZ6bzeY9T-pXq5lPI3nJRfkpsKx3AIF3sOWkn4-ql"
 config:
   host: "kyfw.12306.cn"
   base_url: "https://kyfw.12306.cn"
