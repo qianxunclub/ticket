@@ -201,7 +201,7 @@ public class ApiRequestService {
         Gson jsonResult = new Gson();
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if (!"0.0".equals(rsmap.getOrDefault("result_code", "").toString())) {
-            log.error("登陆失败：", rsmap);
+            log.error("登陆失败：{}", rsmap);
             return false;
         }
         UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), httpUtil.getBasicCookieStore());

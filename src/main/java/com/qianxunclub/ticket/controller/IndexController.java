@@ -1,8 +1,8 @@
 package com.qianxunclub.ticket.controller;
 
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
+import com.qianxunclub.ticket.model.LoginRequest;
 import com.qianxunclub.ticket.model.Result;
-import com.qianxunclub.ticket.model.UserModel;
 import com.qianxunclub.ticket.service.TicketService;
 import com.qianxunclub.ticket.model.UserTicketStore;
 
@@ -33,9 +33,9 @@ public class IndexController {
     @ApiOperation("登录")
     @ResponseBody
     @PostMapping("login")
-    public Result login(UserModel userModel) {
+    public Result login(LoginRequest loginRequest) {
 
-        return ticketService.login(userModel);
+        return ticketService.login(loginRequest.toUserModel());
     }
 
     @ApiOperation("正在抢票中的用户")
