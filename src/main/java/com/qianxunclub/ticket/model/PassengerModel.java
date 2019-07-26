@@ -1,5 +1,9 @@
 package com.qianxunclub.ticket.model;
 
+import com.qianxunclub.ticket.model.response.PassengerResponse;
+
+import org.springframework.beans.BeanUtils;
+
 import java.util.Map;
 
 import lombok.Data;
@@ -86,6 +90,12 @@ public class PassengerModel {
                 passengerModel.getPassengerIdTypeCode() + "," +
                 passengerModel.getPassengerIdNo() + "," +
                 passengerModel.getPassengerType() + "_";
+    }
+
+    public PassengerResponse toPassengerResponse(){
+        PassengerResponse passengerResponse = new PassengerResponse();
+        BeanUtils.copyProperties(this,passengerResponse);
+        return passengerResponse;
     }
 
 }

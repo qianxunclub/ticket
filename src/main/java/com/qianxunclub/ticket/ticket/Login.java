@@ -33,7 +33,9 @@ public class Login {
         LogdeviceModel logdeviceModel = null;
         // logdeviceModel = apiRequestService.getDeviceId();
         logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
-        userModel.setLogdeviceModel(logdeviceModel);
+        if (userModel.getLogdeviceModel() == null) {
+            userModel.setLogdeviceModel(logdeviceModel);
+        }
         BasicCookieStore basicCookieStore = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());
         UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), cookieUtil.init(basicCookieStore, userModel.getLogdeviceModel()));
 
@@ -45,6 +47,7 @@ public class Login {
         if (!apiRequestService.isLogin(userModel)) {
             log.info("正在登陆：" + userModel.getUsername());
             if (apiRequestService.isLoginPassCode()) {
+                log.info("正在识别验证码");
                 String captchaImage = apiRequestService.captchaImage();
                 String position = captchaImageForPy.check(captchaImage);
                 userModel.setAnswer(position);

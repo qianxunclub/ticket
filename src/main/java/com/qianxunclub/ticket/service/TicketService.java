@@ -33,24 +33,25 @@ public class TicketService {
     private Login login;
     private ApiRequestService apiRequestService;
 
-    public Result login(UserModel userModel) {
+    public List<PassengerModel> login(UserModel userModel) {
 
         if (!login.login(userModel)) {
             UserTicketStore.userBasicCookieStore.remove(userModel.getUsername());
-            return new Result("ERROR", "登录失败");
+            return null;
         }
-        Result result = new Result("SUCCESS", "登录成功");
         List<PassengerModel> passengerModelList = this.passengers(userModel.getUsername());
-        result.setData(passengerModelList);
-        return result;
+        return passengerModelList;
     }
 
     public Result addTicketInfo(BuyTicketInfoModel buyTicketInfoModel) {
+        UserTicketStore.add(buyTicketInfoModel);
         Ticket ticket = ticketDao.getTicketByUserName(buyTicketInfoModel.getUsername());
         if (ticket != null) {
             return new Result("ERROR", "该账户已经在购票中！");
         }
+        ticket = new Ticket();
         BeanUtils.copyProperties(buyTicketInfoModel, ticket);
+        ticket.setSeat(buyTicketInfoModel.getSeatStr());
         ticketDao.add(ticket);
         doHandle.add(buyTicketInfoModel);
         return new Result("SUCCESS", "添加成功");
