@@ -33,4 +33,8 @@ public class TicketDao {
     public void add(Ticket ticket) {
         ticketMapper.insert(ticket);
     }
+
+    public void deleteById(Integer id) {
+        ticketMapper.deleteById(id);
+    }
 }

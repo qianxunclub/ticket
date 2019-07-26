@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @Data
 public class Ticket {
-
+    private int id;
     private String username;
     private String password;
     @TableField("`date`")

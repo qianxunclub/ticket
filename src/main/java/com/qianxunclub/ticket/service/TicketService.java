@@ -44,6 +44,7 @@ public class TicketService {
     }
 
     public Result addTicketInfo(BuyTicketInfoModel buyTicketInfoModel) {
+        UserTicketStore.add(buyTicketInfoModel);
         Ticket ticket = ticketDao.getTicketByUserName(buyTicketInfoModel.getUsername());
         if (ticket != null) {
             return new Result("ERROR", "该账户已经在购票中！");

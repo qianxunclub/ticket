@@ -16,6 +16,8 @@ import lombok.Data;
 @Data
 public class BuyTicketInfoModel extends UserModel {
 
+    private int id;
+
     private String date;
 
     private String from;
@@ -45,6 +47,6 @@ public class BuyTicketInfoModel extends UserModel {
         seat.forEach(seatLevelEnum -> {
             seatStr.append(seatLevelEnum.name() + ",");
         });
-        return seatStr.substring(seatStr.length(), seatStr.length() - 1);
+        return seatStr.substring(0, seatStr.length() - 1);
     }
 }
