@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BuyTicket {
 
     private ApiRequestService apiRequestService;
+    private PassengerService passengerService;
     private CaptchaImageForPy captchaImageForPy;
     private NoticeService noticeService;
     private Login login;
@@ -49,7 +50,7 @@ public class BuyTicket {
         buyTicketInfoModel.setGlobalRepeatSubmitToken(token.split(",")[0]);
         buyTicketInfoModel.setKeyCheckIsChange(token.split(",")[1]);
 
-        PassengerModel passengerModel = this.getPassenger(buyTicketInfoModel);
+        PassengerModel passengerModel = passengerService.getPassenger(buyTicketInfoModel);
         if (passengerModel == null) {
             return false;
         }
@@ -88,17 +89,4 @@ public class BuyTicket {
 
         return false;
     }
-
-
-    public PassengerModel getPassenger(BuyTicketInfoModel buyTicketInfoModel) {
-        List<PassengerModel> passengerModelList = apiRequestService.getPassengerDTOs(buyTicketInfoModel.getGlobalRepeatSubmitToken());
-        PassengerModel passengerModel = passengerModelList.stream().filter(model -> (
-                model.getPassengerIdTypeCode().equals(buyTicketInfoModel.getPassengerIdTypeCode()) && model.getPassengerName().equals(buyTicketInfoModel.getRealName())
-        )).findFirst().orElse(null);
-        if (passengerModel == null) {
-            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",passengerIdTypeCode:" + buyTicketInfoModel.getPassengerIdTypeCode());
-        }
-        return passengerModel;
-    }
-
 }

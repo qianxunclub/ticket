@@ -24,6 +24,8 @@ public class BuyTicketInfoModel extends UserModel {
 
     private String trainNumber;
 
+    private String passengerCode;
+
     private String passengerIdTypeCode;
 
     private String mobile;
@@ -38,5 +40,11 @@ public class BuyTicketInfoModel extends UserModel {
 
     private StatusEnum status = StatusEnum.START;
 
-
+    public String getSeatStr() {
+        StringBuffer seatStr = new StringBuffer();
+        seat.forEach(seatLevelEnum -> {
+            seatStr.append(seatLevelEnum.name() + ",");
+        });
+        return seatStr.substring(seatStr.length(), seatStr.length() - 1);
+    }
 }
