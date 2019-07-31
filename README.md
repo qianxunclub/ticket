@@ -34,6 +34,7 @@ cd ticket/python
 sudo pip install -r requirements.txt
 
 ```
+> 如果上面依赖下载太慢，可以使用 `pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple` 下载。
 
 # 验证码识别测试
 Mac 或者 Linux 用户使用虚拟环境：
