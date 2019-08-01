@@ -4,6 +4,7 @@ import com.qianxunclub.ticket.constant.StatusEnum;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.repository.dao.TicketDao;
+import com.qianxunclub.ticket.repository.entity.Ticket;
 import com.qianxunclub.ticket.util.CommonUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,10 @@ public class DoHandle {
                     if (flag) {
                         log.info("完成!!!!");
                         buyTicketInfoModel.setStatus(StatusEnum.SUCCESS);
-                        ticketDao.deleteById(buyTicketInfoModel.getId());
+                        Ticket ticket = ticketDao.getTicketByUserName(buyTicketInfoModel.getUsername());
+                        if(ticket != null){
+                            ticketDao.deleteById(buyTicketInfoModel.getId());
+                        }
                         return;
                     }
                 } catch (Exception e) {
