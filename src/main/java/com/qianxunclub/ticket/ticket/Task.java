@@ -41,7 +41,7 @@ public class Task implements Callable {
             try {
                 TicketModel ticketModel = queryTicket.getMyTicket(buyTicketInfoModel);
                 if (ticketModel == null || CollectionUtils.isEmpty(ticketModel.getSeat())) {
-                    log.warn("没有查询到购买的票");
+                    log.debug("没有查询到购买的票");
                     Thread.sleep(config.getQueryTicketSellpTime() * 1000);
                     continue;
                 }
