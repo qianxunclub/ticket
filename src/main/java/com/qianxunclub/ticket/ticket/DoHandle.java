@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 /**
  * @author zhangbin
@@ -26,6 +27,7 @@ public class DoHandle {
 
     @Autowired
     private Login login;
+    @Autowired
     private TicketDao ticketDao;
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
@@ -67,7 +69,9 @@ public class DoHandle {
                     if (flag) {
                         log.info("完成!!!!");
                         buyTicketInfoModel.setStatus(StatusEnum.SUCCESS);
-                        ticketDao.deleteById(buyTicketInfoModel.getId());
+                        if(!StringUtils.isEmpty(buyTicketInfoModel.getId())){
+                            ticketDao.deleteById(buyTicketInfoModel.getId());
+                        }
                         return;
                     }
                 } catch (Exception e) {
