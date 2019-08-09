@@ -36,12 +36,13 @@ public class Task implements Callable {
     @Override
     public Boolean call() {
         Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
+        log.info("正在查询车票");
         while (true) {
             buyTicketInfoModel.setQueryNum(buyTicketInfoModel.getQueryNum() + 1);
             try {
                 TicketModel ticketModel = queryTicket.getMyTicket(buyTicketInfoModel);
                 if (ticketModel == null || CollectionUtils.isEmpty(ticketModel.getSeat())) {
-                    log.warn("没有查询到购买的票");
+                    log.debug("没有查询到购买的票");
                     Thread.sleep(config.getQueryTicketSellpTime() * 1000);
                     continue;
                 }

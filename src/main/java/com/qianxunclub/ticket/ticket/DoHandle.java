@@ -27,6 +27,7 @@ public class DoHandle {
 
     @Autowired
     private Login login;
+    @Autowired
     private TicketDao ticketDao;
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);

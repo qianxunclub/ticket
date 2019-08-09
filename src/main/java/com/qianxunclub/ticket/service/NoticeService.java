@@ -59,7 +59,7 @@ public class NoticeService {
             request.putQueryParameter("TemplateParam", gson.toJson(map));
             CommonResponse response = client.getCommonResponse(request);
             map = gson.fromJson(response.getData(), Map.class);
-            if (!map.get("Code").equals("OK")) {
+            if (map.get("Code").equals("OK")) {
                 log.debug("短信通知通知完成{}！", noticeModel.getPhoneNumber());
             } else {
                 log.error("短信通知失败：" + map);

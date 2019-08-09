@@ -49,7 +49,7 @@ public class QueryTicket {
         List<TicketModel> ticketModelList = this.getCanBuyTicket(buyTicketInfoModel);
         ticketModelList.forEach(ticket -> {
             ticket.setTrainDate(buyTicketInfoModel.getDate());
-            if (ticket.getTrainNumber().equals(buyTicketInfoModel.getTrainNumber())) {
+            if (buyTicketInfoModel.getTrainNumber().contains(ticket.getTrainNumber())) {
                 List<SeatModel> seat = new ArrayList<>();
                 ticket.getSeat().forEach(seatModel -> {
                     if (buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel())) {
