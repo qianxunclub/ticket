@@ -4,6 +4,7 @@ import com.qianxunclub.ticket.constant.StatusEnum;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.repository.dao.TicketDao;
+import com.qianxunclub.ticket.repository.entity.Ticket;
 import com.qianxunclub.ticket.util.CommonUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.StringUtils;
 
 /**
  * @author zhangbin
@@ -27,7 +27,6 @@ public class DoHandle {
 
     @Autowired
     private Login login;
-    @Autowired
     private TicketDao ticketDao;
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
@@ -69,7 +68,8 @@ public class DoHandle {
                     if (flag) {
                         log.info("完成!!!!");
                         buyTicketInfoModel.setStatus(StatusEnum.SUCCESS);
-                        if(!StringUtils.isEmpty(buyTicketInfoModel.getId())){
+                        Ticket ticket = ticketDao.getTicketByUserName(buyTicketInfoModel.getUsername());
+                        if(ticket != null){
                             ticketDao.deleteById(buyTicketInfoModel.getId());
                         }
                         return;
