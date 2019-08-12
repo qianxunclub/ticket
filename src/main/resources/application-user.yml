@@ -1,6 +1,11 @@
 # 可配置多乘客
 user.ticket-info:
-  - #  乘客编号，登录12306官网成功后
+  - #  乘客编号
+    #  获取方法1：
+    #  调用 com.qianxunclub.ticket.GetPassengerTest 里面的 getPassenger 方法，可以打印出来对应的值
+    #
+    #  获取方法2：
+    #  登录12306官网成功后
     #  访问：https://kyfw.12306.cn/otn/passengers/query?pageIndex=1&pageSize=100
     #  找对对应乘客的【code】的值
     passengerCode: 4

@@ -57,7 +57,7 @@ public class TicketService {
         return new Result("SUCCESS", "添加成功");
     }
 
-    public List<PassengerModel> passengers(String userName) {
+    private List<PassengerModel> passengers(String userName) {
         return apiRequestService.passengers(userName);
     }
 
