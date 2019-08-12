@@ -69,7 +69,7 @@ notice:
 
 ## 默认用户配置
 默认用户是指在项目启动的时候，直接开始抢购对应的配置购票信息。  
-配置文件：[application-sms.yml](src/main/resources/application-user.yml)  
+配置文件：[application-user.yml](src/main/resources/application-user.yml)  
 
 # 在线接口文档
 项目集成了 `swagger` ，可以在线直接调用接口使用。  
