@@ -36,7 +36,7 @@ public class Ticket {
 
     private String seat;
 
-    public List<SeatLevelEnum> getSeatList() {
+    public List<SeatLevelEnum> toSeatList() {
         List<SeatLevelEnum> seatList = new ArrayList<>();
         String[] seats = seat.split(",");
         for (int i = 0; i < seats.length; i++) {

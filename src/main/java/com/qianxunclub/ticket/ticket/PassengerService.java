@@ -29,12 +29,11 @@ public class PassengerService {
         PassengerModel passengerModel = passengerModelList.stream().filter(model -> {
             if (!StringUtils.isEmpty(buyTicketInfoModel.getPassengerCode())) {
                 return model.getCode().equals(buyTicketInfoModel.getPassengerCode());
-            } else {
-                return model.getPassengerIdTypeCode().equals(buyTicketInfoModel.getPassengerIdTypeCode()) && model.getPassengerName().equals(buyTicketInfoModel.getRealName());
             }
+            return false;
         }).findFirst().orElse(null);
         if (passengerModel == null) {
-            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",passengerIdTypeCode:" + buyTicketInfoModel.getPassengerIdTypeCode());
+            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",passengerCode:" + buyTicketInfoModel.getPassengerCode());
         }
         return passengerModel;
     }

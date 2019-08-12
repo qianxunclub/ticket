@@ -16,10 +16,12 @@ public class DbTest {
     @Autowired
     private TicketDao ticketDao;
 
+    private static int id = 123455;
+
     @Test
     public void addData(){
         Ticket ticket = new Ticket();
-        ticket.setId(123455);
+        ticket.setId(id);
         ticket.setUsername("1");
         ticket.setPassword("2");
         ticket.setFrom("3");
@@ -37,6 +39,11 @@ public class DbTest {
     public void getData(){
         List<Ticket> ticketList = ticketDao.list();
         System.out.println(ticketList);
+    }
+
+    @Test
+    public void delData(){
+        System.out.println(ticketDao.deleteById(id));
     }
 
 }
