@@ -34,7 +34,9 @@ public class TicketApplication {
         // 数据库获取取购票嘻嘻
         TicketService ticketService = applicationContext.getBean(TicketService.class);
         ticketService.getBuyTicketInfoModel().forEach(buyTicketInfoModel -> {
-            UserTicketStore.add(buyTicketInfoModel);
+            if (buyTicketInfoModel != null) {
+                UserTicketStore.add(buyTicketInfoModel);
+            }
         });
 
         DoHandle doHandle = applicationContext.getBean(DoHandle.class);

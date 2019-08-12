@@ -37,7 +37,7 @@ public class TicketRequest extends GetPassengerRequest {
     @ApiModelProperty(value = "座位级别", example = "ONE,RUANWO")
     private String seat;
 
-    public List<SeatLevelEnum> getSeatList() {
+    public List<SeatLevelEnum> seatList() {
         List<SeatLevelEnum> seatList = new ArrayList<>();
         String[] seats = seat.split(",");
         for (int i = 0; i < seats.length; i++) {
@@ -50,7 +50,7 @@ public class TicketRequest extends GetPassengerRequest {
     public BuyTicketInfoModel toBuyTicketInfoModel() {
         BuyTicketInfoModel buyTicketInfoModel = new BuyTicketInfoModel();
         BeanUtils.copyProperties(this, buyTicketInfoModel);
-        buyTicketInfoModel.setSeat(this.getSeatList());
+        buyTicketInfoModel.setSeat(this.seatList());
         return buyTicketInfoModel;
     }
 }
