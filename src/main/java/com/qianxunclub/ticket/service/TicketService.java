@@ -57,7 +57,7 @@ public class TicketService {
         return new Result("SUCCESS", "添加成功");
     }
 
-    public List<PassengerModel> passengers(String userName) {
+    private List<PassengerModel> passengers(String userName) {
         return apiRequestService.passengers(userName);
     }
 
@@ -67,7 +67,7 @@ public class TicketService {
         ticketList.forEach(ticket -> {
             BuyTicketInfoModel buyTicketInfoModel = new BuyTicketInfoModel();
             BeanUtils.copyProperties(ticket, buyTicketInfoModel);
-            buyTicketInfoModel.setSeat(ticket.getSeatList());
+            buyTicketInfoModel.setSeat(ticket.toSeatList());
             buyTicketInfoModelList.add(buyTicketInfoModel);
         });
         return buyTicketInfoModelList;

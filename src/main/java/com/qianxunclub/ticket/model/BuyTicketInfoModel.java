@@ -28,8 +28,6 @@ public class BuyTicketInfoModel extends UserModel {
 
     private String passengerCode;
 
-    private String passengerIdTypeCode;
-
     private String mobile;
 
     private String realName;

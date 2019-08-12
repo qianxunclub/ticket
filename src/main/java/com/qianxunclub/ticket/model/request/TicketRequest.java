@@ -19,7 +19,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel("购票信息")
-public class TicketRequest extends GetPassengerRequest {
+public class TicketRequest extends PassengerRequest {
     @ApiModelProperty(value = "乘车日期", example = "2019-07-08")
     private String date;
     @ApiModelProperty(value = "出发站点", example = "深圳")
@@ -37,7 +37,7 @@ public class TicketRequest extends GetPassengerRequest {
     @ApiModelProperty(value = "座位级别", example = "ONE,RUANWO")
     private String seat;
 
-    public List<SeatLevelEnum> getSeatList() {
+    public List<SeatLevelEnum> toSeatList() {
         List<SeatLevelEnum> seatList = new ArrayList<>();
         String[] seats = seat.split(",");
         for (int i = 0; i < seats.length; i++) {
@@ -50,7 +50,7 @@ public class TicketRequest extends GetPassengerRequest {
     public BuyTicketInfoModel toBuyTicketInfoModel() {
         BuyTicketInfoModel buyTicketInfoModel = new BuyTicketInfoModel();
         BeanUtils.copyProperties(this, buyTicketInfoModel);
-        buyTicketInfoModel.setSeat(this.getSeatList());
+        buyTicketInfoModel.setSeat(this.toSeatList());
         return buyTicketInfoModel;
     }
 }

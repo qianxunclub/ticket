@@ -30,11 +30,11 @@ public class TicketDao {
         return ticketMapper.selectOne(queryWrapper);
     }
 
-    public void add(Ticket ticket) {
-        ticketMapper.insert(ticket);
+    public int add(Ticket ticket) {
+        return ticketMapper.insert(ticket);
     }
 
-    public void deleteById(Integer id) {
-        ticketMapper.deleteById(id);
+    public int deleteById(Integer id) {
+        return ticketMapper.deleteById(id);
     }
 }

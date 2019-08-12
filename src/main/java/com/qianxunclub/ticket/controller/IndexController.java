@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.controller;
 
 import com.qianxunclub.ticket.model.PassengerModel;
-import com.qianxunclub.ticket.model.request.GetPassengerRequest;
+import com.qianxunclub.ticket.model.request.PassengerRequest;
 import com.qianxunclub.ticket.model.Result;
 import com.qianxunclub.ticket.model.request.TicketRequest;
 import com.qianxunclub.ticket.model.response.PassengerResponse;
@@ -39,9 +39,9 @@ public class IndexController {
     @ApiOperation("登录")
     @ResponseBody
     @PostMapping("getPassenger")
-    public Result getPassenger(@RequestBody GetPassengerRequest getPassengerRequest) {
+    public Result getPassenger(@RequestBody PassengerRequest passengerRequest) {
         Result result = new Result("SUCCESS", "登录成功");
-        List<PassengerModel> passengerModelList = ticketService.login(getPassengerRequest.toUserModel());
+        List<PassengerModel> passengerModelList = ticketService.login(passengerRequest.toUserModel());
         if (CollectionUtils.isEmpty(passengerModelList)) {
             result = new Result("ERROR", "登录失败");
         }

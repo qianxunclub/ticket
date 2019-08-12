@@ -15,7 +15,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel("登录信息")
-public class GetPassengerRequest {
+public class PassengerRequest {
     @ApiModelProperty("12306用户名")
     private String username;
     @ApiModelProperty("12306密码")
