@@ -38,15 +38,16 @@ user.ticket-info:
     seat:
       - ONE
       - WUZUO
-  - passengerCode: 1
-    username: XXXX
-    password: XXXX
-    date: 2019-08-14
-    from: 深圳
-    to: 三门峡南
-    trainNumber: XXXX
-    realName: XXXX
-    mobile: XXXX
-    seat:
-      - ONE
-      - WUZUO
+#  多账号抢票配置
+#  - passengerCode: 1
+#    username: XXXX
+#    password: XXXX
+#    date: 2019-08-14
+#    from: 深圳
+#    to: 三门峡南
+#    trainNumber: XXXX
+#    realName: XXXX
+#    mobile: XXXX
+#    seat:
+#      - ONE
+#      - WUZUO
