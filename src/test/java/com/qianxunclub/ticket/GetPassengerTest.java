@@ -1,6 +1,7 @@
 package com.qianxunclub.ticket;
 
 
+import com.qianxunclub.ticket.constant.Constant;
 import com.qianxunclub.ticket.model.PassengerModel;
 import com.qianxunclub.ticket.model.UserModel;
 import com.qianxunclub.ticket.service.TicketService;
@@ -22,10 +23,8 @@ public class GetPassengerTest {
     public void getPassenger() {
 
         UserModel userModel = new UserModel();
-        // 12306 账号
-        userModel.setUsername("XXXX");
-        // 12306 密码
-        userModel.setPassword("XXXX");
+        userModel.setUsername(Constant.USER_NAME);
+        userModel.setPassword(Constant.PASSWORD);
         List<PassengerModel> passengerModelList = ticketService.login(userModel);
         passengerModelList.forEach(passengerModel -> {
             System.out.println("" +
