@@ -1,5 +1,6 @@
 package com.qianxunclub.ticket;
 
+import com.qianxunclub.ticket.constant.Constant;
 import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.UserModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
@@ -41,8 +42,8 @@ public class LogdeviceTest {
     @Test
     public void login() {
         UserModel userModel = new UserModel();
-        userModel.setUsername("abcd");
-        userModel.setPassword("1234");
+        userModel.setUsername(Constant.USER_NAME);
+        userModel.setPassword(Constant.PASSWORD);
         userModel.setLogdeviceModel(apiRequestService.getDeviceId());
         login.login(userModel);
     }

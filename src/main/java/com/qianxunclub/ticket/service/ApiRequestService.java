@@ -105,7 +105,7 @@ public class ApiRequestService {
     }
 
     public LogdeviceModel getDeviceId() {
-        HttpGet httpGet = new HttpGet(getLogdeviceUrl());
+        HttpGet httpGet = new HttpGet(String.format(apiConfig.getLogdevice() + Math.random()));
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
         String m = response.replaceFirst("callbackFunction", "").replaceAll("\\(", "")

@@ -20,6 +20,8 @@ public class ApiConfig {
 
     private String getJs;
 
+    private String logdevice;
+
     private String leftTicket;
 
     private String loginConfig;

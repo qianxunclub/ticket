@@ -32,8 +32,8 @@ public class Login {
     public void init(UserModel userModel) {
         LogdeviceModel logdeviceModel = null;
         // logdeviceModel = apiRequestService.getDeviceId();
-        logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
         if (userModel.getLogdeviceModel() == null) {
+            logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
             userModel.setLogdeviceModel(logdeviceModel);
         }
         BasicCookieStore basicCookieStore = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());
