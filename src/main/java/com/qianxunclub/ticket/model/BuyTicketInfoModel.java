@@ -26,7 +26,7 @@ public class BuyTicketInfoModel extends UserModel {
 
     private String trainNumber;
 
-    private String passengerCode;
+    private String allEncStr;
 
     private String mobile;
 

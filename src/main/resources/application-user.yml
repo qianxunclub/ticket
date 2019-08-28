@@ -7,20 +7,20 @@ user.ticket-info:
     #  获取方法2：
     #  登录12306官网成功后
     #  访问：https://kyfw.12306.cn/otn/passengers/query?pageIndex=1&pageSize=100
-    #  找对对应乘客的【code】的值
-    passengerCode: 4
+    #  找对对应乘客的【allEncStr】的值
+    allEncStr: cd15eac6e9aa1c28be16660a817cf635c9e1939cb4e5528bba7cd545a1acb42cf50921474398fea0ed359462cddd1348
     #  12306用户名
     username: XXXX
     #  12306密码
     password: XXXX
     #  出发日期
-    date: 2019-08-14
+    date: 2019-08-19
     #  出发站点
     from: 深圳
     #  到达站点
-    to: 三门峡南
+    to: 三门峡
     #  车次
-    trainNumber: XXXX
+    trainNumber: G818
     #  乘车人姓名
     realName: XXXX
     #  乘车人手机号码
@@ -37,9 +37,8 @@ user.ticket-info:
     #  WUZUO：无座
     seat:
       - ONE
-      - WUZUO
 #  多账号抢票配置
-#  - passengerCode: 1
+#  - allEncStr: 1
 #    username: XXXX
 #    password: XXXX
 #    date: 2019-08-14

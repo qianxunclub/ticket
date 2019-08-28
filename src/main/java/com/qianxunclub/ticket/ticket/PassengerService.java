@@ -27,13 +27,13 @@ public class PassengerService {
     public PassengerModel getPassenger(BuyTicketInfoModel buyTicketInfoModel) {
         List<PassengerModel> passengerModelList = apiRequestService.getPassengerDTOs(buyTicketInfoModel.getGlobalRepeatSubmitToken());
         PassengerModel passengerModel = passengerModelList.stream().filter(model -> {
-            if (!StringUtils.isEmpty(buyTicketInfoModel.getPassengerCode())) {
-                return model.getCode().equals(buyTicketInfoModel.getPassengerCode());
+            if (!StringUtils.isEmpty(buyTicketInfoModel.getAllEncStr())) {
+                return model.getAllEncStr().equals(buyTicketInfoModel.getAllEncStr());
             }
             return false;
         }).findFirst().orElse(null);
         if (passengerModel == null) {
-            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",passengerCode:" + buyTicketInfoModel.getPassengerCode());
+            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",allEncStr:" + buyTicketInfoModel.getAllEncStr());
         }
         return passengerModel;
     }
