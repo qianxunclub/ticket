@@ -30,7 +30,7 @@ public class GetPassengerTest {
             System.out.println("" +
                     "   姓名：" + passengerModel.getPassengerName() +
                     "   证件号：" + passengerModel.getPassengerIdNo() +
-                    "   allEncStr:" + passengerModel.getCode()
+                    "   allEncStr:" + passengerModel.getAllEncStr()
             );
         });
     }

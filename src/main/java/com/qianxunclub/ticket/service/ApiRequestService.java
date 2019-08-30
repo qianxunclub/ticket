@@ -60,6 +60,7 @@ public class ApiRequestService {
     private Config config;
 
     public Map<String, String> station() {
+        httpUtil.init();
         Map<String, String> stationMap = new HashMap<>();
         HttpGet httpGet = new HttpGet(apiConfig.getStation());
         String response = httpUtil.get(httpGet);

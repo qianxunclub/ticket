@@ -15,7 +15,6 @@ import lombok.Data;
  */
 @Data
 public class PassengerModel {
-    String code;
     String passengerName;
     String sexCode;
     String sexName;
@@ -47,7 +46,6 @@ public class PassengerModel {
     }
 
     public PassengerModel(Map<String, String> passengerMap) {
-        this.code = passengerMap.get("code");
         this.passengerName = passengerMap.get("passenger_name");
         this.sexCode = passengerMap.get("sex_code");
         this.sexName = passengerMap.get("sex_name");
