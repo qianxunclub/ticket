@@ -19,6 +19,12 @@ public class Config {
 
     private String baseUrl;
 
+    private Boolean enableProxy;
+
+    private String proxyHost;
+
+    private Integer proxyPort;
+
     private long queryTicketSellpTime;
 
     private String pythonPath;

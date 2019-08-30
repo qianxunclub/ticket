@@ -5,6 +5,12 @@ cookies:
   rail_expiration: "1567295388014"
   rail_deviceid: "eZBQ_NS9I7CKaLglysYnBLeg9ivC554YEsqyucYsJCW6QjrlK6E48lkgOLxYClB4kKys3n6vRJgID946hUQaIOLDzQZ6aPbY3FyjShsJxgBOkH-srT5nV_IHUxmGSx3lzoSvmWLXsUxZROIaF9E8hlhSVZNEJWpL"
 config:
+  #  是否启用代理
+  enableProxy: false
+  # 代理 HOST
+  proxyHost: 127.0.0.1
+  # 代理端口
+  proxyPort: 12639
   host: "kyfw.12306.cn"
   base_url: "https://kyfw.12306.cn"
   queryTicketSellpTime: 1

@@ -19,7 +19,7 @@ public class Station {
 
     private static Map<String, String> stations;
 
-    public Station(ApiRequestService apiRequestService){
+    public void load(ApiRequestService apiRequestService){
         stations = apiRequestService.station();
     }
 
