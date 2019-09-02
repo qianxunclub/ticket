@@ -1,7 +1,9 @@
 package com.qianxunclub.ticket.util;
 
 
+import com.qianxunclub.ticket.config.Config;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
@@ -10,7 +12,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -40,7 +44,13 @@ public class HttpUtil {
 
     public void init(BasicCookieStore basicCookieStore) {
         this.basicCookieStore = basicCookieStore;
+        Config config = ApplicationContextHelper.getBean(Config.class);
         httpClient = HttpClients.custom().setDefaultCookieStore(basicCookieStore).build();
+        if(config != null && config.getEnableProxy()){
+            HttpHost proxy = new HttpHost(config.getProxyHost(),config.getProxyPort());
+            DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
+            httpClient = HttpClients.custom().setRoutePlanner(routePlanner).setDefaultCookieStore(basicCookieStore).build();
+        }
     }
 
     public BasicCookieStore getBasicCookieStore() {
