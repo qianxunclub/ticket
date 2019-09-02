@@ -83,3 +83,13 @@ http://localhost:9998/swagger-ui.html
 
 # 感谢
 - [胖大海]()：提供 `RAIL_EXPIRATION` 和 `RAIL_DEVICEID` 两个 cookie 获取方式。
+
+# 常见问题
+## 1. 登录报错 `302`
+需要更新 [application.yml](src/main/resources/application.yml) 以下配置：
+```
+cookies:
+  rail_expiration: "xxxx"
+  rail_deviceid: "xxxx"
+```
+获取方式：登录 12306 官网，查看任意接口 cookie ，找到这两个，填写进去，就OK了。
