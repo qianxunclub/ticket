@@ -4,10 +4,14 @@
 # 功能介绍
 - 自动识别验证码
 - 多账号同步购票
+- 动态添加抢票账号
 - 定时刷新监控余票
 - 设置多座位优先抢票
 - 自动下单
 - 下单成功短息通知
+- 接口文档：http://localhost:9998/swagger-ui.html
+- 配置代理
+- 支持Mac、Linux、Windows
 
 
 # 基础环境
@@ -70,6 +74,18 @@ notice:
 ## 默认用户配置
 默认用户是指在项目启动的时候，直接开始抢购对应的配置购票信息。  
 配置文件：[application-user.yml](src/main/resources/application-user.yml)  
+
+## 代理配置
+请求可配置代理，配置文件：[application.yml](src/main/resources/application.yml) 
+```
+config:
+  # 是否启用代理
+  enableProxy: false
+  # 代理 HOST
+  proxyHost: 127.0.0.1
+  # 代理端口
+  proxyPort: 12639
+``` 
 
 # 在线接口文档
 项目集成了 `swagger` ，可以在线直接调用接口使用。  
