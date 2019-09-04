@@ -1,5 +1,6 @@
 package com.qianxunclub.ticket.model;
 
+import com.qianxunclub.ticket.util.HttpUtil;
 import org.apache.http.impl.client.BasicCookieStore;
 
 import java.util.ArrayList;
@@ -13,11 +14,11 @@ import java.util.Map;
  * @description: TODO
  */
 public class UserTicketStore {
+
     public static List<BuyTicketInfoModel> buyTicketInfoModelList = new ArrayList<>();
-    public static Map<String, BasicCookieStore> userBasicCookieStore = new HashMap<>();
+    public static Map<String, HttpUtil> userBasicCookieStore = new HashMap<>();
 
     public static void add(BuyTicketInfoModel buyTicketInfoModel) {
         buyTicketInfoModelList.add(buyTicketInfoModel);
-        userBasicCookieStore.put(buyTicketInfoModel.getUsername(), new BasicCookieStore());
     }
 }

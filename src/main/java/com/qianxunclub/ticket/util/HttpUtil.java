@@ -27,14 +27,17 @@ import lombok.extern.slf4j.Slf4j;
  * @description: TODO
  */
 @Slf4j
-@Component
 public class HttpUtil {
 
     private HttpClient httpClient;
     private BasicCookieStore basicCookieStore;
 
-    public HttpUtil() {
-        init();
+    public HttpUtil(){
+        this.init();
+    }
+
+    public HttpUtil(BasicCookieStore basicCookieStore) {
+        init(basicCookieStore);
     }
 
     public void init() {

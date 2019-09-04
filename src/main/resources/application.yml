@@ -2,8 +2,8 @@ server:
   port: 9998
 
 cookies:
-  rail_expiration: "1567731486856"
-  rail_deviceid: "Jy52U9oB_Y9hfn76xwLFF3XfvU-OYHZymY6xP4buuw3_U0sANZ0KL75HmDw58xfddiSIydswHPd2krMUUak1FvKSip88RolkvEHoxI_UugxuguRu7XWc4zWDt0Ye002zwILEqiCNumPm5b_alNkoOS9hV3PHkr2o"
+  rail_expiration: "1567872151032"
+  rail_deviceid: "jVCBcqGRr9xh_YZV198kB1Rk76FaOKu1CtG75cWdg0TI3VJBhGDD49H-XTrdIRuNnhl_1ENn0Yndq5NIwstiVqngRWq6UGQx-f1jUG9lnCjhZTr6WDkq0dvfMv8s-o40qaq8HpN6d_IkPWL2GiVivNXKhuiak3kv"
 config:
   # 是否启用代理
   enableProxy: false

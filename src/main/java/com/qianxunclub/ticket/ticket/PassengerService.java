@@ -25,7 +25,9 @@ public class PassengerService {
     private ApiRequestService apiRequestService;
 
     public PassengerModel getPassenger(BuyTicketInfoModel buyTicketInfoModel) {
-        List<PassengerModel> passengerModelList = apiRequestService.getPassengerDTOs(buyTicketInfoModel.getGlobalRepeatSubmitToken());
+        List<PassengerModel> passengerModelList = apiRequestService
+                .getPassengerDTOs(buyTicketInfoModel.getUsername(),
+                        buyTicketInfoModel.getGlobalRepeatSubmitToken());
         PassengerModel passengerModel = passengerModelList.stream().filter(model -> {
             if (!StringUtils.isEmpty(buyTicketInfoModel.getAllEncStr())) {
                 return model.getAllEncStr().equals(buyTicketInfoModel.getAllEncStr());
@@ -33,7 +35,8 @@ public class PassengerService {
             return false;
         }).findFirst().orElse(null);
         if (passengerModel == null) {
-            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",allEncStr:" + buyTicketInfoModel.getAllEncStr());
+            log.error("没有找到对应的乘客信息：" + buyTicketInfoModel.getRealName() + ",allEncStr:"
+                    + buyTicketInfoModel.getAllEncStr());
         }
         return passengerModel;
     }

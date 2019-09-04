@@ -8,7 +8,7 @@ import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.util.CaptchaImageForPy;
 import com.qianxunclub.ticket.util.CookieUtil;
 
-import org.apache.http.impl.client.BasicCookieStore;
+import com.qianxunclub.ticket.util.HttpUtil;
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -33,12 +33,15 @@ public class Login {
         LogdeviceModel logdeviceModel = null;
         // logdeviceModel = apiRequestService.getDeviceId();
         if (userModel.getLogdeviceModel() == null) {
-            logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(), cookiesConfig.getRailDeviceid());
+            logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(),
+                    cookiesConfig.getRailDeviceid());
             userModel.setLogdeviceModel(logdeviceModel);
         }
-        BasicCookieStore basicCookieStore = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());
-        UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), cookieUtil.init(basicCookieStore, userModel.getLogdeviceModel()));
-
+        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());
+        if (httpUtil == null) {
+            httpUtil = new HttpUtil(cookieUtil.init(null, userModel.getLogdeviceModel()));
+            UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), httpUtil);
+        }
 
     }
 
@@ -46,13 +49,13 @@ public class Login {
         this.init(userModel);
         if (!apiRequestService.isLogin(userModel)) {
             log.info("正在登陆：" + userModel.getUsername());
-            if (apiRequestService.isLoginPassCode()) {
+            if (apiRequestService.isLoginPassCode(userModel.getUsername())) {
                 log.info("正在识别验证码");
-                String captchaImage = apiRequestService.captchaImage();
+                String captchaImage = apiRequestService.captchaImage(userModel.getUsername());
                 String position = captchaImageForPy.check(captchaImage);
                 userModel.setAnswer(position);
             }
-            if (apiRequestService.captchaCheck(userModel.getAnswer())) {
+            if (apiRequestService.captchaCheck(userModel.getUsername(), userModel.getAnswer())) {
                 if (apiRequestService.login(userModel)) {
                     log.info("登录成功：" + userModel.getUsername());
                 } else {
@@ -64,7 +67,8 @@ public class Login {
             }
         }
         userModel.setUamtk(apiRequestService.uamtk(userModel.getUsername()));
-        userModel.setUamtk(apiRequestService.uamauthclient(userModel.getUsername(), userModel.getUamtk()));
+        userModel.setUamtk(
+                apiRequestService.uamauthclient(userModel.getUsername(), userModel.getUamtk()));
         return true;
     }
 }
