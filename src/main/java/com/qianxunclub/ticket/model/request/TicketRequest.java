@@ -28,8 +28,8 @@ public class TicketRequest extends PassengerRequest {
     private String to;
     @ApiModelProperty(value = "车次", example = "G818")
     private String trainNumber;
-    @ApiModelProperty(value = "乘客编号", example = "登录完成后会乘客信息CODE的值")
-    private String passengerCode;
+    @ApiModelProperty(value = "乘客编号", example = "登录完成后会乘客信息allEncStr的值")
+    private String allEncStr;
     @ApiModelProperty(value = "乘车人手机号", example = "1234567890")
     private String mobile;
     @ApiModelProperty(value = "乘车人真实姓名", example = "XXX")

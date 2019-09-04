@@ -13,7 +13,7 @@ import lombok.Data;
 @ApiModel("乘客信息")
 public class PassengerResponse {
     @ApiModelProperty("乘客编号")
-    String code;
+    String allEncStr;
     @ApiModelProperty("乘客姓名")
     String passengerName;
     @ApiModelProperty("乘客性别")
