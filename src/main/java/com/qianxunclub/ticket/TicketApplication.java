@@ -2,8 +2,11 @@ package com.qianxunclub.ticket;
 
 import com.qianxunclub.ticket.config.Config;
 import com.qianxunclub.ticket.config.UserConfig;
+import com.qianxunclub.ticket.ip.AddIpThread;
+import com.qianxunclub.ticket.ip.CheckIpThread;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
+import com.qianxunclub.ticket.service.IpsService;
 import com.qianxunclub.ticket.service.TicketService;
 import com.qianxunclub.ticket.ticket.DoHandle;
 import com.qianxunclub.ticket.model.UserTicketStore;
@@ -31,6 +34,14 @@ public class TicketApplication {
     }
 
     private static void init(ApplicationContext applicationContext){
+
+        /**
+         * 初始化 IP
+         */
+        IpsService ipsService = applicationContext.getBean(IpsService.class);
+        ipsService.load();
+
+
         Station station = applicationContext.getBean(Station.class);
         ApiRequestService apiRequestService = applicationContext.getBean(ApiRequestService.class);
         station.load(apiRequestService);
@@ -52,6 +63,17 @@ public class TicketApplication {
 
         DoHandle doHandle = applicationContext.getBean(DoHandle.class);
         doHandle.go();
+
+        // 检查IP
+        CheckIpThread checkIpThread = new CheckIpThread(ipsService);
+        Thread checkIp = new Thread(checkIpThread);
+        checkIp.start();
+
+        // 获取新IP
+        AddIpThread addIpThread = new AddIpThread(ipsService);
+        Thread addIp = new Thread(addIpThread);
+        checkIp.start();
+
     }
 
 }
