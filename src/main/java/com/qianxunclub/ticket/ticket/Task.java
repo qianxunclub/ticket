@@ -4,7 +4,7 @@ import com.qianxunclub.ticket.config.Config;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.util.ApplicationContextHelper;
-import com.qianxunclub.ticket.util.CommonUtils;
+import com.qianxunclub.ticket.util.CommonUtil;
 
 
 import org.springframework.util.CollectionUtils;
@@ -35,7 +35,7 @@ public class Task implements Callable {
 
     @Override
     public Boolean call() {
-        Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
+        Thread.currentThread().setName(CommonUtil.getThreadName(buyTicketInfoModel));
         log.info("正在查询车票");
         while (true) {
             buyTicketInfoModel.setQueryNum(buyTicketInfoModel.getQueryNum() + 1);

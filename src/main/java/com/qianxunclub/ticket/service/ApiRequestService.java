@@ -3,15 +3,13 @@ package com.qianxunclub.ticket.service;
 import com.google.gson.Gson;
 
 import com.qianxunclub.ticket.config.ApiConfig;
-import com.qianxunclub.ticket.config.Config;
 import com.qianxunclub.ticket.ticket.Station;
-import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.PassengerModel;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.model.UserModel;
 import com.qianxunclub.ticket.model.UserTicketStore;
-import com.qianxunclub.ticket.util.CommonUtils;
+import com.qianxunclub.ticket.util.CommonUtil;
 import com.qianxunclub.ticket.util.HttpUtil;
 
 import org.apache.http.Consts;
@@ -22,13 +20,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,10 +31,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +46,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ApiRequestService {
 
     private ApiConfig apiConfig;
-    private Config config;
 
     public Map<String, String> station() {
         HttpUtil httpUtil = new HttpUtil();
@@ -71,50 +60,6 @@ public class ApiRequestService {
             }
         }
         return stationMap;
-    }
-
-    public String algID() {
-        HttpUtil httpUtil = new HttpUtil();
-        HttpGet httpGet = new HttpGet(apiConfig.getGetJs());
-        String response = httpUtil.get(httpGet);
-        String regex = "algID\\\\x3d(.*?)\\\\x26";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(response);
-        while (m.find()) {
-            return m.group(1);
-        }
-        return null;
-    }
-
-    public String getLogdeviceUrl() {
-        try {
-            StringBuffer sb = new StringBuffer();
-            FileReader reader = new FileReader(ResourceUtils.getFile(config.getLogdevicePath()));
-            BufferedReader br = new BufferedReader(reader);
-            String line;
-            while ((line = br.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-            engine.eval(new StringReader(sb.toString()));
-            Invocable invocable = (Invocable) engine;
-            String logdevice = (String) invocable.invokeFunction("Test");
-            return (config.getBaseUrl() + String.format(logdevice, this.algID()))
-                    .replaceAll(" ", "%20");
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
-    public LogdeviceModel getDeviceId() {
-        HttpUtil httpUtil = new HttpUtil();
-        HttpGet httpGet = new HttpGet(String.format(apiConfig.getLogdevice() + Math.random()));
-        String response = httpUtil.get(httpGet);
-        Gson jsonResult = new Gson();
-        String m = response.replaceFirst("callbackFunction", "").replaceAll("\\(", "")
-                .replaceAll("\\)", "").replaceAll("'", "");
-        Map<String, String> rsmap = jsonResult.fromJson(m, Map.class);
-        return new LogdeviceModel(rsmap.get("exp"), rsmap.get("dfp"));
     }
 
     public List<TicketModel> queryTicket(BuyTicketInfoModel buyTicketInfoModel) {
@@ -472,7 +417,7 @@ public class ApiRequestService {
                 ticketModel.getSeat().get(0).getSeatLevel().getCode()));
         formparams.add(new BasicNameValuePair("stationTrainCode", ticketModel.getTrainNumber()));
         formparams.add(new BasicNameValuePair("train_date",
-                CommonUtils.getGMT(ticketModel.getTrainDate())));
+                CommonUtil.getGMT(ticketModel.getTrainDate())));
         formparams.add(new BasicNameValuePair("train_location", ticketModel.getTrainLocation()));
         formparams.add(new BasicNameValuePair("train_no", ticketModel.getTrainCode()));
         formparams.add(new BasicNameValuePair("_json_att", ""));

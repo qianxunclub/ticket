@@ -9,6 +9,7 @@ import com.qianxunclub.ticket.util.CaptchaImageForPy;
 import com.qianxunclub.ticket.util.CookieUtil;
 
 import com.qianxunclub.ticket.util.HttpUtil;
+import com.qianxunclub.ticket.util.LogdeviceUtil;
 import org.springframework.stereotype.Component;
 
 import lombok.AllArgsConstructor;
@@ -30,11 +31,12 @@ public class Login {
     private CookiesConfig cookiesConfig;
 
     public void init(UserModel userModel) {
-        LogdeviceModel logdeviceModel = null;
-        // logdeviceModel = apiRequestService.getDeviceId();
         if (userModel.getLogdeviceModel() == null) {
-            logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(),
-                    cookiesConfig.getRailDeviceid());
+            LogdeviceModel logdeviceModel = LogdeviceUtil.getLogdevice();
+            if (logdeviceModel == null) {
+                logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(),
+                        cookiesConfig.getRailDeviceid());
+            }
             userModel.setLogdeviceModel(logdeviceModel);
         }
         HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());

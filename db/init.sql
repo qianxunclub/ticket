@@ -15,3 +15,10 @@ create table ticket
     password       varchar not null
 );
 
+
+create table ips
+(
+    id             INTEGER
+        constraint ips_pk primary key autoincrement,
+    ip           varchar not null
+);
