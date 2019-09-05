@@ -72,7 +72,7 @@ public class TicketApplication {
         // 获取新IP
         AddIpThread addIpThread = new AddIpThread(ipsService);
         Thread addIp = new Thread(addIpThread);
-        checkIp.start();
+        addIp.start();
 
     }
 
