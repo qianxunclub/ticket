@@ -18,6 +18,7 @@
 - JDK8
 - maven
 - python3
+- 安装 Chrome 浏览器
 
 # python 依赖安装
 Mac 或者 Linux 用户使用虚拟环境：
@@ -59,17 +60,7 @@ cd ticket/python
 python main.py ../temp/index.jpg
 ```
 
-# 配置说明
-## 短信配置
-短信使用的是阿里云短信服务，这个很便宜，申请一个就好了：[点击申请](https://www.aliyun.com/product/sms?spm=5176.8142029.cloudEssentials.57.e9396d3edQ9wXL)  
-修改配置文件：[application-sms.yml](src/main/resources/application-sms.yml)  
-```
-notice:
-  accessKeyId: "阿里云获取"
-  accessSecret: "阿里云获取"
-  templateCode: "阿里云获取"
-  signName: "阿里云获取"
-```
+# 使用说明
 
 ## 默认用户配置
 默认用户是指在项目启动的时候，直接开始抢购对应的配置购票信息。  
@@ -86,6 +77,23 @@ config:
   # 代理端口
   proxyPort: 12639
 ``` 
+
+## 短信配置
+短信使用的是阿里云短信服务，这个很便宜，申请一个就好了：[点击申请](https://www.aliyun.com/product/sms?spm=5176.8142029.cloudEssentials.57.e9396d3edQ9wXL)  
+修改配置文件：[application-sms.yml](src/main/resources/application-sms.yml)  
+```
+notice:
+  accessKeyId: "阿里云获取"
+  accessSecret: "阿里云获取"
+  templateCode: "阿里云获取"
+  signName: "阿里云获取"
+```
+
+## 初始化
+启动成功后，使用 Chrome 浏览器访问以下地址初始化：
+```$xslt
+http://localhost:9998/api
+```
 
 # 在线接口文档
 项目集成了 `swagger` ，可以在线直接调用接口使用。  

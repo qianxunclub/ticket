@@ -26,7 +26,6 @@ public class LoginTest {
         UserModel userModel = new UserModel();
         userModel.setUsername(Constant.USER_NAME);
         userModel.setPassword(Constant.PASSWORD);
-        userModel.setLogdeviceModel(apiRequestService.getDeviceId());
         login.login(userModel);
     }
 }

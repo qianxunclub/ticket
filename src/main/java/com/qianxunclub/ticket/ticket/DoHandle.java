@@ -5,7 +5,7 @@ import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.repository.dao.TicketDao;
 import com.qianxunclub.ticket.repository.entity.Ticket;
-import com.qianxunclub.ticket.util.CommonUtils;
+import com.qianxunclub.ticket.util.CommonUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,7 @@ public class DoHandle {
     }
 
     public void add(BuyTicketInfoModel buyTicketInfoModel) {
-        Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
+        Thread.currentThread().setName(CommonUtil.getThreadName(buyTicketInfoModel));
         if (!login.login(buyTicketInfoModel)) {
             UserTicketStore.userBasicCookieStore.remove(buyTicketInfoModel.getUsername());
             return;
@@ -59,7 +59,7 @@ public class DoHandle {
 
         @Override
         public void run() {
-            Thread.currentThread().setName(CommonUtils.getThreadName(buyTicketInfoModel));
+            Thread.currentThread().setName(CommonUtil.getThreadName(buyTicketInfoModel));
             buyTicketInfoModel.setStatus(StatusEnum.ING);
             while (true) {
                 Task task = new Task(buyTicketInfoModel);
