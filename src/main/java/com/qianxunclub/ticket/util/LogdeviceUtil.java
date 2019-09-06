@@ -20,7 +20,7 @@ public class LogdeviceUtil {
         try {
             if(webDriverPath == null){
                 String os = System.getProperty("os.name");
-                String webDriverPath = System.getProperty("user.dir") + "/webdriver/";
+                webDriverPath = System.getProperty("user.dir") + "/webdriver/";
                 if (os.toLowerCase().startsWith("win")) {
                     webDriverPath += "chromedriver_76_wim.exe";
                 } else if (os.toLowerCase().startsWith("mac")) {
