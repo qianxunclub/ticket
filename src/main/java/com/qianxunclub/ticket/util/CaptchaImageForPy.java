@@ -56,13 +56,11 @@ public class CaptchaImageForPy {
                 process = runtime.exec(bash);
             }
             InputStream inputStream = process.getInputStream();
+            if (inputStream.available() <= 0){
+                inputStream = process.getErrorStream();
+            }
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            if(bufferedReader.lines().count() <= 0){
-                inputStream = process.getErrorStream();
-                inputStreamReader = new InputStreamReader(inputStream, "GBK");
-                bufferedReader = new BufferedReader(inputStreamReader);
-            }
             String line;
             PredictVO predictVO = new PredictVO();
             while ((line = bufferedReader.readLine()) != null) {
