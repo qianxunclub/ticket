@@ -58,6 +58,11 @@ public class CaptchaImageForPy {
             InputStream inputStream = process.getInputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            if(bufferedReader.lines().count() <= 0){
+                inputStream = process.getErrorStream();
+                inputStreamReader = new InputStreamReader(inputStream, "GBK");
+                bufferedReader = new BufferedReader(inputStreamReader);
+            }
             String line;
             PredictVO predictVO = new PredictVO();
             while ((line = bufferedReader.readLine()) != null) {
