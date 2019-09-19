@@ -365,6 +365,10 @@ public class ApiRequestService {
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if (rsmap.getOrDefault("status", "").toString().equals("true")) {
             rsmap = (Map<String, Object>) rsmap.get("data");
+            if(rsmap.get("submitStatus").equals("false")){
+                log.error(rsmap.get("errMsg").toString());
+                return null;
+            }
             String isShowPassCode = rsmap.get("ifShowPassCode").toString();
             long ifShowPassCodeTime = Long.parseLong(rsmap.get("ifShowPassCodeTime").toString());
             try {
