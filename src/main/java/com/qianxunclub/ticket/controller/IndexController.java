@@ -11,6 +11,7 @@ import com.qianxunclub.ticket.model.UserTicketStore;
 import com.qianxunclub.ticket.util.LogdeviceUtil;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -85,8 +86,14 @@ public class IndexController {
     @ApiOperation("正在抢票中的用户")
     @ResponseBody
     @GetMapping("buying")
-    public Object buying() {
-        return UserTicketStore.buyTicketInfoModelList;
+    public Object buying(HttpServletRequest request) {
+        String username = request.getParameter("username");
+        if(StringUtils.isEmpty(username)){
+            return UserTicketStore.buyTicketInfoModelList;
+        }
+        return UserTicketStore.buyTicketInfoModelList.stream().filter(buyTicketInfoModel ->
+            buyTicketInfoModel.getUsername().equals(username)
+        ).findFirst();
     }
 
     @ApiOperation("添加抢票信息")
