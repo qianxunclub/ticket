@@ -23,10 +23,6 @@ public class ApiConfig {
 
     private String station;
 
-    private String getJs;
-
-    private String logdevice;
-
     private String leftTicket;
 
     private String loginConfig;
@@ -67,9 +63,9 @@ public class ApiConfig {
 
     private String init;
 
-    public String getHost(){
+    public String getHost() {
         String host = IpUtil.ip();
-        if(host == null){
+        if (host == null) {
             host = config.getBaseUrl();
         }
         return host;
@@ -77,14 +73,6 @@ public class ApiConfig {
 
     public String getStation() {
         return this.getHost().concat(station);
-    }
-
-    public String getGetJs() {
-        return this.getHost().concat(getJs);
-    }
-
-    public String getLogdevice() {
-        return this.getHost().concat(logdevice);
     }
 
     public String getLeftTicket() {
