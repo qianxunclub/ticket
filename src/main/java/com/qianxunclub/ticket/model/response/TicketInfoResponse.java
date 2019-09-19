@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class TicketInfoResponse {
 
+    private String username;
     private String date;
     private String from;
     private String to;
