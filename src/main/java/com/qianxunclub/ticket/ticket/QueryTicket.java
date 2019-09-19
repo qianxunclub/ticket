@@ -6,6 +6,7 @@ import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -54,10 +55,10 @@ public class QueryTicket {
                 ticket.getSeat().forEach(seatModel -> {
                     if (buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel())) {
                         seat.add(seatModel);
-                        ticket.setSeat(seat);
                     }
                 });
-                ticketModel.set(ticket);
+                BeanUtils.copyProperties(ticket,ticketModel.get());
+                ticketModel.get().setSeat(seat);
             }
         });
         return ticketModel.get();

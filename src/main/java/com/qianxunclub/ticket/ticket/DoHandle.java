@@ -41,7 +41,7 @@ public class DoHandle {
     public void add(BuyTicketInfoModel buyTicketInfoModel) {
         Thread.currentThread().setName(CommonUtil.getThreadName(buyTicketInfoModel));
         if (!login.login(buyTicketInfoModel)) {
-            UserTicketStore.userBasicCookieStore.remove(buyTicketInfoModel.getUsername());
+            UserTicketStore.httpUtilStore.remove(buyTicketInfoModel.getUsername());
             return;
         }
 
