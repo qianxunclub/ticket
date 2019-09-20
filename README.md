@@ -89,24 +89,12 @@ notice:
   signName: "阿里云获取"
 ```
 
-## 初始化
-启动成功后，使用 Chrome 浏览器访问以下地址初始化：
-```$xslt
-http://localhost:9998/api
-```
-
 # 在线接口文档
 项目集成了 `swagger` ，可以在线直接调用接口使用。  
 项目启动成功后，输入地址：
 ```
 http://localhost:9998/swagger-ui.html
 ```
-
-# 开发者讨论
-有什么好建议或者想法的，可以添加QQ群一起讨论：852214454
-
-# 感谢
-- [胖大海]()：提供 `RAIL_EXPIRATION` 和 `RAIL_DEVICEID` 两个 cookie 获取方式。
 
 # 常见问题
 ## 1. 登录报错 `302`
@@ -117,3 +105,7 @@ cookies:
   rail_deviceid: "xxxx"
 ```
 获取方式：登录 12306 官网，查看任意接口 cookie ，找到这两个，填写进去，就OK了。
+
+
+# 开发者讨论
+有什么好建议或者想法的，可以添加QQ群一起讨论：852214454
