@@ -79,7 +79,16 @@ config:
 ``` 
 
 ## 短信配置
-短信使用的是阿里云短信服务，这个很便宜，申请一个就好了：[点击申请](https://www.aliyun.com/product/sms?spm=5176.8142029.cloudEssentials.57.e9396d3edQ9wXL)  
+短信使用的是阿里云短信服务，这个很便宜，申请一个就好了：[点击申请](https://www.aliyun.com/product/sms?spm=5176.8142029.cloudEssentials.57.e9396d3edQ9wXL)
+模板如下：
+```$xslt
+模版内容:
+您好${name}，下单成功，订单号为：${orderId}，请尽快登录并支付，账号：${username}，密码：${password}。
+
+变量属性:
+name-其他；orderId-其他号码；username-其他；password-其他号码；
+```  
+
 修改配置文件：[application-sms.yml](src/main/resources/application-sms.yml)  
 ```
 notice:
