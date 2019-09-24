@@ -336,7 +336,7 @@ public class ApiRequestService {
         return passengerModelList;
     }
 
-    public String checkOrderInfo(BuyTicketInfoModel buyTicketInfoModel) {
+    public String checkOrderInfo(BuyTicketInfoModel buyTicketInfoModel, TicketModel ticketModel) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore
                 .get(buyTicketInfoModel.getUsername());
         HttpPost httpPost = new HttpPost(apiConfig.getCheckOrderInfo());
@@ -350,7 +350,8 @@ public class ApiRequestService {
         formparams.add(new BasicNameValuePair("tour_flag", "dc"));
         formparams.add(new BasicNameValuePair("randCode", ""));
         formparams.add(new BasicNameValuePair("passengerTicketStr",
-                buyTicketInfoModel.getPassengerModel().getPassengerTicketStr(buyTicketInfoModel)));
+                buyTicketInfoModel.getPassengerModel()
+                        .getPassengerTicketStr(buyTicketInfoModel, ticketModel)));
         formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN",
                 buyTicketInfoModel.getGlobalRepeatSubmitToken()));
         formparams.add(new BasicNameValuePair("getOldPassengerStr",
@@ -365,7 +366,7 @@ public class ApiRequestService {
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if (rsmap.getOrDefault("status", "").toString().equals("true")) {
             rsmap = (Map<String, Object>) rsmap.get("data");
-            if(rsmap.get("submitStatus").equals(false)){
+            if (rsmap.get("submitStatus").equals(false)) {
                 log.error(rsmap.get("errMsg").toString());
                 return null;
             }
@@ -464,7 +465,8 @@ public class ApiRequestService {
         formparams.add(new BasicNameValuePair("seatDetailType", "000"));
         formparams.add(new BasicNameValuePair("randCode", ""));
         formparams.add(new BasicNameValuePair("passengerTicketStr",
-                buyTicketInfoModel.getPassengerModel().getPassengerTicketStr(buyTicketInfoModel)));
+                buyTicketInfoModel.getPassengerModel()
+                        .getPassengerTicketStr(buyTicketInfoModel, ticketModel)));
         formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN",
                 buyTicketInfoModel.getGlobalRepeatSubmitToken()));
         formparams.add(new BasicNameValuePair("getOldPassengerStr",
