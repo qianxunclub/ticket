@@ -37,6 +37,7 @@ public class Login {
                 logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(),
                         cookiesConfig.getRailDeviceid());
             }
+            log.info(logdeviceModel.toString());
             userModel.setLogdeviceModel(logdeviceModel);
         }
         HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userModel.getUsername());

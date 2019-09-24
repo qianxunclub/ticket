@@ -56,6 +56,7 @@ public class CaptchaImageForPy {
                 String bash = config.getPythonPath() + "/run.sh ../temp/" + filename;
                 process = runtime.exec(bash);
             }
+            process.waitFor();
             InputStream inputStream = process.getInputStream();
             String r = this.get(inputStream);
             if(StringUtils.isEmpty(r)){
