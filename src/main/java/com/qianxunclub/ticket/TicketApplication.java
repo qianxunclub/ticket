@@ -15,6 +15,7 @@ import com.qianxunclub.ticket.ticket.Station;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.List;
 /**
  * @author zhangbin
  */
+@EnableScheduling
 @SpringBootApplication
 public class TicketApplication {
 
