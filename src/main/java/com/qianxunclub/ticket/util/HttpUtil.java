@@ -2,7 +2,6 @@ package com.qianxunclub.ticket.util;
 
 
 import com.qianxunclub.ticket.config.Config;
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
@@ -17,8 +16,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -75,9 +72,11 @@ public class HttpUtil {
     }
 
     private String doAction(HttpRequestBase httpRequestBase) {
+        httpRequestBase.addHeader(new BasicHeader("Origin",config.getBaseUrl()));
+        httpRequestBase.addHeader(new BasicHeader(HttpHeaders.REFERER,config.getBaseUrl()));
+        httpRequestBase.addHeader(new BasicHeader(HttpHeaders.HOST, config.getHost()));
         String result = null;
         try {
-            httpRequestBase.setHeader(new BasicHeader(HttpHeaders.HOST, config.getHost()));
             HttpResponse response = httpClient.execute(httpRequestBase);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity httpEntity = response.getEntity();

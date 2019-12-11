@@ -124,8 +124,13 @@ public class ApiRequestService {
 
     public boolean isLogin(UserModel userModel) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userModel.getUsername());
-        HttpGet httpGet = new HttpGet(apiConfig.getUamtkStatic());
-        String response = httpUtil.get(httpGet);
+        HttpPost httpPost = new HttpPost(apiConfig.getUamtkStatic());
+        List<NameValuePair> formparams = new ArrayList<>();
+        formparams.add(new BasicNameValuePair("appid", "otn"));
+        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams,
+                Consts.UTF_8);
+        httpPost.setEntity(urlEncodedFormEntity);
+        String response = httpUtil.post(httpPost);
         Gson jsonResult = new Gson();
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if ("0.0".equals(rsmap.get("result_code").toString())) {

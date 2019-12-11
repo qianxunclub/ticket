@@ -26,7 +26,7 @@ api:
   loginConfig: "/otn/login/conf"
   passengers: "/otn/passengers/query"
   captchaImage: "/passport/captcha/captcha-image64?login_site=E&module=login&rand=sjrand&_=%s"
-  uamtkStatic: "/passport/web/auth/uamtk-static?appid=otn"
+  uamtkStatic: "/passport/web/auth/uamtk-static"
   login: "/passport/web/login"
   captchaCheck: "/passport/captcha/captcha-check?answer=%s&rand=sjrand&login_site=E&_=%s"
   uamtk: "/passport/web/auth/uamtk"
