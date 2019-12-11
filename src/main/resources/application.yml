@@ -2,8 +2,8 @@ server:
   port: 9998
 
 cookies:
-  rail_expiration: "1569528353442"
-  rail_deviceid: "IzDKA1fLtjw3X975QXcuW6Ln0e0llvhl6LAaJ2dbeu56R61sioQaLOkh-SO0Up7oRs0CvtzpZ0Rq8-f_Gi2jaSn90_yF2kUoXblLLP-KYGDqrcLXfdRW6eKjx3SppmxXFG7yQNRyCmOecn8m8RTbwSegBCATn9b0"
+  rail_expiration: "1576330253758"
+  rail_deviceid: "D0vKZrOYYR8LWwpDIMmErxMPQ_weK4SG8vBGv_hk-Hl7iOEpGACn8QqbxAPren7my5aAozndcRPaNV0lhBepXDUVe_AEWyYmahcm75ZViUV_Ty6NbfVO20fWgQhNPSkAj5anYugDWT1drqVO9GRLv6vfHrVSbGJE"
 config:
   # 是否启用代理
   enableProxy: false
@@ -20,13 +20,13 @@ config:
   pythonPath: "python"
 
 api:
-  station: "/otn/resources/js/framework/station_name.js?station_version=1.9108"
+  station: "/otn/resources/js/framework/station_name.js?station_version=1.9126"
   init: "/otn/leftTicket/init"
-  leftTicket: "/otn/leftTicket/queryA?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
+  leftTicket: "/otn/leftTicket/query?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
   loginConfig: "/otn/login/conf"
   passengers: "/otn/passengers/query"
   captchaImage: "/passport/captcha/captcha-image64?login_site=E&module=login&rand=sjrand&_=%s"
-  uamtkStatic: "/passport/web/auth/uamtk-static?appid=otn"
+  uamtkStatic: "/passport/web/auth/uamtk-static"
   login: "/passport/web/login"
   captchaCheck: "/passport/captcha/captcha-check?answer=%s&rand=sjrand&login_site=E&_=%s"
   uamtk: "/passport/web/auth/uamtk"
