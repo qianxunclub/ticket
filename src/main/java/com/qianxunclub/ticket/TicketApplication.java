@@ -1,6 +1,5 @@
 package com.qianxunclub.ticket;
 
-import com.qianxunclub.ticket.config.Config;
 import com.qianxunclub.ticket.config.UserConfig;
 import com.qianxunclub.ticket.ip.AddIpThread;
 import com.qianxunclub.ticket.ip.CheckIpThread;
