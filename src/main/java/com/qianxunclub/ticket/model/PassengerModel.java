@@ -15,6 +15,7 @@ import lombok.Data;
  */
 @Data
 public class PassengerModel {
+
     String passengerName;
     String sexCode;
     String sexName;
@@ -73,9 +74,10 @@ public class PassengerModel {
         this.allEncStr = passengerMap.get("allEncStr");
     }
 
-    public String getPassengerTicketStr(BuyTicketInfoModel buyTicketInfoModel) {
+    public String getPassengerTicketStr(BuyTicketInfoModel buyTicketInfoModel,
+            TicketModel ticketModel) {
         PassengerModel passengerModel = buyTicketInfoModel.getPassengerModel();
-        return buyTicketInfoModel.getSeat().get(0).getCode() + "," +
+        return ticketModel.getSeat().get(0).getSeatLevel().getCode() + "," +
                 "0,1," + passengerModel.getPassengerName() + "," +
                 passengerModel.getPassengerIdTypeCode() + "," +
                 passengerModel.getPassengerIdNo() + "," +
@@ -90,9 +92,9 @@ public class PassengerModel {
                 passengerModel.getPassengerType() + "_";
     }
 
-    public PassengerResponse toPassengerResponse(){
+    public PassengerResponse toPassengerResponse() {
         PassengerResponse passengerResponse = new PassengerResponse();
-        BeanUtils.copyProperties(this,passengerResponse);
+        BeanUtils.copyProperties(this, passengerResponse);
         return passengerResponse;
     }
 

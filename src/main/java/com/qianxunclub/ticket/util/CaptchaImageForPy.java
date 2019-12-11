@@ -2,6 +2,7 @@ package com.qianxunclub.ticket.util;
 
 import com.qianxunclub.ticket.config.Config;
 
+import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Component;
@@ -55,24 +56,14 @@ public class CaptchaImageForPy {
                 String bash = config.getPythonPath() + "/run.sh ../temp/" + filename;
                 process = runtime.exec(bash);
             }
+            process.waitFor();
             InputStream inputStream = process.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line;
-            PredictVO predictVO = new PredictVO();
-            while ((line = bufferedReader.readLine()) != null) {
-                if (StringUtils.isEmpty(line.trim())) {
-                    continue;
-                }
-                String[] parts = line.split("\\s");
-                if (parts.length == 1) {
-                    predictVO.getQuestions().add(parts[0]);
-                } else {
-                    PictureVO pictureVO = new PictureVO(Integer.valueOf(parts[1]), Integer.valueOf(parts[0]), parts[2]);
-                    predictVO.getPictures().add(pictureVO);
-                }
+            String r = this.get(inputStream);
+            if(StringUtils.isEmpty(r)){
+                inputStream = process.getErrorStream();
+                r = this.get(inputStream);
             }
-            return this.getResult(predictVO);
+            return r;
         } catch (Exception e) {
             log.error("", e);
             return "系统出错，联系QQ：960339491";
@@ -81,6 +72,26 @@ public class CaptchaImageForPy {
                 file.delete();
             }
         }
+    }
+
+    private String get(InputStream inputStream) throws IOException {
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        String line;
+        PredictVO predictVO = new PredictVO();
+        while ((line = bufferedReader.readLine()) != null) {
+            if (StringUtils.isEmpty(line.trim())) {
+                continue;
+            }
+            String[] parts = line.split("\\s");
+            if (parts.length == 1) {
+                predictVO.getQuestions().add(parts[0]);
+            } else {
+                PictureVO pictureVO = new PictureVO(Integer.valueOf(parts[1]), Integer.valueOf(parts[0]), parts[2]);
+                predictVO.getPictures().add(pictureVO);
+            }
+        }
+        return this.getResult(predictVO);
     }
 
     private String getResult(PredictVO predictVO) {

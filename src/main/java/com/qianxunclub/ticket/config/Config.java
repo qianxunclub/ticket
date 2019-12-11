@@ -1,5 +1,6 @@
 package com.qianxunclub.ticket.config;
 
+import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -25,10 +26,13 @@ public class Config {
 
     private Integer proxyPort;
 
-    private long queryTicketSellpTime;
+    private Map<String, Integer> queryTicketSleepTime;
 
     private String pythonPath;
 
-    private String logdevicePath;
+    public Integer querySleep() {
+        return (int) (queryTicketSleepTime.get("min") + Math.random() * (
+                queryTicketSleepTime.get("max") - queryTicketSleepTime.get("min") + 1));
+    }
 
 }

@@ -36,7 +36,7 @@ public class TicketService {
     public List<PassengerModel> login(UserModel userModel) {
 
         if (!login.login(userModel)) {
-            UserTicketStore.userBasicCookieStore.remove(userModel.getUsername());
+            UserTicketStore.httpUtilStore.remove(userModel.getUsername());
             return null;
         }
         List<PassengerModel> passengerModelList = this.passengers(userModel.getUsername());

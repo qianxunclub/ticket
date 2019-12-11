@@ -37,12 +37,13 @@ public class Login {
                 logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(),
                         cookiesConfig.getRailDeviceid());
             }
+            log.info(logdeviceModel.toString());
             userModel.setLogdeviceModel(logdeviceModel);
         }
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userModel.getUsername());
         if (httpUtil == null) {
             httpUtil = new HttpUtil(cookieUtil.init(null, userModel.getLogdeviceModel()));
-            UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), httpUtil);
+            UserTicketStore.httpUtilStore.put(userModel.getUsername(), httpUtil);
         }
 
     }

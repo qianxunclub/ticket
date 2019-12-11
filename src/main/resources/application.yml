@@ -2,8 +2,8 @@ server:
   port: 9998
 
 cookies:
-  rail_expiration: "1567872151032"
-  rail_deviceid: "jVCBcqGRr9xh_YZV198kB1Rk76FaOKu1CtG75cWdg0TI3VJBhGDD49H-XTrdIRuNnhl_1ENn0Yndq5NIwstiVqngRWq6UGQx-f1jUG9lnCjhZTr6WDkq0dvfMv8s-o40qaq8HpN6d_IkPWL2GiVivNXKhuiak3kv"
+  rail_expiration: "1569528353442"
+  rail_deviceid: "IzDKA1fLtjw3X975QXcuW6Ln0e0llvhl6LAaJ2dbeu56R61sioQaLOkh-SO0Up7oRs0CvtzpZ0Rq8-f_Gi2jaSn90_yF2kUoXblLLP-KYGDqrcLXfdRW6eKjx3SppmxXFG7yQNRyCmOecn8m8RTbwSegBCATn9b0"
 config:
   # 是否启用代理
   enableProxy: false
@@ -13,16 +13,16 @@ config:
   proxyPort: 12639
   host: "kyfw.12306.cn"
   base_url: "https://kyfw.12306.cn"
-  queryTicketSellpTime: 1
+  # 随机查询时间，取值：min-max，范围随机
+  queryTicketSleepTime:
+    min: 1
+    max: 3
   pythonPath: "python"
-  logdevicePath: "classpath:logdevice.js"
 
 api:
   station: "/otn/resources/js/framework/station_name.js?station_version=1.9108"
-  getJs: "/otn/HttpZF/GetJS"
-  logdevice: "/otn/HttpZF/logdevice?algID=kNxKEJAs7D&hashCode=B6sCkh9vcRBYxziLrcshVAdpXJhYvJ_38tLFLhGSgmY&FMQw=0&q4f3=zh-CN&VPIf=1&custID=133&VEek=unspecified&dzuS=0&yD16=0&EOQP=c227b88b01f5c513710d4b9f16a5ce52&lEnu=2886729839&jp76=d41d8cd98f00b204e9800998ecf8427e&hAqN=MacIntel&platform=WEB&ks0Q=d41d8cd98f00b204e9800998ecf8427e&TeRS=529x960&tOHY=24xx540x960&Fvje=i1l1s1&q5aJ=-8&wNLf=99115dfb07133750ba677d055874de87&0aew=Mozilla/5.0%20(Macintosh;%20Intel%20Mac%20OS%20X%2010.14;%20rv:68.0)%20Gecko/20100101%20Firefox/68.0&E3gR=9ed513ad4028337a9c532447332b9bbc&timestamp=%s"
   init: "/otn/leftTicket/init"
-  leftTicket: "/otn/leftTicket/queryT?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
+  leftTicket: "/otn/leftTicket/queryA?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
   loginConfig: "/otn/login/conf"
   passengers: "/otn/passengers/query"
   captchaImage: "/passport/captcha/captcha-image64?login_site=E&module=login&rand=sjrand&_=%s"

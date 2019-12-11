@@ -11,8 +11,6 @@ import com.qianxunclub.ticket.util.CaptchaImageForPy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -56,7 +54,7 @@ public class BuyTicket {
         }
         buyTicketInfoModel.setPassengerModel(passengerModel);
 
-        String isShowPassCode = apiRequestService.checkOrderInfo(buyTicketInfoModel);
+        String isShowPassCode = apiRequestService.checkOrderInfo(buyTicketInfoModel, ticketModel);
         if (StringUtils.isEmpty(isShowPassCode)) {
             return false;
         }

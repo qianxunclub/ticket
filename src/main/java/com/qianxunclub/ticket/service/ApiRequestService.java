@@ -63,8 +63,7 @@ public class ApiRequestService {
     }
 
     public List<TicketModel> queryTicket(BuyTicketInfoModel buyTicketInfoModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore
-                .get(buyTicketInfoModel.getUsername());
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(buyTicketInfoModel.getUsername());
         String url = String.format(apiConfig.getLeftTicket(), buyTicketInfoModel.getDate(),
                 Station.getCodeByName(buyTicketInfoModel.getFrom()),
                 Station.getCodeByName(buyTicketInfoModel.getTo()));
@@ -89,7 +88,7 @@ public class ApiRequestService {
     }
 
     public boolean isLoginPassCode(String username) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(username);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(username);
         HttpGet httpGet = new HttpGet(apiConfig.getLoginConfig());
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
@@ -100,7 +99,7 @@ public class ApiRequestService {
     }
 
     public String captchaImage(String userName) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         HttpGet httpGet = new HttpGet(String.format(apiConfig.getCaptchaImage(), Math.random()));
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
@@ -109,7 +108,7 @@ public class ApiRequestService {
     }
 
     public boolean captchaCheck(String userName, String answer) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         HttpGet httpGet = new HttpGet(
                 String.format(apiConfig.getCaptchaCheck(), answer, Math.random()));
         String response = httpUtil.get(httpGet);
@@ -124,14 +123,14 @@ public class ApiRequestService {
     }
 
     public boolean isLogin(UserModel userModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userModel.getUsername());
         HttpGet httpGet = new HttpGet(apiConfig.getUamtkStatic());
         String response = httpUtil.get(httpGet);
         Gson jsonResult = new Gson();
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if ("0.0".equals(rsmap.get("result_code").toString())) {
             userModel.setUamtk(rsmap.get("newapptk").toString());
-            UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), httpUtil);
+            UserTicketStore.httpUtilStore.put(userModel.getUsername(), httpUtil);
             return true;
         } else {
             return false;
@@ -139,7 +138,7 @@ public class ApiRequestService {
     }
 
     public boolean login(UserModel userModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userModel.getUsername());
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userModel.getUsername());
         HttpPost httpPost = new HttpPost(apiConfig.getLogin());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("username", userModel.getUsername()));
@@ -161,13 +160,13 @@ public class ApiRequestService {
             log.error("登陆失败：{}", rsmap);
             return false;
         }
-        UserTicketStore.userBasicCookieStore.put(userModel.getUsername(), httpUtil);
+        UserTicketStore.httpUtilStore.put(userModel.getUsername(), httpUtil);
         userModel.setUamtk(rsmap.get("uamtk").toString());
         return true;
     }
 
     public String uamtk(String userName) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         HttpPost httpPost = new HttpPost(apiConfig.getUamtk());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("appid", "otn"));
@@ -178,14 +177,14 @@ public class ApiRequestService {
         String response = httpUtil.post(httpPost);
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if ("0.0".equals(rsmap.getOrDefault("result_code", "").toString())) {
-            UserTicketStore.userBasicCookieStore.put(userName, httpUtil);
+            UserTicketStore.httpUtilStore.put(userName, httpUtil);
             return rsmap.get("newapptk").toString();
         }
         return null;
     }
 
     public String uamauthclient(String userName, String tk) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         HttpPost httpPost = new HttpPost(apiConfig.getUamauthclient());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("tk", tk));
@@ -196,7 +195,7 @@ public class ApiRequestService {
         String response = httpUtil.post(httpPost);
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if ("0.0".equals(rsmap.getOrDefault("result_code", "").toString())) {
-            UserTicketStore.userBasicCookieStore.put(userName, httpUtil);
+            UserTicketStore.httpUtilStore.put(userName, httpUtil);
             return rsmap.get("apptk").toString();
         }
         return null;
@@ -204,7 +203,7 @@ public class ApiRequestService {
 
 
     public List<PassengerModel> passengers(String userName) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         HttpPost httpPost = new HttpPost(apiConfig.getPassengers());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("pageIndex", "1"));
@@ -230,7 +229,7 @@ public class ApiRequestService {
     }
 
     public boolean checkUser(String userName) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         HttpPost httpPost = new HttpPost(apiConfig.getCheckUser());
         List<NameValuePair> formparams = new ArrayList<>();
         formparams.add(new BasicNameValuePair("_json_att", ""));
@@ -256,7 +255,7 @@ public class ApiRequestService {
 
     public boolean submitOrderRequest(BuyTicketInfoModel buyTicketInfoModel,
             TicketModel ticketModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore
                 .get(buyTicketInfoModel.getUsername());
         SimpleDateFormat shortSdf = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
@@ -291,7 +290,7 @@ public class ApiRequestService {
     }
 
     public String initDc(String userName) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         String token = "";
         HttpGet httpGet = new HttpGet(apiConfig.getInitDc());
         String response = httpUtil.get(httpGet);
@@ -311,7 +310,7 @@ public class ApiRequestService {
     }
 
     public List<PassengerModel> getPassengerDTOs(String userName, String token) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore.get(userName);
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
         List<PassengerModel> passengerModelList = new ArrayList<>();
         HttpPost httpPost = new HttpPost(apiConfig.getGetPassengerDTOs());
         List<NameValuePair> formparams = new ArrayList<>();
@@ -337,8 +336,8 @@ public class ApiRequestService {
         return passengerModelList;
     }
 
-    public String checkOrderInfo(BuyTicketInfoModel buyTicketInfoModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore
+    public String checkOrderInfo(BuyTicketInfoModel buyTicketInfoModel, TicketModel ticketModel) {
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore
                 .get(buyTicketInfoModel.getUsername());
         HttpPost httpPost = new HttpPost(apiConfig.getCheckOrderInfo());
         List<NameValuePair> formparams = new ArrayList<>();
@@ -351,7 +350,8 @@ public class ApiRequestService {
         formparams.add(new BasicNameValuePair("tour_flag", "dc"));
         formparams.add(new BasicNameValuePair("randCode", ""));
         formparams.add(new BasicNameValuePair("passengerTicketStr",
-                buyTicketInfoModel.getPassengerModel().getPassengerTicketStr(buyTicketInfoModel)));
+                buyTicketInfoModel.getPassengerModel()
+                        .getPassengerTicketStr(buyTicketInfoModel, ticketModel)));
         formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN",
                 buyTicketInfoModel.getGlobalRepeatSubmitToken()));
         formparams.add(new BasicNameValuePair("getOldPassengerStr",
@@ -366,6 +366,10 @@ public class ApiRequestService {
         Map rsmap = jsonResult.fromJson(response, Map.class);
         if (rsmap.getOrDefault("status", "").toString().equals("true")) {
             rsmap = (Map<String, Object>) rsmap.get("data");
+            if (rsmap.get("submitStatus").equals(false)) {
+                log.error(rsmap.get("errMsg").toString());
+                return null;
+            }
             String isShowPassCode = rsmap.get("ifShowPassCode").toString();
             long ifShowPassCodeTime = Long.parseLong(rsmap.get("ifShowPassCodeTime").toString());
             try {
@@ -402,7 +406,7 @@ public class ApiRequestService {
     }
 
     public boolean getQueueCount(BuyTicketInfoModel buyTicketInfoModel, TicketModel ticketModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore
                 .get(buyTicketInfoModel.getUsername());
         HttpPost httpPost = new HttpPost(apiConfig.getGetQueueCount());
         List<NameValuePair> formparams = new ArrayList<>();
@@ -443,7 +447,7 @@ public class ApiRequestService {
 
     public boolean confirmSingleForQueue(BuyTicketInfoModel buyTicketInfoModel,
             TicketModel ticketModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore
                 .get(buyTicketInfoModel.getUsername());
         HttpPost httpPost = new HttpPost(apiConfig.getConfirmSingleForQueue());
 
@@ -461,7 +465,8 @@ public class ApiRequestService {
         formparams.add(new BasicNameValuePair("seatDetailType", "000"));
         formparams.add(new BasicNameValuePair("randCode", ""));
         formparams.add(new BasicNameValuePair("passengerTicketStr",
-                buyTicketInfoModel.getPassengerModel().getPassengerTicketStr(buyTicketInfoModel)));
+                buyTicketInfoModel.getPassengerModel()
+                        .getPassengerTicketStr(buyTicketInfoModel, ticketModel)));
         formparams.add(new BasicNameValuePair("REPEAT_SUBMIT_TOKEN",
                 buyTicketInfoModel.getGlobalRepeatSubmitToken()));
         formparams.add(new BasicNameValuePair("getOldPassengerStr",
@@ -489,7 +494,7 @@ public class ApiRequestService {
     }
 
     public String queryOrderWaitTime(BuyTicketInfoModel buyTicketInfoModel) {
-        HttpUtil httpUtil = UserTicketStore.userBasicCookieStore
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore
                 .get(buyTicketInfoModel.getUsername());
         int m = 50;
         int n = 0;

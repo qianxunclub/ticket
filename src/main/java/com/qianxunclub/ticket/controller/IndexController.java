@@ -1,16 +1,20 @@
 package com.qianxunclub.ticket.controller;
 
+import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.PassengerModel;
 import com.qianxunclub.ticket.model.request.PassengerRequest;
 import com.qianxunclub.ticket.model.Result;
 import com.qianxunclub.ticket.model.request.TicketRequest;
 import com.qianxunclub.ticket.model.response.PassengerResponse;
+import com.qianxunclub.ticket.model.response.TicketInfoResponse;
 import com.qianxunclub.ticket.service.TicketService;
 import com.qianxunclub.ticket.model.UserTicketStore;
 
 import com.qianxunclub.ticket.util.LogdeviceUtil;
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -85,8 +89,24 @@ public class IndexController {
     @ApiOperation("正在抢票中的用户")
     @ResponseBody
     @GetMapping("buying")
-    public Object buying() {
-        return UserTicketStore.buyTicketInfoModelList;
+    public Object buying(HttpServletRequest request) {
+        String username = request.getParameter("username");
+        if (StringUtils.isEmpty(username)) {
+            List<TicketInfoResponse> ticketInfoResponseList = new ArrayList<>();
+            UserTicketStore.buyTicketInfoModelList.forEach(buyTicketInfoModel -> {
+                TicketInfoResponse ticketInfoResponse = new TicketInfoResponse();
+                BeanUtils.copyProperties(buyTicketInfoModel, ticketInfoResponse);
+                ticketInfoResponseList.add(ticketInfoResponse);
+            });
+            return ticketInfoResponseList;
+        }
+        BuyTicketInfoModel buyTicketInfo = UserTicketStore.buyTicketInfoModelList.stream()
+                .filter(buyTicketInfoModel ->
+                        buyTicketInfoModel.getUsername().equals(username)
+                ).findFirst().get();
+        TicketInfoResponse ticketInfoResponse = new TicketInfoResponse();
+        BeanUtils.copyProperties(buyTicketInfo, ticketInfoResponse);
+        return ticketInfoResponse;
     }
 
     @ApiOperation("添加抢票信息")

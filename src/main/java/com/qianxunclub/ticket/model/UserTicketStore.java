@@ -16,7 +16,7 @@ import java.util.Map;
 public class UserTicketStore {
 
     public static List<BuyTicketInfoModel> buyTicketInfoModelList = new ArrayList<>();
-    public static Map<String, HttpUtil> userBasicCookieStore = new HashMap<>();
+    public static Map<String, HttpUtil> httpUtilStore = new HashMap<>();
 
     public static void add(BuyTicketInfoModel buyTicketInfoModel) {
         buyTicketInfoModelList.add(buyTicketInfoModel);
