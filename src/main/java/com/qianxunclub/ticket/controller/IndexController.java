@@ -10,7 +10,6 @@ import com.qianxunclub.ticket.model.response.TicketInfoResponse;
 import com.qianxunclub.ticket.service.TicketService;
 import com.qianxunclub.ticket.model.UserTicketStore;
 
-import com.qianxunclub.ticket.util.LogdeviceUtil;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
@@ -42,30 +41,6 @@ public class IndexController {
 
     private TicketService ticketService;
 
-    @ApiOperation("初始化")
-    @ResponseBody
-    @GetMapping("")
-    public void init(HttpServletRequest request) {
-        String browserDetails = request.getHeader("User-Agent");
-        String userAgent = browserDetails;
-        String user = userAgent.toLowerCase();
-        String browserVersion = "";
-
-        if (user.contains("chrome")) {
-            browserVersion = (userAgent.substring(userAgent.indexOf("Chrome")).split(" ")[0])
-                    .split("/")[1].split("\\.")[0];
-        }
-        String fileName = "";
-        if (userAgent.toLowerCase().contains("windows")) {
-            fileName = "win.exe";
-        } else if (userAgent.toLowerCase().contains("mac")) {
-            fileName = "mac";
-        }
-        String webDriverPath = System.getProperty("user.dir") + "/webdriver/";
-        webDriverPath += "chromedriver_" + browserVersion + "_" + fileName + "";
-        LogdeviceUtil.webDriverPath = webDriverPath;
-
-    }
 
     @ApiOperation("登录")
     @ResponseBody
