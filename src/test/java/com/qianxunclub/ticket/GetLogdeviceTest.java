@@ -1,21 +1,28 @@
 package com.qianxunclub.ticket;
 
+import com.qianxunclub.ticket.config.Config;
 import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.util.LogdeviceUtil;
-import java.io.File;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.springframework.util.StringUtils;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class GetLogdeviceTest {
 
-    public static void main(String[] args) throws Exception {
-        LogdeviceModel logdeviceModel = LogdeviceUtil.getLogdevice();
+    @Autowired
+    private Config config;
+
+    @Test
+    public void getLogdevice() {
+        LogdeviceModel logdeviceModel = LogdeviceUtil
+                .getLogdevice(
+                        config.getEnableProxy() ? config.getProxyHost() : null,
+                        config.getEnableProxy() ? config.getProxyPort() : 0
+                );
         System.out.println(logdeviceModel.toString());
     }
 
