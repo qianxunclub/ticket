@@ -14,7 +14,8 @@ public class GetLogdeviceTest {
     @Test
     public void getLogdevice() {
         LogdeviceModel logdeviceModel = LogdeviceUtil.getLogdevice();
-        System.out.println(logdeviceModel.toString());
+        System.out.println("rail_expiration:" + logdeviceModel.getExp());
+        System.out.println("rail_deviceid:" + logdeviceModel.getDfp());
     }
 
 }
