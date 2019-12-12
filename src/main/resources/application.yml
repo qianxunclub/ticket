@@ -1,9 +1,6 @@
 server:
   port: 9998
 
-cookies:
-  rail_expiration: "1576330253758"
-  rail_deviceid: "D0vKZrOYYR8LWwpDIMmErxMPQ_weK4SG8vBGv_hk-Hl7iOEpGACn8QqbxAPren7my5aAozndcRPaNV0lhBepXDUVe_AEWyYmahcm75ZViUV_Ty6NbfVO20fWgQhNPSkAj5anYugDWT1drqVO9GRLv6vfHrVSbGJE"
 config:
   # 是否启用代理
   enableProxy: false
@@ -50,6 +47,7 @@ spring:
     driver-class-name: org.sqlite.JDBC
   profiles:
     include:
+      - cookie
       - user
       - sms
 

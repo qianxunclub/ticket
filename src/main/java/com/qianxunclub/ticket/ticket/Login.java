@@ -1,7 +1,5 @@
 package com.qianxunclub.ticket.ticket;
 
-import com.qianxunclub.ticket.config.Config;
-import com.qianxunclub.ticket.config.CookiesConfig;
 import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.model.UserModel;
 import com.qianxunclub.ticket.model.UserTicketStore;
@@ -29,20 +27,10 @@ public class Login {
     private ApiRequestService apiRequestService;
     private CaptchaImageForPy captchaImageForPy;
     private CookieUtil cookieUtil;
-    private CookiesConfig cookiesConfig;
-    private Config config;
 
     public void init(UserModel userModel) {
         if (userModel.getLogdeviceModel() == null) {
-            LogdeviceModel logdeviceModel = LogdeviceUtil
-                    .getLogdevice(
-                            config.getEnableProxy() ? config.getProxyIp().getIp() : null,
-                            config.getEnableProxy() ? config.getProxyIp().getPort() : 0
-                    );
-            if (logdeviceModel == null) {
-                logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(),
-                        cookiesConfig.getRailDeviceid());
-            }
+            LogdeviceModel logdeviceModel = LogdeviceUtil.getLogdevice();
             log.info(logdeviceModel.toString());
             userModel.setLogdeviceModel(logdeviceModel);
         }
