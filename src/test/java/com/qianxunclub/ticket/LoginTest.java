@@ -3,7 +3,6 @@ package com.qianxunclub.ticket;
 
 import com.qianxunclub.ticket.constant.Constant;
 import com.qianxunclub.ticket.model.UserModel;
-import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.ticket.Login;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,9 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LoginTest {
-
-    @Autowired
-    private ApiRequestService apiRequestService;
 
     @Autowired
     private Login login;

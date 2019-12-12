@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.ip;
 
 import com.qianxunclub.ticket.service.IpsService;
-import com.qianxunclub.ticket.util.IpUtil;
+import com.qianxunclub.ticket.util.StaticUtil;
 
 public class PingIpThread implements Runnable {
 
@@ -23,7 +23,7 @@ public class PingIpThread implements Runnable {
         // 如果 IP 失效
         if(!s){
             ipsService.delIp(ip);
-            IpUtil.rmIp(ip);
+            StaticUtil.rmIp(ip);
         }
     }
 }

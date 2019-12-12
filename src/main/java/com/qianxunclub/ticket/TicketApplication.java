@@ -6,6 +6,7 @@ import com.qianxunclub.ticket.ip.CheckIpThread;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
 import com.qianxunclub.ticket.service.IpsService;
+import com.qianxunclub.ticket.service.ProxyIpService;
 import com.qianxunclub.ticket.service.TicketService;
 import com.qianxunclub.ticket.ticket.DoHandle;
 import com.qianxunclub.ticket.model.UserTicketStore;
@@ -32,27 +33,30 @@ public class TicketApplication {
 
     }
 
-    private static void init(ApplicationContext applicationContext){
+    private static void init(ApplicationContext applicationContext) {
 
-        /**
-         * 初始化 IP
-         */
+        // 初始化 IP
         IpsService ipsService = applicationContext.getBean(IpsService.class);
         ipsService.load();
 
+        // 初始化 代理
+        ProxyIpService proxyIpservice = applicationContext.getBean(ProxyIpService.class);
+        proxyIpservice.load();
 
+        // 初始化站点
         Station station = applicationContext.getBean(Station.class);
         ApiRequestService apiRequestService = applicationContext.getBean(ApiRequestService.class);
         station.load(apiRequestService);
-        // 配置文件获取购票嘻嘻
-        List<BuyTicketInfoModel> buyTicketInfoModelList = applicationContext.getBean(UserConfig.class).getTicketInfo();
+        // 配置文件获取购票信息
+        List<BuyTicketInfoModel> buyTicketInfoModelList = applicationContext
+                .getBean(UserConfig.class).getTicketInfo();
         buyTicketInfoModelList.forEach((buyTicketInfoModel) -> {
             if (buyTicketInfoModel != null) {
                 UserTicketStore.add(buyTicketInfoModel);
             }
         });
 
-        // 数据库获取取购票嘻嘻
+        // 数据库获取取购票信息
         TicketService ticketService = applicationContext.getBean(TicketService.class);
         ticketService.getBuyTicketInfoModel().forEach(buyTicketInfoModel -> {
             if (buyTicketInfoModel != null) {

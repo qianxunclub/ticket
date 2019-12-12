@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.config;
 
 
-import com.qianxunclub.ticket.util.IpUtil;
+import com.qianxunclub.ticket.util.StaticUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -64,7 +64,7 @@ public class ApiConfig {
     private String init;
 
     public String getHost() {
-        String host = IpUtil.ip();
+        String host = StaticUtil.ip();
         if (host == null) {
             host = config.getBaseUrl();
         }

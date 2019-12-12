@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.ip;
 
 import com.qianxunclub.ticket.service.IpsService;
-import com.qianxunclub.ticket.util.IpUtil;
+import com.qianxunclub.ticket.util.StaticUtil;
 import org.springframework.util.StringUtils;
 
 public class AddIpThread implements Runnable{
@@ -25,7 +25,7 @@ public class AddIpThread implements Runnable{
             String ip = "";
             if(!StringUtils.isEmpty(ip)){
                 ipsService.addIp(ip);
-                IpUtil.addIp(ip);
+                StaticUtil.addIp(ip);
             }
         }
     }
