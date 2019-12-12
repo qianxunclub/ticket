@@ -1,6 +1,8 @@
 # 12306抢票
 这是一个牛逼的全自动购票系统，该系统为 `Spring Boot` 编写的后端服务，就不需要天天盯着 `12306` 官网查询余票了，用起来很爽，保证不收集任何敏感信息，真的。
 
+> 马云 Gitee：https://gitee.com/qianxunclub/ticket
+> GitHub：https://github.com/qianxunclub/ticket
 # 功能介绍
 - 自动识别验证码
 - 多账号同步购票
@@ -106,15 +108,7 @@ http://localhost:9998/swagger-ui.html
 ```
 
 # 常见问题
-## 1. 登录报错 `302`
-需要更新 [application.yml](src/main/resources/application.yml) 以下配置：
-```
-cookies:
-  rail_expiration: "xxxx"
-  rail_deviceid: "xxxx"
-```
-获取方式：登录 12306 官网，查看任意接口 cookie ，找到这两个，填写进去，就OK了。
-
+无
 
 # 开发者讨论
 有什么好建议或者想法的，可以添加QQ群一起讨论：852214454
