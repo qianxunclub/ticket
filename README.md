@@ -78,7 +78,7 @@ cookies:
   rail_deviceid: "D0vKZrOYYR8LWwpDIMmErxMPQ_weK4SG8vBGv_hk-Hl7iOEpGACn8QqbxAPren7my5aAozndcRPaNV0lhBepXDUVe_AEWyYmahcm75ZViUV_Ty6NbfVO20fWgQhNPSkAj5anYugDWT1drqVO9GRLv6vfHrVSbGJE"
 
 ``` 
-获取方式：执行测试类 [`GetLogdeviceTest`](src/test/com/qianxunclub/ticket/GetLogdeviceTest.java)
+获取方式：执行测试类 [`GetLogdeviceTest`](src/test/java/com/qianxunclub/ticket/GetLogdeviceTest.java)
 
 ## 代理配置
 请求可配置代理，配置文件：[application.yml](src/main/resources/application.yml) 
