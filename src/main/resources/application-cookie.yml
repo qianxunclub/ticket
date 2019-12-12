@@ -1,0 +1,6 @@
+
+cookies:
+  # 是否使用这个 cookie，如果启用，不会自动获取最新 cookie，linux 上面为 true，因为不能打开网页获取😁
+  enable: false
+  rail_expiration: "1576330253758"
+  rail_deviceid: "D0vKZrOYYR8LWwpDIMmErxMPQ_weK4SG8vBGv_hk-Hl7iOEpGACn8QqbxAPren7my5aAozndcRPaNV0lhBepXDUVe_AEWyYmahcm75ZViUV_Ty6NbfVO20fWgQhNPSkAj5anYugDWT1drqVO9GRLv6vfHrVSbGJE"

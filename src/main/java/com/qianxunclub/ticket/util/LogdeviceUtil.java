@@ -9,6 +9,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.util.WebConnectionWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.qianxunclub.ticket.config.Config;
+import com.qianxunclub.ticket.config.CookiesConfig;
 import com.qianxunclub.ticket.model.LogdeviceModel;
 import java.io.IOException;
 
@@ -21,8 +23,16 @@ public class LogdeviceUtil {
 
     private static String cookieUrl;
 
+    public static LogdeviceModel getLogdevice() {
 
-    public static LogdeviceModel getLogdevice(String proxyHost, int proxyPort) {
+        Config config = ApplicationContextHelper.getBean(Config.class);
+        CookiesConfig cookiesConfig = ApplicationContextHelper.getBean(CookiesConfig.class);
+        if(cookiesConfig.getEnable()){
+            return new LogdeviceModel(cookiesConfig.getRailExpiration(),
+                    cookiesConfig.getRailDeviceid());
+        }
+        String proxyHost = config.getEnableProxy() ? config.getProxyIp().getIp() : null;
+        int proxyPort = config.getEnableProxy() ? config.getProxyIp().getPort() : 0;
         try {
             String url = LogdeviceUtil.getLogdeviceUrl(proxyHost, proxyPort);
             if (StringUtils.isEmpty(url)) {
@@ -84,10 +94,14 @@ public class LogdeviceUtil {
         } finally {
             wc.waitForBackgroundJavaScript(3 * 1000);
         }
-        while (!StringUtils.isEmpty(cookieUrl)) {
-            return cookieUrl;
+        while (StringUtils.isEmpty(cookieUrl)) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        return null;
+        return cookieUrl;
     }
 
 }

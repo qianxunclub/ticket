@@ -14,6 +14,7 @@ import lombok.Data;
 @Component
 @ConfigurationProperties(prefix = "cookies")
 public class CookiesConfig {
+    Boolean enable;
     String railExpiration;
     String railDeviceid;
 }

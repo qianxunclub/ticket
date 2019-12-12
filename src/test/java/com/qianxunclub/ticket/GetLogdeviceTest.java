@@ -1,11 +1,9 @@
 package com.qianxunclub.ticket;
 
-import com.qianxunclub.ticket.config.Config;
 import com.qianxunclub.ticket.model.LogdeviceModel;
 import com.qianxunclub.ticket.util.LogdeviceUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -13,16 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class GetLogdeviceTest {
 
-    @Autowired
-    private Config config;
-
     @Test
     public void getLogdevice() {
-        LogdeviceModel logdeviceModel = LogdeviceUtil
-                .getLogdevice(
-                        config.getEnableProxy() ? config.getProxyIp().getIp() : null,
-                        config.getEnableProxy() ? config.getProxyIp().getPort() : 0
-                );
+        LogdeviceModel logdeviceModel = LogdeviceUtil.getLogdevice();
         System.out.println(logdeviceModel.toString());
     }
 
