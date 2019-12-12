@@ -68,6 +68,18 @@ python main.py ../temp/index.jpg
 默认用户是指在项目启动的时候，直接开始抢购对应的配置购票信息。  
 配置文件：[application-user.yml](src/main/resources/application-user.yml)  
 
+## COOKIES 配置
+配置文件：[application-cookie.yml](src/main/resources/application-cookie.yml) 
+```
+cookies:
+  # 是否使用这个 cookie，如果启用，不会自动获取最新 cookie，linux 上面为 true，因为不能打开网页获取😁
+  enable: false
+  rail_expiration: "1576330253758"
+  rail_deviceid: "D0vKZrOYYR8LWwpDIMmErxMPQ_weK4SG8vBGv_hk-Hl7iOEpGACn8QqbxAPren7my5aAozndcRPaNV0lhBepXDUVe_AEWyYmahcm75ZViUV_Ty6NbfVO20fWgQhNPSkAj5anYugDWT1drqVO9GRLv6vfHrVSbGJE"
+
+``` 
+获取方式：执行测试类 [`GetLogdeviceTest`](src/test/com/qianxunclub/ticket/GetLogdeviceTest.java)
+
 ## 代理配置
 请求可配置代理，配置文件：[application.yml](src/main/resources/application.yml) 
 ```
