@@ -1,5 +1,7 @@
 package com.qianxunclub.ticket.config;
 
+import com.qianxunclub.ticket.repository.entity.ProxyIp;
+import com.qianxunclub.ticket.util.StaticUtil;
 import java.util.Map;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -30,9 +32,20 @@ public class Config {
 
     private String pythonPath;
 
+    private ProxyIp proxyIp;
+
     public Integer querySleep() {
         return (int) (queryTicketSleepTime.get("min") + Math.random() * (
                 queryTicketSleepTime.get("max") - queryTicketSleepTime.get("min") + 1));
     }
 
+    public ProxyIp getProxyIp() {
+        proxyIp = StaticUtil.proxyIp();
+        if (proxyIp == null) {
+            proxyIp = new ProxyIp();
+            proxyIp.setIp(proxyHost);
+            proxyIp.setPort(proxyPort);
+        }
+        return proxyIp;
+    }
 }

@@ -6,7 +6,7 @@ cookies:
   rail_deviceid: "D0vKZrOYYR8LWwpDIMmErxMPQ_weK4SG8vBGv_hk-Hl7iOEpGACn8QqbxAPren7my5aAozndcRPaNV0lhBepXDUVe_AEWyYmahcm75ZViUV_Ty6NbfVO20fWgQhNPSkAj5anYugDWT1drqVO9GRLv6vfHrVSbGJE"
 config:
   # 是否启用代理
-  enableProxy: false
+  enableProxy: true
   # 代理 HOST
   proxyHost: 127.0.0.1
   # 代理端口

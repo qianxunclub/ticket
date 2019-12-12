@@ -36,8 +36,8 @@ public class Login {
         if (userModel.getLogdeviceModel() == null) {
             LogdeviceModel logdeviceModel = LogdeviceUtil
                     .getLogdevice(
-                            config.getEnableProxy() ? config.getProxyHost() : null,
-                            config.getEnableProxy() ? config.getProxyPort() : 0
+                            config.getEnableProxy() ? config.getProxyIp().getIp() : null,
+                            config.getEnableProxy() ? config.getProxyIp().getPort() : 0
                     );
             if (logdeviceModel == null) {
                 logdeviceModel = new LogdeviceModel(cookiesConfig.getRailExpiration(),

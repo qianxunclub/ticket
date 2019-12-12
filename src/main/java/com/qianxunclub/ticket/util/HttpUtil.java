@@ -51,7 +51,7 @@ public class HttpUtil {
         this.config = ApplicationContextHelper.getBean(Config.class);
         httpClient = HttpClients.custom().setDefaultCookieStore(basicCookieStore).build();
         if (config != null && config.getEnableProxy()) {
-            HttpHost proxy = new HttpHost(config.getProxyHost(), config.getProxyPort());
+            HttpHost proxy = new HttpHost(config.getProxyIp().getIp(), config.getProxyIp().getPort());
             DefaultProxyRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy);
             httpClient = HttpClients.custom().setRoutePlanner(routePlanner)
                     .setDefaultCookieStore(basicCookieStore).build();

@@ -3,7 +3,7 @@ package com.qianxunclub.ticket.service;
 
 import com.qianxunclub.ticket.repository.dao.IpsDao;
 import com.qianxunclub.ticket.repository.entity.Ips;
-import com.qianxunclub.ticket.util.IpUtil;
+import com.qianxunclub.ticket.util.StaticUtil;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class IpsService {
 
     public void load() {
         ipsDao.list().forEach(ips -> {
-            IpUtil.addIp(ips.getIp());
+            StaticUtil.addIp(ips.getIp());
         });
     }
 

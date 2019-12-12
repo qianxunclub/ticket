@@ -1,7 +1,7 @@
 package com.qianxunclub.ticket.ip;
 
 import com.qianxunclub.ticket.service.IpsService;
-import com.qianxunclub.ticket.util.IpUtil;
+import com.qianxunclub.ticket.util.StaticUtil;
 
 public class CheckIpThread implements Runnable {
 
@@ -21,7 +21,7 @@ public class CheckIpThread implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            IpUtil.ips.forEach(ip -> {
+            StaticUtil.ips.forEach(ip -> {
                 Thread thread = new Thread(new PingIpThread(ipsService, ip));
                 thread.start();
                 try {

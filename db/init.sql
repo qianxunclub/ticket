@@ -22,3 +22,12 @@ create table ips
         constraint ips_pk primary key autoincrement,
     ip           varchar not null
 );
+
+
+create table proxy_ip
+(
+    id             INTEGER
+        constraint ips_pk primary key autoincrement,
+    ip           varchar not null,
+    port         integer not null
+);
