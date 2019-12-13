@@ -50,7 +50,7 @@ public class CaptchaImageForPy {
             String os = System.getProperty("os.name");
             Process process;
             if (os.toLowerCase().startsWith("win")) {
-                String[] cmd = new String[]{"cmd", "/c", " cd python  &  set PYTHONIOENCODING=" + System.getProperty("file.encoding") + " & python main.py " + "..\\temp\\" + filename};
+                String[] cmd = new String[]{"cmd", "/c", "cd python  &  set PYTHONIOENCODING=" + System.getProperty("file.encoding") + " & python main.py " + "..\\temp\\" + filename};
                 process = runtime.exec(cmd);
             } else {
                 String bash = config.getPythonPath() + "/run.sh ../temp/" + filename;
