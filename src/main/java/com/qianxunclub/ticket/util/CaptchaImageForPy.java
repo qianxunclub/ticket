@@ -74,7 +74,7 @@ public class CaptchaImageForPy {
         }
     }
 
-    private String get(InputStream inputStream) throws IOException {
+    public String get(InputStream inputStream) throws IOException {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         String line;
