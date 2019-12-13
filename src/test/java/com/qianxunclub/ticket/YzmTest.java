@@ -29,7 +29,7 @@ public class YzmTest {
         String os = System.getProperty("os.name");
         Process process;
         if (os.toLowerCase().startsWith("win")) {
-            String[] cmd = new String[]{"cmd", "/c", " cd python  &  set PYTHONIOENCODING=utf-8 & python main.py " + "..\\temp\\index.jpg"};
+            String[] cmd = new String[]{"cmd", "/c", " cd python  &  set PYTHONIOENCODING=" + System.getProperty("file.encoding") + " & python main.py " + "..\\temp\\index.jpg"};
             process = runtime.exec(cmd);
         } else {
             String bash = "python/run.sh ../temp/index.jpg";
