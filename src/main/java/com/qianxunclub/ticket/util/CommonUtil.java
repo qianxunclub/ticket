@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author zhangbin
@@ -24,6 +26,17 @@ public class CommonUtil {
                 "-" + buyTicketInfoModel.getTrainNumber() + "]" +
                 "-" + buyTicketInfoModel.getMobile();
         return name;
+    }
+
+    public static String regString(String regex, String str)
+    {
+        Pattern pa = Pattern.compile(regex);
+        Matcher ma = pa.matcher(str);
+        if (ma.find())
+        {
+            return ma.group();
+        }
+        return "";
     }
 
     public static String getGMT(String date) {

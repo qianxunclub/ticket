@@ -62,6 +62,16 @@ public class ApiRequestService {
         return stationMap;
     }
 
+    public void leftTicketInit(BuyTicketInfoModel buyTicketInfoModel)
+    {
+        HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(buyTicketInfoModel.getUsername());
+        String url = String.format(apiConfig.getInit() + "?linktypeid=dc");
+        HttpGet httpGet = new HttpGet(url);
+        String result = httpUtil.get(httpGet);
+        String leftTicketUrl = CommonUtil.regString("(?<=var CLeftTicketUrl = ').*?(?=')",result);
+        apiConfig.setLeftTicket("/"+leftTicketUrl);
+    }
+
     public List<TicketModel> queryTicket(BuyTicketInfoModel buyTicketInfoModel) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(buyTicketInfoModel.getUsername());
         String url = String.format(apiConfig.getLeftTicket(), buyTicketInfoModel.getDate(),
@@ -313,6 +323,7 @@ public class ApiRequestService {
         }
         return token;
     }
+
 
     public List<PassengerModel> getPassengerDTOs(String userName, String token) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(userName);
