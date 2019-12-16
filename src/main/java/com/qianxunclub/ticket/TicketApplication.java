@@ -33,7 +33,7 @@ public class TicketApplication {
 
     }
 
-    private static void init(ApplicationContext applicationContext) {
+    public static void init(ApplicationContext applicationContext) {
 
         // 初始化 IP
         IpsService ipsService = applicationContext.getBean(IpsService.class);

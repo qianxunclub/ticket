@@ -62,19 +62,20 @@ public class ApiRequestService {
         return stationMap;
     }
 
-    public void leftTicketInit(BuyTicketInfoModel buyTicketInfoModel)
-    {
+    public void leftTicketInit(BuyTicketInfoModel buyTicketInfoModel) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(buyTicketInfoModel.getUsername());
         String url = String.format(apiConfig.getInit() + "?linktypeid=dc");
         HttpGet httpGet = new HttpGet(url);
         String result = httpUtil.get(httpGet);
-        String leftTicketUrl = CommonUtil.regString("(?<=var CLeftTicketUrl = ').*?(?=')",result);
-        apiConfig.setLeftTicket("/"+leftTicketUrl);
+        String leftTicketBaseUrl = CommonUtil.regString("(?<=var CLeftTicketUrl = ').*?(?=')", result);
+        if (!StringUtils.isEmpty(leftTicketBaseUrl)) {
+            apiConfig.setLeftTicketBaseUrl("/otn/" + leftTicketBaseUrl);
+        }
     }
 
     public List<TicketModel> queryTicket(BuyTicketInfoModel buyTicketInfoModel) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(buyTicketInfoModel.getUsername());
-        String url = String.format(apiConfig.getLeftTicket(), buyTicketInfoModel.getDate(),
+        String url = String.format(apiConfig.getLeftTicket(), apiConfig.getLeftTicketBaseUrl(),buyTicketInfoModel.getDate(),
                 Station.getCodeByName(buyTicketInfoModel.getFrom()),
                 Station.getCodeByName(buyTicketInfoModel.getTo()));
         HttpGet httpGet = new HttpGet(url);
