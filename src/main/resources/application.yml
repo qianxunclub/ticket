@@ -19,7 +19,8 @@ config:
 api:
   station: "/otn/resources/js/framework/station_name.js?station_version=1.9126"
   init: "/otn/leftTicket/init"
-  leftTicket: "/otn/leftTicket/queryO?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
+  leftTicketBaseUrl: "/otn/leftTicket/query"
+  leftTicket: "%s?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
   loginConfig: "/otn/login/conf"
   passengers: "/otn/passengers/query"
   captchaImage: "/passport/captcha/captcha-image64?login_site=E&module=login&rand=sjrand&_=%s"

@@ -65,6 +65,9 @@ public class QueryTicket {
     }
 
     private List<TicketModel> getCanBuyTicket(BuyTicketInfoModel buyTicketInfoModel) {
+
+        apiRequestService.leftTicketInit(buyTicketInfoModel);
+
         List<TicketModel> ticketModelList = apiRequestService.queryTicket(buyTicketInfoModel);
         List<TicketModel> canBuy = new ArrayList<>();
         ticketModelList.forEach(ticketModel -> {

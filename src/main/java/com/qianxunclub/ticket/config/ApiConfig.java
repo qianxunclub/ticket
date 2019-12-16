@@ -23,6 +23,8 @@ public class ApiConfig {
 
     private String station;
 
+    private String leftTicketBaseUrl;
+
     private String leftTicket;
 
     private String loginConfig;
