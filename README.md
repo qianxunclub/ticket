@@ -32,6 +32,8 @@ python3 -m venv venv
 source venv/bin/activate
 
 sudo pip install -r requirements.txt
+或者
+sudo pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```
 Windows 用户使用本地当前环境：
