@@ -19,7 +19,7 @@
 # 基础环境
 - JDK8
 - maven
-- python3
+- python3.6
 - 安装 Chrome 浏览器
 
 # python 依赖安装
