@@ -76,10 +76,10 @@ public class QueryTicket {
                 List<SeatModel> canBuySeatModelList = new ArrayList<>();
                 seatModelList.forEach(seatModel -> {
                     if (StringUtils.isNotBlank(seatModel.getCount()) && !seatModel.getCount().equals("无")) {
-                        log.debug("✅车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom()) + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：可以预定");
+                        log.info("✅车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom()) + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：可以预定");
                         canBuySeatModelList.add(seatModel);
                     } else {
-                        log.debug("❌车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom()) + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：无票");
+                        log.info("❌车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom()) + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：无票");
                     }
                 });
                 if (!CollectionUtils.isEmpty(canBuySeatModelList)) {
@@ -87,7 +87,7 @@ public class QueryTicket {
                     canBuy.add(ticketModel);
                 }
             } else {
-                log.debug("⚠️车次[" + ticketModel.getTrainNumber() + "]" + "（" + Station.getNameByCode(ticketModel.getFrom()) + "-" + Station.getNameByCode(ticketModel.getTo()) + "）：未开售");
+                log.info("⚠️车次[" + ticketModel.getTrainNumber() + "]" + "（" + Station.getNameByCode(ticketModel.getFrom()) + "-" + Station.getNameByCode(ticketModel.getTo()) + "）：未开售");
             }
         });
 

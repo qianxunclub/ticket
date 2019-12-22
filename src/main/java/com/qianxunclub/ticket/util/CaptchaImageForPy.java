@@ -4,7 +4,6 @@ import com.qianxunclub.ticket.config.Config;
 
 import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Component;
 
 import sun.misc.BASE64Decoder;
@@ -12,12 +11,12 @@ import sun.misc.BASE64Decoder;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,9 +42,9 @@ public class CaptchaImageForPy {
         }
         File file = new File(folder, filename);
         try {
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] data = decoder.decodeBuffer(base64String);
-            IOUtils.copy(new ByteArrayInputStream(data), new FileOutputStream(file));
+            byte[] data = Base64.getDecoder().decode(base64String);
+            Files.write(Paths.get("src/../temp/" + filename),
+                    Objects.requireNonNull(data, "未获取到下载文件"));
             Runtime runtime = Runtime.getRuntime();
             String os = System.getProperty("os.name");
             Process process;
