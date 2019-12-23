@@ -19,7 +19,7 @@
 # 基础环境
 - JDK8
 - maven
-- python3
+- python3.6
 - 安装 Chrome 浏览器
 
 # python 依赖安装
@@ -32,17 +32,19 @@ python3 -m venv venv
 source venv/bin/activate
 
 sudo pip install -r requirements.txt
+或者
+sudo pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```
 Windows 用户使用本地当前环境：
 ```
 cd ticket/python
 
-sudo pip install -r requirements.txt
+pip install -r requirements.txt
+或者
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 ```
-> 如果上面依赖下载太慢，可以使用 `pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple` 下载。
-
 # 验证码识别测试
 Mac 或者 Linux 用户使用虚拟环境：
 ```
