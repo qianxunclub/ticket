@@ -85,7 +85,13 @@ public class ApiRequestService {
             return null;
         }
         Gson jsonResult = new Gson();
-        Map<String, Object> rsmap = jsonResult.fromJson(response, Map.class);
+        Map<String, Object> rsmap = null;
+        try {
+            rsmap = jsonResult.fromJson(response, Map.class);
+        } catch (Exception e){
+            log.error("车票查询失败!");
+        }
+
         Map data = (Map) rsmap.get("data");
         List<String> table = (List<String>) data.get("result");
         List<TicketModel> ticketModelList = new ArrayList<>();
