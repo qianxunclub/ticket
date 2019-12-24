@@ -64,7 +64,7 @@ public class BuyTicket {
         }
 
         String orderid = apiRequestService.queryOrderWaitTime(buyTicketInfoModel);
-        if (!StringUtils.isEmpty(orderid)) {
+      /*  if (!StringUtils.isEmpty(orderid)) {
             NoticeModel noticeModel = new NoticeModel();
             noticeModel.setName(buyTicketInfoModel.getRealName());
             noticeModel.setUserName(buyTicketInfoModel.getUsername());
@@ -73,7 +73,7 @@ public class BuyTicket {
             noticeModel.setOrderId(orderid);
             noticeService.send(noticeModel);
             return true;
-        }
+        }*/
 
         return false;
     }
