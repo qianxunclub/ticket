@@ -353,7 +353,7 @@ public class ApiRequestService {
         return passengerModelList;
     }
 
-    public String checkOrderInfo(BuyTicketInfoModel buyTicketInfoModel, TicketModel ticketModel) {
+    public boolean checkOrderInfo(BuyTicketInfoModel buyTicketInfoModel, TicketModel ticketModel) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore
                 .get(buyTicketInfoModel.getUsername());
         HttpPost httpPost = new HttpPost(apiConfig.getCheckOrderInfo());
@@ -385,9 +385,8 @@ public class ApiRequestService {
             rsmap = (Map<String, Object>) rsmap.get("data");
             if (rsmap.get("submitStatus").equals(false)) {
                 log.error(rsmap.get("errMsg").toString());
-                return null;
+                return false;
             }
-            String isShowPassCode = rsmap.get("ifShowPassCode").toString();
             long ifShowPassCodeTime = Long.parseLong(rsmap.get("ifShowPassCodeTime").toString());
             try {
                 Thread.sleep(ifShowPassCodeTime);
@@ -395,10 +394,10 @@ public class ApiRequestService {
                 e.printStackTrace();
             }
             log.info("开始提交订单");
-            return isShowPassCode;
+            return true;
         }
         log.error("开始提交订单失败");
-        return null;
+        return false;
     }
 
     public boolean checkRandCodeAnsyn(String position, String token) {
