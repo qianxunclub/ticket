@@ -1,12 +1,13 @@
 version: '2.2'
 services:
   ticket:
-    image: ${TICKET_IMAGE:-docker.pkg.github.com/qianxunclub/ticket/ticket:latest}
+    image: ${TICKET_IMAGE:-ticket:latest}
     ports:
       - "9998:9998"
       - "5005:5005"
     volumes:
       - ../db/ticket.db:/db/ticket.db
+      - ../temp:/temp
       - ../src/main/resources/application.yml:/application.yml
       - ../src/main/resources/application-cookie.yml:/application-cookie.yml
       - ../src/main/resources/application-sms.yml:/application-sms.yml

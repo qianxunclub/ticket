@@ -144,11 +144,9 @@
 				<version>1.2.1</version>
 				<configuration>
 					<imageName>${project.artifactId}</imageName>
-					<dockerDirectory>docker</dockerDirectory>
-					<entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+					<dockerDirectory>${project.basedir}</dockerDirectory>
 					<resources>
 						<resource>
-							<targetPath>/</targetPath>
 							<directory>${project.build.directory}</directory>
 							<include>${project.build.finalName}.jar</include>
 						</resource>

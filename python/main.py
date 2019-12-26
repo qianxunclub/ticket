@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys
-
+import io
 import cv2
 import numpy as np
 from keras import models
@@ -8,6 +8,7 @@ from keras import models
 import pretreatment
 from mlearn_for_image import preprocess_input
 
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def get_text(img, offset=0):
     text = pretreatment.get_text(img, offset)
