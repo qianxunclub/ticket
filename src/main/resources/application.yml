@@ -63,6 +63,6 @@ swagger:
 
 logging:
   level:
-    com.qianxunclub: debug
+    com.qianxunclub: info
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr([%50t]){faint} %clr(:){faint} %m%n%wEx"
