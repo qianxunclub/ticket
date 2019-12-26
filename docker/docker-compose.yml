@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   ticket:
-    image: ${TICKET_IMAGE:-ticket:latest}
+    image: ${TICKET_IMAGE:-docker pull docker.pkg.github.com/qianxunclub/ticket/ticket:docker-base-layer}
     ports:
       - "9998:9998"
       - "5005:5005"
