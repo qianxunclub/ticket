@@ -1,7 +1,7 @@
 version: '2.2'
 services:
   ticket:
-    image: ${TICKET_IMAGE:-docker.pkg.github.com/qianxunclub/ticket/ticket:latest}
+    image: ${TICKET_IMAGE:-960339491/ticket:latest}
     ports:
       - "9998:9998"
       - "5005:5005"
