@@ -1,5 +1,6 @@
 package com.qianxunclub.ticket;
 
+import com.qianxunclub.ticket.config.Config;
 import com.qianxunclub.ticket.util.CaptchaImageForPy;
 
 import org.apache.commons.lang.StringUtils;
@@ -22,6 +23,8 @@ public class YzmTest {
 
     @Autowired
     private CaptchaImageForPy captchaImageForPy;
+    @Autowired
+    private Config config;
 
     @Test
     public void yz() throws Exception {
@@ -29,10 +32,10 @@ public class YzmTest {
         String os = System.getProperty("os.name");
         Process process;
         if (os.toLowerCase().startsWith("win")) {
-            String[] cmd = new String[]{"cmd", "/c", "cd python  &  set PYTHONIOENCODING=" + System.getProperty("file.encoding") + " & python main.py " + "..\\temp\\index.jpg"};
+            String[] cmd = new String[]{"cmd", "/c", "cd " + System.getProperty("user.dir") + "/" + config.getPythonPath()  + " &  set PYTHONIOENCODING=UTF-8 & python main.py " + "..\\temp\\index.jpg"};
             process = runtime.exec(cmd);
         } else {
-            String bash = "python/run.sh ../temp/index.jpg";
+            String bash = System.getProperty("user.dir") + "/" + config.getPythonPath() + "/run.sh " + System.getProperty("user.dir") + "/temp/index.jpg";
             process = runtime.exec(bash);
         }
         InputStream inputStream = process.getInputStream();

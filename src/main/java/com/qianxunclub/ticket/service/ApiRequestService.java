@@ -67,7 +67,8 @@ public class ApiRequestService {
         String url = String.format(apiConfig.getInit() + "?linktypeid=dc");
         HttpGet httpGet = new HttpGet(url);
         String result = httpUtil.get(httpGet);
-        String leftTicketBaseUrl = CommonUtil.regString("(?<=var CLeftTicketUrl = ').*?(?=')", result);
+        String leftTicketBaseUrl = CommonUtil
+                .regString("(?<=var CLeftTicketUrl = ').*?(?=')", result);
         if (!StringUtils.isEmpty(leftTicketBaseUrl)) {
             apiConfig.setLeftTicketBaseUrl("/otn/" + leftTicketBaseUrl);
         }
@@ -75,7 +76,8 @@ public class ApiRequestService {
 
     public List<TicketModel> queryTicket(BuyTicketInfoModel buyTicketInfoModel) {
         HttpUtil httpUtil = UserTicketStore.httpUtilStore.get(buyTicketInfoModel.getUsername());
-        String url = String.format(apiConfig.getLeftTicket(), apiConfig.getLeftTicketBaseUrl(),buyTicketInfoModel.getDate(),
+        String url = String.format(apiConfig.getLeftTicket(), apiConfig.getLeftTicketBaseUrl(),
+                buyTicketInfoModel.getDate(),
                 Station.getCodeByName(buyTicketInfoModel.getFrom()),
                 Station.getCodeByName(buyTicketInfoModel.getTo()));
         HttpGet httpGet = new HttpGet(url);
@@ -88,7 +90,7 @@ public class ApiRequestService {
         Map<String, Object> rsmap = null;
         try {
             rsmap = jsonResult.fromJson(response, Map.class);
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("车票查询失败!");
         }
 
