@@ -63,4 +63,4 @@ swagger:
 
 logging:
   level:
-    com.qianxunclub: debug
+    com.qianxunclub: info
