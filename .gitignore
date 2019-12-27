@@ -27,5 +27,6 @@ HELP.md
 
 ### VS Code ###
 .vscode/
-/python/venv/
-/temp/
+python/venv/
+temp
+log
