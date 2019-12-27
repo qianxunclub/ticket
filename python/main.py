@@ -1,6 +1,6 @@
 # coding: utf-8
 import sys
-import io
+
 import cv2
 import numpy as np
 from keras import models
@@ -8,7 +8,6 @@ from keras import models
 import pretreatment
 from mlearn_for_image import preprocess_input
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 def get_text(img, offset=0):
     text = pretreatment.get_text(img, offset)
@@ -27,7 +26,7 @@ def main(fn):
     imgs = preprocess_input(imgs)
 
     # 识别文字
-    model = models.load_model('model.v2.0.h5')
+    model = models.load_model('model.h5')
     label = model.predict(text)
     label = label.argmax()
     fp = open('texts.txt', encoding='utf-8')
