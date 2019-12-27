@@ -40,6 +40,9 @@ public class StaticUtil {
         if(proxyIp.size() <= 0){
             return null;
         }
+        if (proxyIp.size() == 1) {
+            return proxyIp.get(0);
+        }
         Random r = new Random(0);
         int i = r.nextInt(proxyIp.size() - 1);
         return proxyIp.get(i);
