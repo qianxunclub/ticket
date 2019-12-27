@@ -1,6 +1,6 @@
 FROM centos:7
 RUN yum install -y git vim wget curl java-1.8.0-openjdk.x86_64 maven python36-setuptools python36-pip
-RUN git clone https://gitee.com/qianxunclub/ticket.git
+RUN git clone https://github.com/qianxunclub/ticket.git
 RUN cd ticket && mvn clean package
 RUN cp ticket/target/ticket-0.0.1-SNAPSHOT.jar app.jar
 RUN cp -R ticket/python python
