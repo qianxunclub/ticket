@@ -67,6 +67,7 @@ public class TicketService {
         ticketList.forEach(ticket -> {
             BuyTicketInfoModel buyTicketInfoModel = new BuyTicketInfoModel();
             BeanUtils.copyProperties(ticket, buyTicketInfoModel);
+            buyTicketInfoModel.setAllEncStr(ticket.getPassengerCode());
             buyTicketInfoModel.setSeat(ticket.toSeatList());
             buyTicketInfoModelList.add(buyTicketInfoModel);
         });

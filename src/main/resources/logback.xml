@@ -31,8 +31,7 @@
         <encoder>
             <!-- pattern节点，用来设置日志的输入格式 -->
             <pattern>
-                %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr([%50t]){faint} %clr(:){faint} %m%n%wEx
-            </pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
             <!-- 记录日志的编码 -->
             <charset>UTF-8</charset> <!-- 此处设置字符集 -->
         </encoder>

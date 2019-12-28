@@ -76,10 +76,16 @@ public class QueryTicket {
                 List<SeatModel> canBuySeatModelList = new ArrayList<>();
                 seatModelList.forEach(seatModel -> {
                     if (StringUtils.isNotBlank(seatModel.getCount()) && !seatModel.getCount().equals("无")) {
-                        log.info("✅车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom()) + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：可以预定");
+                        if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel())&& buyTicketInfoModel.getTrainNumber().equals(ticketModel.getTrainNumber())) {
+                            log.info("✅车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
+                                    + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：可以预定");
+                        }
                         canBuySeatModelList.add(seatModel);
                     } else {
-                        log.info("❌车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom()) + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：无票");
+                        if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel()) && buyTicketInfoModel.getTrainNumber().equals(ticketModel.getTrainNumber())) {
+                            log.info("❌车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
+                                    + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：无票");
+                        }
                     }
                 });
                 if (!CollectionUtils.isEmpty(canBuySeatModelList)) {

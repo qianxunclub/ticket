@@ -14,7 +14,7 @@ config:
   queryTicketSleepTime:
     min: 2
     max: 5
-  pythonPath: "bash python"
+  pythonPath: "python"
 
 api:
   station: "/otn/resources/js/framework/station_name.js?station_version=1.9126"
