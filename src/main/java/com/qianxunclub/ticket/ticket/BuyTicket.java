@@ -26,7 +26,6 @@ public class BuyTicket {
 
     private ApiRequestService apiRequestService;
     private PassengerService passengerService;
-    private CaptchaImageForPy captchaImageForPy;
     private NoticeService noticeService;
     private Login login;
 
@@ -54,17 +53,8 @@ public class BuyTicket {
         }
         buyTicketInfoModel.setPassengerModel(passengerModel);
 
-        String isShowPassCode = apiRequestService.checkOrderInfo(buyTicketInfoModel, ticketModel);
-        if (StringUtils.isEmpty(isShowPassCode)) {
+        if (!apiRequestService.checkOrderInfo(buyTicketInfoModel, ticketModel)) {
             return false;
-        }
-        if (isShowPassCode.equals("Y")) {
-            String captchaImage = apiRequestService.captchaImage(buyTicketInfoModel.getUsername());
-            String position = captchaImageForPy.check(captchaImage);
-            if (!apiRequestService.checkRandCodeAnsyn(position,
-                    buyTicketInfoModel.getGlobalRepeatSubmitToken())) {
-                return false;
-            }
         }
         if (!apiRequestService.getQueueCount(buyTicketInfoModel, ticketModel)) {
             return false;

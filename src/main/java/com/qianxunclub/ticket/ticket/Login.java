@@ -49,7 +49,9 @@ public class Login {
             if (apiRequestService.isLoginPassCode(userModel.getUsername())) {
                 log.info("正在识别验证码");
                 String captchaImage = apiRequestService.captchaImage(userModel.getUsername());
+                log.debug("captchaImage:" + captchaImage);
                 String position = captchaImageForPy.check(captchaImage);
+                log.debug("position:" + position);
                 userModel.setAnswer(position);
             }
             if (apiRequestService.captchaCheck(userModel.getUsername(), userModel.getAnswer())) {

@@ -3,6 +3,7 @@ package com.qianxunclub.ticket.util;
 import com.qianxunclub.ticket.config.Config;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -49,10 +50,10 @@ public class CaptchaImageForPy {
             String os = System.getProperty("os.name");
             Process process;
             if (os.toLowerCase().startsWith("win")) {
-                String[] cmd = new String[]{"cmd", "/c", "cd python  &  set PYTHONIOENCODING=" + System.getProperty("file.encoding") + " & python main.py " + "..\\temp\\" + filename};
+                String[] cmd = new String[]{"cmd", "/c", "cd python  &  set PYTHONIOENCODING=UTF-8 & python main.py " + "..\\temp\\" + filename};
                 process = runtime.exec(cmd);
             } else {
-                String bash = config.getPythonPath() + "/run.sh ../temp/" + filename;
+                String bash = System.getProperty("user.dir") + "/" + config.getPythonPath() + "/run.sh " + System.getProperty("user.dir") + "/temp/" + filename;
                 process = runtime.exec(bash);
             }
             process.waitFor();
@@ -74,7 +75,8 @@ public class CaptchaImageForPy {
     }
 
     public String get(InputStream inputStream) throws IOException {
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, System.getProperty("file.encoding"));
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
+                StandardCharsets.UTF_8);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         String line;
         PredictVO predictVO = new PredictVO();

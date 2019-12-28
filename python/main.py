@@ -26,7 +26,7 @@ def main(fn):
     imgs = preprocess_input(imgs)
 
     # 识别文字
-    model = models.load_model('model.v2.0.h5')
+    model = models.load_model('model.h5')
     label = model.predict(text)
     label = label.argmax()
     fp = open('texts.txt', encoding='utf-8')
