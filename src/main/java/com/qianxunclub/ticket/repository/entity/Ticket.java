@@ -36,6 +36,11 @@ public class Ticket {
 
     private String seat;
 
+    /**
+     * 微信通知server酱秘钥
+     */
+    private String serverSckey;
+
     public List<SeatLevelEnum> toSeatList() {
         List<SeatLevelEnum> seatList = new ArrayList<>();
         String[] seats = seat.split(",");

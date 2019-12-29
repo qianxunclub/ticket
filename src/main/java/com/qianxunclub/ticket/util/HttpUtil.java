@@ -18,6 +18,7 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HttpUtil {
 
     private HttpClient httpClient;
+    private HttpClient httpPureClient;
     private BasicCookieStore basicCookieStore;
     private Config config;
 
@@ -56,6 +58,7 @@ public class HttpUtil {
             httpClient = HttpClients.custom().setRoutePlanner(routePlanner)
                     .setDefaultCookieStore(basicCookieStore).build();
         }
+        httpPureClient = HttpClients.createDefault();
     }
 
     public BasicCookieStore getBasicCookieStore() {
@@ -63,21 +66,31 @@ public class HttpUtil {
     }
 
     public String get(HttpGet httpGet) {
-        return this.doAction(httpGet);
+        return this.doAction(httpGet,httpClient);
     }
 
 
     public String post(HttpPost httpPost) {
-        return this.doAction(httpPost);
+        return this.doAction(httpPost,httpClient);
     }
 
-    private String doAction(HttpRequestBase httpRequestBase) {
+    private String doAction(HttpRequestBase httpRequestBase,HttpClient client) {
         httpRequestBase.addHeader(new BasicHeader("Origin",config.getBaseUrl()));
         httpRequestBase.addHeader(new BasicHeader(HttpHeaders.REFERER,config.getBaseUrl()));
         httpRequestBase.addHeader(new BasicHeader(HttpHeaders.HOST, config.getHost()));
+        return sendRequest(httpRequestBase,client);
+    }
+
+    /**
+     * 发送 http 请求
+     * @param httpRequestBase request
+     * @param client http client
+     * @return response
+     */
+    private String sendRequest(HttpRequestBase httpRequestBase,HttpClient client){
         String result = null;
         try {
-            HttpResponse response = httpClient.execute(httpRequestBase);
+            HttpResponse response = client.execute(httpRequestBase);
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity httpEntity = response.getEntity();
                 result = EntityUtils.toString(httpEntity, "UTF-8");
@@ -90,5 +103,23 @@ public class HttpUtil {
             log.error("请求异常：{},{}", httpRequestBase.getURI(), e.getMessage());
         }
         return "";
+    }
+
+    /**
+     * 异步http Get请求 无12306cookies植入等 纯净版
+     * @param httpGet 请求参数
+     * @return future response
+     */
+    public CompletableFuture<String> asyncGet(HttpGet httpGet){
+        return CompletableFuture.supplyAsync(()->sendRequest(httpGet,httpPureClient));
+    }
+
+    /**
+     * 异步http Post请求 无12306cookies植入等 纯净版
+     * @param httpPost 请求参数
+     * @return future response
+     */
+    public CompletableFuture<String> asyncPost(HttpPost httpPost){
+        return CompletableFuture.supplyAsync(()->sendRequest(httpPost,httpPureClient));
     }
 }

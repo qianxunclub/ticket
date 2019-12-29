@@ -12,7 +12,8 @@ create table ticket
     real_name      varchar,
     seat           varchar not null,
     username       varchar not null,
-    password       varchar not null
+    password       varchar not null,
+    server_sckey varchar not null
 );
 
 
