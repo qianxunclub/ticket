@@ -12,14 +12,14 @@ config:
   base_url: "https://kyfw.12306.cn"
   # 随机查询时间，取值：min-max，范围随机
   queryTicketSleepTime:
-    min: 2
-    max: 5
+    min: 1
+    max: 3
   pythonPath: "python"
 
 api:
   station: "/otn/resources/js/framework/station_name.js?station_version=1.9126"
   init: "/otn/leftTicket/init"
-  leftTicketBaseUrl: "/otn/leftTicket/queryZ"
+  leftTicketBaseUrl: "/otn/leftTicket/query"
   leftTicket: "%s?leftTicketDTO.train_date=%s&leftTicketDTO.from_station=%s&leftTicketDTO.to_station=%s&purpose_codes=ADULT"
   loginConfig: "/otn/login/conf"
   passengers: "/otn/passengers/query"

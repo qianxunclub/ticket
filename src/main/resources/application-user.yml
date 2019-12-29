@@ -1,61 +1,48 @@
-# 可配置多乘客
-user.ticket-info:
-  - #  乘客编号
-    #  获取方法1：
-    #  调用 com.qianxunclub.ticket.GetPassengerTest 里面的 getPassenger 方法，可以打印出来对应的值
-    #
-    #  获取方法2：
-    #  登录12306官网成功后
-    #  访问：https://kyfw.12306.cn/otn/passengers/query?pageIndex=1&pageSize=100
-    #  找对对应乘客的【allEncStr】的值
-    allEncStr: 970237bc89e920ecd037252df041a3f568550cea5743b0812430404a31cf60e7367e35d15b3c7ed363d77d5874616e07
-
-    #  登陆server酱官方网 http://sc.ftqq.com/3.version
-    #  绑定github获取SCKEY
-    #  微信绑定server酱，
-    #  修改配置文件application-user.yml中的serverSckey，即可开启抢票成功微信通知功能
-    serverSckey:
-    #  12306用户名
-    username: qiemengyan
-    #  12306密码
-    password: yan666666
-    #  出发日期
-    date: 2019-12-25
-    #  出发站点
-    from: 北京南
-    #  到达站点
-    to: 南京南
-    #  车次
-    trainNumber: G101
-    #  乘车人姓名
-    realName: 郄梦岩
-    #  乘车人手机号码
-    mobile: 18810290339
-    #  座位选择：从上往下，优先购买上面
-    #  YINGWO：硬卧
-    #  RUANWO：软卧
-    #  TWO：二等座
-    #  RUANZUO：软座
-    #  YINGZUO：硬座
-    #  ONE：一等座
-    #  SHANGWUZUO：商务座
-    #  GAOJIRUANWO：高级软卧
-    #  WUZUO：无座
-    seat:
-      - TWO
-#  多账号抢票配置
-#  - allEncStr: 1
-#    username: XXXX
-#    password: XXXX
-#    date: 2019-08-14
-#    from: 深圳
-#    to: 三门峡南
-#    trainNumber: XXXX
-#    realName: XXXX
-#    mobile: XXXX
+## 可配置多乘客
+#user.ticket-info:
+#  - #  乘客编号
+#    #  获取方法1：
+#    #  调用 com.qianxunclub.ticket.GetPassengerTest 里面的 getPassenger 方法，可以打印出来对应的值
+#    #
+#    #  获取方法2：
+#    #  登录12306官网成功后
+#    #  访问：https://kyfw.12306.cn/otn/passengers/query?pageIndex=1&pageSize=100
+#    #  找对对应乘客的【allEncStr】的值
+#    allEncStr: 970237bc89e920ecd037252df041a3f568550cea5743b0812430404a31cf60e7367e35d15b3c7ed363d77d5874616e07
+#
+#    #  登陆server酱官方网 http://sc.ftqq.com/3.version
+#    #  绑定github获取SCKEY
+#    #  微信绑定server酱，
+#    #  修改配置文件application-user.yml中的serverSckey，即可开启抢票成功微信通知功能
+#    serverSckey:
+#    #  12306用户名
+#    username: qiemengyan
+#    #  12306密码
+#    password: yan666666
+#    #  出发日期
+#    date: 2019-12-25
+#    #  出发站点
+#    from: 北京南
+#    #  到达站点
+#    to: 南京南
+#    #  车次
+#    trainNumber: G101
+#    #  乘车人姓名
+#    realName: 郄梦岩
+#    #  乘车人手机号码
+#    mobile: 18810290339
+#    #  座位选择：从上往下，优先购买上面
+#    #  YINGWO：硬卧
+#    #  RUANWO：软卧
+#    #  TWO：二等座
+#    #  RUANZUO：软座
+#    #  YINGZUO：硬座
+#    #  ONE：一等座
+#    #  SHANGWUZUO：商务座
+#    #  GAOJIRUANWO：高级软卧
+#    #  WUZUO：无座
 #    seat:
-#      - YINGZUO
-#      - RUANWO
+#      - TWO
 ##  多账号抢票配置
 ##  - allEncStr: 1
 ##    username: XXXX

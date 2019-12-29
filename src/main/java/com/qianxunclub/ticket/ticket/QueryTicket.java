@@ -82,7 +82,7 @@ public class QueryTicket {
                         }
                         canBuySeatModelList.add(seatModel);
                     } else {
-                        if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel()) && buyTicketInfoModel.getTrainNumber().equals(ticketModel.getTrainNumber())) {
+                        if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel()) && buyTicketInfoModel.getTrainNumber().contains(ticketModel.getTrainNumber())) {
                             log.info("❌车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
                                     + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：无票");
                         }

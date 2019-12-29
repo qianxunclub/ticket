@@ -7,15 +7,12 @@ import java.nio.charset.StandardCharsets;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
-import sun.misc.BASE64Decoder;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
