@@ -9,6 +9,12 @@ user.ticket-info:
     #  访问：https://kyfw.12306.cn/otn/passengers/query?pageIndex=1&pageSize=100
     #  找对对应乘客的【allEncStr】的值
     allEncStr: 970237bc89e920ecd037252df041a3f568550cea5743b0812430404a31cf60e7367e35d15b3c7ed363d77d5874616e07
+
+    #  登陆server酱官方网 http://sc.ftqq.com/3.version
+    #  绑定github获取SCKEY
+    #  微信绑定server酱，
+    #  修改配置文件application-user.yml中的serverSckey，即可开启抢票成功微信通知功能
+    serverSckey:
     #  12306用户名
     username: qiemengyan
     #  12306密码
