@@ -28,6 +28,10 @@ public class WeChatNotice{
 
     public ApiConfig apiConfig;
 
+    /**
+     * 发送微信通知方法
+     * @param noticeModel 通知信息
+     */
     public void send(NoticeModel noticeModel) {
         if (Strings.isNullOrEmpty(noticeModel.getServerSckey())){
             log.info("未设置微信通知ServerSckey为null!");
