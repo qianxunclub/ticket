@@ -39,6 +39,7 @@ api:
   confirmSingleForQueue: "/otn/confirmPassenger/confirmSingleForQueue"
   queryOrderWaitTime: "/otn/confirmPassenger/queryOrderWaitTime?random=%s&tourFlag=dc&_json_att=&REPEAT_SUBMIT_TOKEN=%s"
   notice: "dysmsapi.aliyuncs.com"
+  serverWechat : "https://sc.ftqq.com/"
 
 spring:
   datasource:

@@ -32,6 +32,11 @@ public class BuyTicketInfoModel extends UserModel {
 
     private String realName;
 
+    /**
+     * server酱微信通知秘钥
+     */
+    private String serverSckey;
+
     private PassengerModel passengerModel;
 
     private List<SeatLevelEnum> seat = new ArrayList<>();

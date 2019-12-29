@@ -13,12 +13,12 @@ import com.qianxunclub.ticket.config.ApiConfig;
 import com.qianxunclub.ticket.config.NoticeConfig;
 import com.qianxunclub.ticket.model.NoticeModel;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
