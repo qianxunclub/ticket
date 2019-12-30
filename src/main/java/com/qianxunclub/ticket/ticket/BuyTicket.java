@@ -4,15 +4,16 @@ import com.qianxunclub.ticket.model.NoticeModel;
 import com.qianxunclub.ticket.model.PassengerModel;
 import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.TicketModel;
-import com.qianxunclub.ticket.service.NoticeService;
 import com.qianxunclub.ticket.service.ApiRequestService;
-import com.qianxunclub.ticket.util.CaptchaImageForPy;
 
+import com.qianxunclub.ticket.service.NoticeService;
+import com.qianxunclub.ticket.service.WeChatNotice;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * @author zhangbin
@@ -27,6 +28,7 @@ public class BuyTicket {
     private ApiRequestService apiRequestService;
     private PassengerService passengerService;
     private NoticeService noticeService;
+    private WeChatNotice weChatNotice;
     private Login login;
 
     public boolean buy(BuyTicketInfoModel buyTicketInfoModel, TicketModel ticketModel) {
@@ -65,13 +67,14 @@ public class BuyTicket {
 
         String orderid = apiRequestService.queryOrderWaitTime(buyTicketInfoModel);
         if (!StringUtils.isEmpty(orderid)) {
-            NoticeModel noticeModel = new NoticeModel();
-            noticeModel.setName(buyTicketInfoModel.getRealName());
-            noticeModel.setUserName(buyTicketInfoModel.getUsername());
-            noticeModel.setPassword(buyTicketInfoModel.getPassword());
-            noticeModel.setPhoneNumber(buyTicketInfoModel.getMobile());
-            noticeModel.setOrderId(orderid);
+            NoticeModel noticeModel = NoticeModel.builder().name(buyTicketInfoModel.getRealName())
+                    .userName(buyTicketInfoModel.getUsername()).password(buyTicketInfoModel.getPassword())
+                    .phoneNumber(buyTicketInfoModel.getMobile()).orderId(orderid).trainNum(buyTicketInfoModel.getTrainNumber())
+                    .from(buyTicketInfoModel.getFrom()).to(buyTicketInfoModel.getTo()).trainDate(buyTicketInfoModel.getDate())
+                    .serverSckey(buyTicketInfoModel.getServerSckey())
+                    .build();
             noticeService.send(noticeModel);
+            weChatNotice.send(noticeModel);
             return true;
         }
 

@@ -65,6 +65,8 @@ public class ApiConfig {
 
     private String init;
 
+    private String serverWechat;
+
     public String getHost() {
         String host = StaticUtil.ip();
         if (host == null) {

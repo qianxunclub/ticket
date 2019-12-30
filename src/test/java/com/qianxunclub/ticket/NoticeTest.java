@@ -2,6 +2,7 @@ package com.qianxunclub.ticket;
 
 import com.qianxunclub.ticket.model.NoticeModel;
 import com.qianxunclub.ticket.service.NoticeService;
+import com.qianxunclub.ticket.service.WeChatNotice;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class NoticeTest {
 
     @Autowired
     private NoticeService noticeService;
+    @Autowired
+    private WeChatNotice weChatNotice;
 
     @Test
     public void send(){
@@ -26,6 +29,13 @@ public class NoticeTest {
         noticeModel.setPhoneNumber("3456765432");
         noticeModel.setOrderId("wsadhjkhgf");
         noticeService.send(noticeModel);
+    }
+
+    @Test
+    public void wechatSend(){
+        NoticeModel noticeModel = NoticeModel.builder().trainDate("2020-01-23").from("北京").to("哈尔滨")
+                .serverSckey("****").trainNum("Z83").build();
+        weChatNotice.send(noticeModel);
     }
 
 }
