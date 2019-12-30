@@ -1,6 +1,10 @@
 package com.qianxunclub.ticket.constant;
 
+import com.google.common.base.Joiner;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangbin
@@ -29,5 +33,10 @@ public enum SeatLevelEnum {
         this.name = name;
         this.index = index;
         this.code = code;
+    }
+
+    public static String getSeatNameList(List<SeatLevelEnum> seatLevelEnums){
+        List<String> seatLevels = seatLevelEnums.stream().map(level->level.name).collect(Collectors.toList());
+        return Joiner.on(",").join(seatLevels);
     }
 }

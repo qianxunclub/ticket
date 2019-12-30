@@ -5,6 +5,7 @@ import com.qianxunclub.ticket.model.SeatModel;
 import com.qianxunclub.ticket.model.TicketModel;
 import com.qianxunclub.ticket.service.ApiRequestService;
 
+import com.qianxunclub.ticket.service.WeChatNotice;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class QueryTicket {
 
-
+    private WeChatNotice weChatNotice;
     private ApiRequestService apiRequestService;
 
     public TicketModel getMyTicket(BuyTicketInfoModel buyTicketInfoModel) {
@@ -77,13 +78,14 @@ public class QueryTicket {
                 seatModelList.forEach(seatModel -> {
                     if (StringUtils.isNotBlank(seatModel.getCount()) && !seatModel.getCount().equals("无")) {
                         if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel())&& buyTicketInfoModel.getTrainNumber().equals(ticketModel.getTrainNumber())) {
-                            log.info("✅车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
+                            log.info("✅第"+buyTicketInfoModel.getQueryNum()+"次搜索 车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
                                     + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：可以预定");
+                            weChatNotice.send(buyTicketInfoModel.getServerSckey(),weChatNotice.buildTicketMessage(buyTicketInfoModel),"【放票通知】千寻来通知您了，请赶快查收！");
                         }
                         canBuySeatModelList.add(seatModel);
                     } else {
                         if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel()) && buyTicketInfoModel.getTrainNumber().contains(ticketModel.getTrainNumber())) {
-                            log.info("❌车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
+                            log.info("❌第"+buyTicketInfoModel.getQueryNum()+"次搜索 车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
                                     + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：无票");
                         }
                     }

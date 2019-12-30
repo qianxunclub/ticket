@@ -35,7 +35,7 @@ public class NoticeTest {
     public void wechatSend(){
         NoticeModel noticeModel = NoticeModel.builder().trainDate("2020-01-23").from("北京").to("哈尔滨")
                 .serverSckey("****").trainNum("Z83").build();
-        weChatNotice.send(noticeModel);
+//        weChatNotice.send(noticeModel);
     }
 
 }
