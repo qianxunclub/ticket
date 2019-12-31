@@ -26,10 +26,10 @@ def main(fn):
     imgs = preprocess_input(imgs)
 
     # 识别文字
-    model = models.load_model('model.h5')
+    model = models.load_model('D:/Jojo/ticket/python/model.h5')
     label = model.predict(text)
     label = label.argmax()
-    fp = open('texts.txt', encoding='utf-8')
+    fp = open('D:/Jojo/ticket/python/texts.txt', encoding='utf-8')
     texts = [text.rstrip('\n') for text in fp]
     text = texts[label]
     print(text)
@@ -49,7 +49,7 @@ def main(fn):
         print(text)
 
     # 加载图片分类器
-    model = models.load_model('12306.image.model.h5')
+    model = models.load_model('D:/Jojo/ticket/python/12306.image.model.h5')
     labels = model.predict(imgs)
     labels = labels.argmax(axis=1)
     for pos, label in enumerate(labels):
