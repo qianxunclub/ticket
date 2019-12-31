@@ -1,3 +1,4 @@
+![](https://travis-ci.com/qianxunclub/ticket.svg?branch=master)
 # 12306抢票
 这是一个牛逼的全自动购票系统，该系统为 `Spring Boot` 编写的后端服务，就不需要天天盯着 `12306` 官网查询余票了，用起来很爽，保证不收集任何敏感信息，真的。
 

@@ -54,7 +54,7 @@ public class WeChatNotice{
         return httpPost;
     }
     
-    public String buildSuccessMessage(NoticeModel noticeModel){
+    private String buildMessage(NoticeModel noticeModel){
         String message = "您的" + noticeModel.getTrainDate() + "-" + noticeModel.getTrainNum() + "-" + "从"
                 + noticeModel.getFrom() + "到" + noticeModel.getTo() + "的车次已成功！在30分钟内快去付款吧！";
         return message;
