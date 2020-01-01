@@ -48,12 +48,12 @@ public class Task implements Callable {
                     continue;
                 }
                 log.info("有票啦，开始抢！");
-                for (int i = 0; i<=10 ; i++){
+                for (int i = 0; i<=5 ; i++){
                     log.info("第{}次开始下单！！！");
                     if (buyTicket.buy(buyTicketInfoModel, ticketModel)){
                         return true;
                     }
-                    TimeUnit.MILLISECONDS.sleep(1000);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 }
                 return false;
             } catch (Exception e) {

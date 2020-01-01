@@ -16,10 +16,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,9 +36,6 @@ public class CaptchaImageForPy {
 
     private Config config;
 
-    private static String pattern = "[\\u4E00-\\u9FA5]+";
-
-
     public String check(String base64String) {
         String filename = UUID.randomUUID() + ".jpg";
         File folder = new File("temp");
@@ -48,27 +44,26 @@ public class CaptchaImageForPy {
         }
         File file = new File(folder, filename);
         try {
-            byte[] data = Base64.getDecoder().decode(base64String);
-            Files.write(Paths.get("src/../temp/" + filename),
-                    Objects.requireNonNull(data, "未获取到下载文件"));
+            BASE64Decoder decoder = new BASE64Decoder();
+            byte[] data = decoder.decodeBuffer(base64String);
+            IOUtils.copy(new ByteArrayInputStream(data), new FileOutputStream(file));
             Runtime runtime = Runtime.getRuntime();
             String os = System.getProperty("os.name");
             Process process;
             if (os.toLowerCase().startsWith("win")) {
-                ProcessBuilder builder = new ProcessBuilder("python","D:/Jojo/ticket/python/main.py","D:/Jojo/ticket/temp/index.jpg");
-                builder.redirectErrorStream(true);
-                process = builder.start();
+                String[] cmd = new String[]{"cmd", "/c", "cd python  &  set PYTHONIOENCODING=UTF-8 & python main.py " + "..\\temp\\" + filename};
+                process = runtime.exec(cmd);
             } else {
                 String bash = System.getProperty("user.dir") + "/" + config.getPythonPath() + "/run.sh " + System.getProperty("user.dir") + "/temp/" + filename;
                 process = runtime.exec(bash);
             }
+            process.waitFor();
             InputStream inputStream = process.getInputStream();
             String r = this.get(inputStream);
             if(StringUtils.isEmpty(r)){
                 inputStream = process.getErrorStream();
                 r = this.get(inputStream);
             }
-            process.waitFor();
             return r;
         } catch (Exception e) {
             log.error("", e);
@@ -82,12 +77,12 @@ public class CaptchaImageForPy {
 
     public String get(InputStream inputStream) throws IOException {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
-                "GBK");
+                StandardCharsets.UTF_8);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
         String line;
         PredictVO predictVO = new PredictVO();
         while ((line = bufferedReader.readLine()) != null) {
-            if (StringUtils.isEmpty(line.trim()) || !Pattern.matches(pattern, line)) {
+            if (StringUtils.isEmpty(line.trim())) {
                 continue;
             }
             String[] parts = line.split("\\s");

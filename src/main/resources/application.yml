@@ -45,7 +45,7 @@ spring:
   datasource:
     username: ""
     password: ""
-    url: "jdbc:sqlite:D:/Jojo/ticket/db/ticket.db"
+    url: "jdbc:sqlite:db/ticket.db"
     driver-class-name: org.sqlite.JDBC
   profiles:
     include:

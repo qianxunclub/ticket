@@ -30,6 +30,9 @@ public class WeChatNotice{
 
     public ApiConfig apiConfig;
 
+    /**
+     * 发送微信通知方法
+     */
     public void send(String serverSckey,String message,String topic) {
         if (Strings.isNullOrEmpty(serverSckey)){
             log.info("未设置微信通知ServerSckey为null!");
