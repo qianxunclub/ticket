@@ -77,7 +77,7 @@ public class QueryTicket {
                 List<SeatModel> canBuySeatModelList = new ArrayList<>();
                 seatModelList.forEach(seatModel -> {
                     if (StringUtils.isNotBlank(seatModel.getCount()) && !seatModel.getCount().equals("无")) {
-                        if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel())&& buyTicketInfoModel.getTrainNumber().equals(ticketModel.getTrainNumber())) {
+                        if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel())&& buyTicketInfoModel.getTrainNumber().contains(ticketModel.getTrainNumber())) {
                             log.info("✅第"+buyTicketInfoModel.getQueryNum()+"次搜索 车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
                                     + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：可以预定");
                             weChatNotice.send(buyTicketInfoModel.getServerSckey(),weChatNotice.buildTicketMessage(buyTicketInfoModel),"【放票通知】千寻来通知您了，请赶快查收！");
@@ -85,7 +85,7 @@ public class QueryTicket {
                         canBuySeatModelList.add(seatModel);
                     } else {
                         if(buyTicketInfoModel.getSeat().contains(seatModel.getSeatLevel()) && buyTicketInfoModel.getTrainNumber().contains(ticketModel.getTrainNumber())) {
-                            log.info("❌第"+buyTicketInfoModel.getQueryNum()+"次搜索 车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
+                            log.debug("❌第"+buyTicketInfoModel.getQueryNum()+"次搜索 车次[" + ticketModel.getTrainNumber() + "]「" + seatModel.getSeatLevel().getName() + "-" + seatModel.getCount() + "」（" + Station.getNameByCode(ticketModel.getFrom())
                                     + ticketModel.getDepartDate() + "-" + Station.getNameByCode(ticketModel.getTo()) + ticketModel.getArriveDate() + "）：无票");
                         }
                     }
@@ -95,7 +95,7 @@ public class QueryTicket {
                     canBuy.add(ticketModel);
                 }
             } else {
-                log.info("⚠️车次[" + ticketModel.getTrainNumber() + "]" + "（" + Station.getNameByCode(ticketModel.getFrom()) + "-" + Station.getNameByCode(ticketModel.getTo()) + "）：未开售");
+                log.debug("⚠️车次[" + ticketModel.getTrainNumber() + "]" + "（" + Station.getNameByCode(ticketModel.getFrom()) + "-" + Station.getNameByCode(ticketModel.getTo()) + "）：未开售");
             }
         });
 

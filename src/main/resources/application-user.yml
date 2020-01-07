@@ -20,12 +20,12 @@ user.ticket-info:
     #  12306密码
     password: yan666666
     #  出发日期
-    date: 2019-12-25
+    date: 2020-01-08
     #  出发站点
     from: 北京南
     #  到达站点
     to: 南京南
-    #  车次
+    #  车次，多车次使用，号隔开
     trainNumber: G101
     #  乘车人姓名
     realName: 郄梦岩
