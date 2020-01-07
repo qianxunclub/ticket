@@ -2,6 +2,8 @@ package com.qianxunclub.ticket.service;
 
 import com.google.common.base.Strings;
 import com.qianxunclub.ticket.config.ApiConfig;
+import com.qianxunclub.ticket.constant.SeatLevelEnum;
+import com.qianxunclub.ticket.model.BuyTicketInfoModel;
 import com.qianxunclub.ticket.model.NoticeModel;
 import com.qianxunclub.ticket.util.HttpUtil;
 import lombok.AllArgsConstructor;
@@ -30,35 +32,41 @@ public class WeChatNotice{
 
     /**
      * 发送微信通知方法
-     * @param noticeModel 通知信息
      */
-    public void send(NoticeModel noticeModel) {
-        if (Strings.isNullOrEmpty(noticeModel.getServerSckey())){
+    public void send(String serverSckey,String message,String topic) {
+        if (Strings.isNullOrEmpty(serverSckey)){
             log.info("未设置微信通知ServerSckey为null!");
             return;
         }
-        HttpPost httpPost = buildHttpRequest(noticeModel);
+        HttpPost httpPost = buildHttpRequest(serverSckey,message,topic);
         HttpUtil httpUtil = new HttpUtil();
         httpUtil.asyncPost(httpPost).thenAccept(response->{
             log.info("微信通知:{}",response);
         });
     }
 
-    private HttpPost buildHttpRequest(NoticeModel noticeModel){
-        String url = apiConfig.getServerWechat() + noticeModel.getServerSckey() + ".send";
+    private HttpPost buildHttpRequest(String serverSckey,String message,String topic){
+        String url = apiConfig.getServerWechat() + serverSckey + ".send";
         HttpPost httpPost = new HttpPost(url);
         List<NameValuePair> formparams = new ArrayList<>();
-        formparams.add(new BasicNameValuePair("text", "千寻来通知您了，请赶快查收！"));
-        formparams.add(new BasicNameValuePair("desp", buildMessage(noticeModel)));
+        formparams.add(new BasicNameValuePair("text", topic));
+        formparams.add(new BasicNameValuePair("desp", message));
         UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(formparams,
                 Consts.UTF_8);
         httpPost.setEntity(urlEncodedFormEntity);
         return httpPost;
     }
-    
-    private String buildMessage(NoticeModel noticeModel){
+
+    public String buildSuccessMessage(NoticeModel noticeModel){
         String message = "您的" + noticeModel.getTrainDate() + "-" + noticeModel.getTrainNum() + "-" + "从"
                 + noticeModel.getFrom() + "到" + noticeModel.getTo() + "的车次已成功！在30分钟内快去付款吧！";
+        return message;
+    }
+
+    public String buildTicketMessage(BuyTicketInfoModel buyTicketInfoModel) {
+        String message = "您想要预定的" + buyTicketInfoModel.getDate() + "-" + buyTicketInfoModel.getTrainNumber() + "-" + "从"
+                + buyTicketInfoModel.getFrom() + "到" + buyTicketInfoModel.getTo() + "座位:"
+                + SeatLevelEnum.getSeatNameList(buyTicketInfoModel.getSeat()) + "正在放票，赶快去查看！";
         return message;
     }
 }

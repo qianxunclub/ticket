@@ -10,9 +10,11 @@ import com.qianxunclub.ticket.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +31,9 @@ public class DoHandle {
     private Login login;
     @Autowired
     private TicketDao ticketDao;
+
+    private final static LocalTime startTime = LocalTime.parse("05:55");
+    private final static LocalTime endTime = LocalTime.parse("23:35");
 
     private static ExecutorService handleCachedThreadPool = Executors.newFixedThreadPool(100);
 
@@ -62,9 +67,12 @@ public class DoHandle {
             Thread.currentThread().setName(CommonUtil.getThreadName(buyTicketInfoModel));
             buyTicketInfoModel.setStatus(StatusEnum.ING);
             while (true) {
+            try {
+                if (!checkWorkTime()){
+                    continue;
+                }
                 Task task = new Task(buyTicketInfoModel);
                 Future<Boolean> booleanFuture = handleCachedThreadPool.submit(task);
-                try {
                     Boolean flag = booleanFuture.get();
                     if (flag) {
                         log.info("完成!!!!");
@@ -81,10 +89,19 @@ public class DoHandle {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
-                        ex.printStackTrace();
+                        log.error("time sleep error",ex);
                     }
                 }
             }
         }
+    }
+
+    private boolean checkWorkTime() throws InterruptedException {
+        if (LocalTime.now().isAfter(endTime) || LocalTime.now().isBefore(startTime)){
+            log.info("不在抢票范围内，运营时间为:06:00-23:30");
+            TimeUnit.MINUTES.sleep(1);
+            return false;
+        }
+        return true;
     }
 }

@@ -74,7 +74,7 @@ public class BuyTicket {
                     .serverSckey(buyTicketInfoModel.getServerSckey())
                     .build();
             noticeService.send(noticeModel);
-            weChatNotice.send(noticeModel);
+            weChatNotice.send(noticeModel.getServerSckey(),weChatNotice.buildSuccessMessage(noticeModel),"【下单通知】千寻来通知您了，请赶快查收！");
             return true;
         }
 

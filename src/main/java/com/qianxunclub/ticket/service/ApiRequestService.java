@@ -83,7 +83,7 @@ public class ApiRequestService {
         HttpGet httpGet = new HttpGet(url);
         String response = httpUtil.get(httpGet);
         if (StringUtils.isEmpty(response)) {
-            log.error("车票查询失败!");
+            log.error("车票查询失败! 返回response:{}",response);
             return null;
         }
         Gson jsonResult = new Gson();
@@ -91,7 +91,8 @@ public class ApiRequestService {
         try {
             rsmap = jsonResult.fromJson(response, Map.class);
         } catch (Exception e) {
-            log.error("车票查询失败!");
+            log.error("车票查询失败!序列化异常response:{}",response);
+            log.error("错误信息",e);
         }
 
         Map data = (Map) rsmap.get("data");
