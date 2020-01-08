@@ -7,4 +7,4 @@ RUN cp -R ticket/python python
 RUN cd python && python3 -m venv venv
 RUN cd python && source venv/bin/activate && pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 VOLUME /tmp
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","app.jar"]
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005","-Djava.security.egd=file:/dev/./urandom","-jar","app.jar"]
